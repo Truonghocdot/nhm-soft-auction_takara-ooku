@@ -11,7 +11,7 @@
                         <div
                             class="block w-full max-w-sm bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                             <div class="p-5">
-                                <p class="text-3xl text-center mb-5">Gói hiện tại</p>
+                                <p class="text-3xl text-center mb-5">Current Plans</p>
                                 @if (!empty($currentplan->badge))
                                     @php
                                         $badgeStyle = !empty($currentplan->badge_color)
@@ -48,8 +48,7 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                                    </svg>Products for sale are displayed in a prominent position
                                                 </li>
                                             @endif
                                             @if ($currentplan->config['priority_support'])
@@ -59,8 +58,7 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Được ưu tiên hỗ trợ khi có vấn đề
+                                                    </svg>Get priority support when problems arise
                                                 </li>
                                             @endif
                                             @if ($currentplan->config['discount_percentage'] > 0)
@@ -70,9 +68,8 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Giảm {{ $currentplan->config['discount_percentage'] }} % khi mua sản
-                                                    phẩm
+                                                    </svg>Get {{ $currentplan->config['discount_percentage'] }} % off on
+                                                    product
                                                 </li>
                                             @endif
                                             @if ($currentplan->config['free_product_listing'])
@@ -82,8 +79,7 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Đăng bán sản phẩm miễn phí
+                                                    </svg>Post your products for free
                                                 </li>
                                             @elseif($currentplan->config['max_products_per_month'] > 0)
                                                 <li class="flex currentplans-center">
@@ -92,11 +88,9 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Miễn phí đăng bán
+                                                    </svg>Free listing
                                                     {{ $currentplan->config['max_products_per_month'] }}
-                                                    sản
-                                                    phẩm/ tháng
+                                                    products/month
                                                 </li>
                                             @endif
                                             @if ($currentplan->config['free_auction_participation'])
@@ -106,8 +100,7 @@
                                                         fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                    </svg>
-                                                    Tham gia trả giá miễn phí
+                                                    </svg>Join the free bid
                                                 </li>
                                             @endif
 
@@ -116,8 +109,8 @@
                                 </div>
                                 <!-- Khi nhấn vào nút Mua ngay, giá trị id của membership sẽ được gán cho Alpine -->
                                 <x-filament::button wire:key="{{ $currentplan->id }}" class="w-full" color="success"
-                                    icon="heroicon-m-check-badge" wire:click="onNextStep('{{ $currentplan->id }}')">
-                                    Gia hạn gói
+                                    icon="heroicon-m-check-badge"
+                                    wire:click="onNextStep('{{ $currentplan->id }}')">Renew package
                                 </x-filament::button>
                             </div>
                         </div>
@@ -125,10 +118,10 @@
                 </div>
             @endif
             <div class="col-span-4 flex flex-col gap-4 w-full">
-                <h3 class="text-3xl text-center my-2">Gói có thể nâng cấp</h3>
+                <h3 class="text-3xl text-center my-2">Upgradeable Plans</h3>
                 @if ($this->list->isEmpty())
                     <x-filament::section>
-                        <div class="text-center text-gray-500">Không có gói thành viên nào</div>
+                        <div class="text-center text-gray-500">No membership plans</div>
                     </x-filament::section>
                 @else
                     <div id="membership_list" class="w-full">
@@ -171,81 +164,75 @@
                                                     class="block w-full max-w-sm bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 p-2">
                                                     <ul
                                                         class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-                                                        @if ($item->config['featured_listing'])
-                                                            <li class="flex items-center">
+                                                        @if ($currentplan->config['featured_listing'])
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                                                </svg>Products for sale are displayed in a prominent
+                                                                position
                                                             </li>
                                                         @endif
-                                                        @if ($item->config['priority_support'])
-                                                            <li class="flex items-center">
+                                                        @if ($currentplan->config['priority_support'])
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Được ưu tiên hỗ trợ khi có vấn đề
+                                                                </svg>Get priority support when problems arise
                                                             </li>
                                                         @endif
-                                                        @if ($item->config['discount_percentage'] > 0)
-                                                            <li class="flex items-center">
+                                                        @if ($currentplan->config['discount_percentage'] > 0)
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Giảm {{ $item->config['discount_percentage'] }} % khi
-                                                                mua
-                                                                sản
-                                                                phẩm
+                                                                </svg>Get
+                                                                {{ $currentplan->config['discount_percentage'] }} % off
+                                                                on
+                                                                product
                                                             </li>
                                                         @endif
-                                                        @if ($item->config['free_product_listing'])
-                                                            <li class="flex items-center">
+                                                        @if ($currentplan->config['free_product_listing'])
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Đăng bán sản phẩm miễn phí
+                                                                </svg>Post your products for free
                                                             </li>
-                                                        @elseif($item->config['max_products_per_month'] > 0)
-                                                            <li class="flex items-center">
+                                                        @elseif($currentplan->config['max_products_per_month'] > 0)
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Miễn phí đăng bán
-                                                                {{ $item->config['max_products_per_month'] }}
-                                                                sản
-                                                                phẩm/ tháng
+                                                                </svg>Free listing
+                                                                {{ $currentplan->config['max_products_per_month'] }}
+                                                                products/month
                                                             </li>
                                                         @endif
-                                                        @if ($item->config['free_auction_participation'])
-                                                            <li class="flex items-center">
+                                                        @if ($currentplan->config['free_auction_participation'])
+                                                            <li class="flex currentplans-center">
                                                                 <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                                                     aria-hidden="true"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="currentColor" viewBox="0 0 20 20">
                                                                     <path
                                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                                </svg>
-                                                                Tham gia trả giá miễn phí
+                                                                </svg>Join the free bid
                                                             </li>
                                                         @endif
 
@@ -256,7 +243,7 @@
                                             <x-filament::button wire:key="{{ $item->id }}" class="w-full"
                                                 color="success" icon="heroicon-m-check-badge"
                                                 wire:click="onNextStep('{{ $item->id }}')">
-                                                Nâng cấp ngay
+                                                Upgrade now
                                             </x-filament::button>
                                         </div>
                                     </div>
@@ -270,7 +257,7 @@
         </div>
     @else
         <x-slot name="heading">
-            Thanh toán nâng cấp gói thành viên
+            Payment for membership upgrade
         </x-slot>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <img src="{{ $dataTransfer['urlBankQrcode'] }}" class="w-full h-auto rounded-lg" alt="QR Code">
@@ -304,71 +291,69 @@
                         <div
                             class="block w-full max-w-sm bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 p-2">
                             <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-                                @if ($membershipPay->config['featured_listing'])
-                                    <li class="flex items-center">
+                                @if ($currentplan->config['featured_listing'])
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                        </svg>Products for sale are displayed in a prominent
+                                        position
                                     </li>
                                 @endif
-                                @if ($membershipPay->config['priority_support'])
-                                    <li class="flex items-center">
+                                @if ($currentplan->config['priority_support'])
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Được ưu tiên hỗ trợ khi có vấn đề
+                                        </svg>Get priority support when problems arise
                                     </li>
                                 @endif
-                                @if ($membershipPay->config['discount_percentage'] > 0)
-                                    <li class="flex items-center">
+                                @if ($currentplan->config['discount_percentage'] > 0)
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Giảm {{ $membershipPay->config['discount_percentage'] }} % khi mua sản phẩm
+                                        </svg>Get
+                                        {{ $currentplan->config['discount_percentage'] }} % off
+                                        on
+                                        product
                                     </li>
                                 @endif
-                                @if ($membershipPay->config['free_product_listing'])
-                                    <li class="flex items-center">
+                                @if ($currentplan->config['free_product_listing'])
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Đăng bán sản phẩm miễn phí
+                                        </svg>Post your products for free
                                     </li>
-                                @elseif($membershipPay->config['max_products_per_month'] > 0)
-                                    <li class="flex items-center">
+                                @elseif($currentplan->config['max_products_per_month'] > 0)
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Miễn phí đăng bán {{ $membershipPay->config['max_products_per_month'] }}
-                                        sản
-                                        phẩm/ tháng
+                                        </svg>Free listing
+                                        {{ $currentplan->config['max_products_per_month'] }}
+                                        products/month
                                     </li>
                                 @endif
-                                @if ($membershipPay->config['free_auction_participation'])
-                                    <li class="flex items-center">
+                                @if ($currentplan->config['free_auction_participation'])
+                                    <li class="flex currentplans-center">
                                         <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        Tham gia Trả giá miễn phí
+                                        </svg>Join the free bid
                                     </li>
                                 @endif
 
@@ -379,7 +364,7 @@
                         <!-- Primary Button -->
                         <x-filament::button class="w-full" color="success" icon="heroicon-m-check-badge"
                             wire:click="submitUpgrade('{{ \App\Enums\PayTypes::QRCODE->value }}')">
-                            Xác nhận thanh toán
+                            Payment confirmation
                         </x-filament::button>
 
                         <!-- Secondary Button: Outline -->
@@ -388,13 +373,13 @@
                             color="{{ $user->current_balance >= $membershipPay->price ? 'success' : 'danger' }}"
                             icon="{{ $user->current_balance >= $membershipPay->price ? 'heroicon-m-check-badge' : 'heroicon-m-x-mark' }}">
                             @if ($user->current_balance >= $membershipPay->price)
-                                Thanh toán bằng điểm
+                                Pay with points
                             @else
-                                Không đủ điểm
+                                Not enough points
                             @endif
 
                             <span class="text-xs">
-                                (số dư hiện tại: {{ number_format($user->current_balance) }})
+                                (current balance: {{ number_format($user->current_balance) }})
                             </span>
                         </x-filament::button>
                     </div>

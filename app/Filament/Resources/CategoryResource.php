@@ -22,8 +22,8 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $modelLabel = 'Danh mục';
-    protected static ?string $pluralModelLabel = 'Danh mục';
+    protected static ?string $modelLabel = 'Category';
+    protected static ?string $pluralModelLabel = 'Category';
 
     public static function canAccess(): bool
     {
@@ -34,7 +34,7 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Tên danh mục')
+                    ->label('Category name')
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
@@ -51,26 +51,26 @@ class CategoryResource extends Resource
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 Forms\Components\FileUpload::make('image')
-                    ->label('Hình ảnh')
+                    ->label('Image')
                     ->image()
                     ->directory('categories'),
                 SelectTree::make('parent_id')
-                    ->label('Danh mục cha')
-                    ->relationship('parent','name','parent_id')
+                    ->label('Parent category')
+                    ->relationship('parent', 'name', 'parent_id')
                     ->searchable()
-                    ->placeholder('Chọn danh mục cha')
+                    ->placeholder('Choose parent category')
                     ->nullable(),
 
                 Forms\Components\Textarea::make('description')
-                    ->label('Mô tả')
+                    ->label('Description')
                     ->rows(3)
                     ->maxLength(1000),
 
                 Forms\Components\Select::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        'active' => 'Hoạt động',
-                        'inactive' => 'Không hoạt động',
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
                     ])
                     ->default('active')
                     ->required(),
@@ -83,11 +83,11 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Hình ảnh')
-                    ->getStateUsing(fn ($record) => HelperFunc::generateURLFilePath($record->image))
+                    ->getStateUsing(fn($record) => HelperFunc::generateURLFilePath($record->image))
                     ->disk('public'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Tên danh mục')
-                    ->formatStateUsing(fn ($state, $record) => str_repeat('&nbsp;&nbsp;&nbsp;', $record->level) . $state)
+                    ->formatStateUsing(fn($state, $record) => str_repeat('&nbsp;&nbsp;&nbsp;', $record->level) . $state)
                     ->html()
                     ->sortable()
                     ->limit(50)
@@ -130,8 +130,8 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('Trạng thái')
                     ->badge()
-                    ->color(fn (string $state): string => $state === 'active' ? 'success' : 'danger')
-                    ->formatStateUsing(fn (string $state): string => $state === 'active' ? 'Hoạt động' : 'Không hoạt động'),
+                    ->color(fn(string $state): string => $state === 'active' ? 'success' : 'danger')
+                    ->formatStateUsing(fn(string $state): string => $state === 'active' ? 'Hoạt động' : 'Không hoạt động'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Ngày tạo')
@@ -211,7 +211,7 @@ class CategoryResource extends Resource
                     ->label('Khôi phục')
                     ->icon('heroicon-o-arrow-path')
                     ->color('success')
-                    ->visible(fn (Category $record): bool => $record->trashed())
+                    ->visible(fn(Category $record): bool => $record->trashed())
                     ->action(function (Category $record) {
                         $record->restore();
                         Notification::make()
@@ -297,5 +297,4 @@ class CategoryResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
-
 }

@@ -12,10 +12,9 @@ class TransactionResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
-    public static ?string $navigationLabel = 'Thống kê giao dịch';
+public static ?string $navigationLabel = 'Transaction statistics';
 
-    protected static ?string $modelLabel = 'Thống kê giao dịch';
-
+protected static ?string $modelLabel = 'Transaction statistics';
     public static function canAccess(): bool
     {
         return auth()->user()->hasRole(RoleConstant::ADMIN);

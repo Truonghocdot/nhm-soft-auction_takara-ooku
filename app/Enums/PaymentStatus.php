@@ -6,14 +6,14 @@ enum PaymentStatus: string
 {
     case PENDING = 'pending';
     case SUCCESS = 'success';
-    case FAILED  = 'failed';
+    case FAILED = 'failed';
 
     public static function getOptions(): array
     {
         return [
-            self::PENDING->value => 'Đang xử lý',
-            self::SUCCESS->value => 'Thành công',
-            self::FAILED->value  => 'Thất bại',
+            self::PENDING->value => 'Processing',
+            self::SUCCESS->value => 'Success',
+            self::FAILED->value => 'Failed',
         ];
     }
 
@@ -27,8 +27,8 @@ enum PaymentStatus: string
         return match ($status) {
             self::PENDING => 'warning',
             self::SUCCESS => 'success',
-            self::FAILED  => 'danger',
-            default       => 'default',
+            self::FAILED => 'danger',
+            default => 'default',
         };
     }
 }

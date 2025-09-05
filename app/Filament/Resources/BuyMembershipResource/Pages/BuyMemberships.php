@@ -12,12 +12,12 @@ class BuyMemberships extends Page
 
     protected static string $view = 'filament.admin.resources.membership.buy-membership';
 
-    protected ?string $heading = 'Mua gói thành viên';
+    protected ?string $heading = 'Buy membership';
 
     public function getBreadcrumbs(): array
     {
         return [
-            BuyMembershipResource::getUrl() => "Gói thành viên",
+            BuyMembershipResource::getUrl() => "Membership Package",
         ];
     }
 
@@ -26,7 +26,7 @@ class BuyMemberships extends Page
         return [
             Actions\Action::make("back_to_view_membership")
                 ->icon('heroicon-o-arrow-uturn-left')
-                ->label('Quay lại')
+                ->label('Come back')
                 ->url(fn (): string => BuyMembershipResource::getUrl())
         ];
     }

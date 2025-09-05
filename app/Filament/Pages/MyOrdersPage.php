@@ -18,9 +18,9 @@ class MyOrdersPage extends Page implements HasTable
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
     protected static string $view = 'filament.admin.pages.my-orders';
-    protected static ?string $title = 'Đơn hàng của tôi';
-    protected static ?string $navigationLabel = 'Đơn hàng của tôi';
-    protected static ?string $navigationGroup = 'Đơn hàng';
+    protected static ?string $title = 'My Order';
+    protected static ?string $navigationLabel = 'My Order';
+    protected static ?string $navigationGroup = 'Order';
 
     public static function shouldRegisterNavigation(): bool
     {

@@ -5,7 +5,7 @@
                 <span>
                     <i class="fa-solid fa-house"></i>
                 </span>
-                <span>Trang chủ</span>
+                <span>Home</span>
             </a>
         </li>
         <li>
@@ -13,7 +13,7 @@
                 <span>
                     <i class="fa-solid fa-house"></i>
                 </span>
-                <span>Sản phẩm</span>
+                <span>Products</span>
             </a>
         </li>
     </ol>

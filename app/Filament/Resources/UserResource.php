@@ -20,9 +20,9 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static ?string $navigationLabel = 'Người dùng';
-    protected static ?string $modelLabel = 'Người dùng';
-    protected static ?string $pluralModelLabel = 'Người dùng';
+    protected static ?string $navigationLabel = 'User';
+    protected static ?string $modelLabel = 'User';
+    protected static ?string $pluralModelLabel = 'User';
 
     public static function canAccess(): bool
     {
@@ -102,58 +102,58 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Tên')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('profile_photo_path')
-                    ->label('Ảnh')
-                    ->circular()
-                    ->defaultImageUrl(fn($record) => $record->profile_photo_url),
-                Tables\Columns\TextColumn::make('phone')
-                    ->label('Số điện thoại')
-                    ->searchable()
-                    ->default('no phone'),
-                Tables\Columns\TextColumn::make('address')
-                    ->label('Địa chỉ')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('current_balance')
-                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫')
-                    ->label('Số dư')
-                    ->searchable()
-                    ->default(0),
-                Tables\Columns\TextColumn::make('membership')
-                    ->searchable()
-                    ->formatStateUsing(fn($record): string => $record->activeMemberships->count() > 0 ? 'Membership' : 'Chưa đăng ký')
-                    ->badge()
-                    ->color(fn($record): string => $record->activeMemberships->count() > 0 ? 'success' : 'danger'),
-                Tables\Columns\TextColumn::make('reputation')
-                    ->label('Danh tiếng')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            Tables\Columns\TextColumn::make('name')
+                ->label('Name')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('email')
+                ->label('Email')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\ImageColumn::make('profile_photo_path')
+                ->label('Photo')
+                ->circular()
+                ->defaultImageUrl(fn($record) => $record->profile_photo_url),
+            Tables\Columns\TextColumn::make('phone')
+                ->label('Phone number')
+                ->searchable()
+                ->default('no phone'),
+            Tables\Columns\TextColumn::make('address')
+                ->label('Address')
+                ->sortable(),
+            Tables\Columns\TextColumn::make('current_balance')
+                ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . '₫')
+                ->label('Balance')
+                ->searchable()
+                ->default(0),
+            Tables\Columns\TextColumn::make('membership')
+                ->searchable()
+                ->formatStateUsing(fn($record): string => $record->activeMemberships->count() > 0 ? 'Membership' : 'Not registered')
+                ->badge()
+                ->color(fn($record): string => $record->activeMemberships->count() > 0 ? 'success' : 'danger'),
+            Tables\Columns\TextColumn::make('reputation')
+                ->label('Reputation')
+                ->sortable(),
+            Tables\Columns\TextColumn::make('created_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
+            Tables\Columns\TextColumn::make('updated_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
+        ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label('Chỉnh sửa'),
+                Tables\Actions\EditAction::make()->label('Edit'),
                 Tables\Actions\Action::make('manager')
-                    ->label('Quản lý')
+                    ->label('Management')
                     ->icon('heroicon-o-user')
                     ->url(fn(User $record) => UserResource::getUrl('view', ['record' => $record])),
                 Tables\Actions\Action::make('delete')
-                    ->label('Xóa')
+                    ->label('Delete')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->visible(fn() => auth()->user()?->role === 'admin')
@@ -186,14 +186,14 @@ class UserResource extends Resource
                             Components\Grid::make(2)
                                 ->schema([
                                     Components\Group::make([
-                                        Components\TextEntry::make('name')->label('Tên người dùng'),
+                                        Components\TextEntry::make('name')->label('Username'),
                                         Components\TextEntry::make('email')->label('Email'),
-                                        Components\TextEntry::make('phone')->label('Số điện thoại'),
+                                        Components\TextEntry::make('phone')->label('Phone number'),
                                     ]),
                                     Components\Group::make([
-                                        Components\TextEntry::make('role')->label('Vai trò'),
+                                        Components\TextEntry::make('role')->label('Role'),
                                         Components\TextEntry::make('membership')->label('Membership')
-                                            ->formatStateUsing(fn(bool $state): string => $state ? 'Membership' : 'Chưa đăng ký')
+                                            ->formatStateUsing(fn(bool $state): string => $state ? 'Membership' : 'Not registered')
                                             ->badge()
                                             ->color(fn(bool $state): string => $state ? 'success' : 'danger'),
                                     ]),
@@ -204,14 +204,14 @@ class UserResource extends Resource
                                 ->grow(false),
                         ])->from('lg'),
                     ]),
-                Components\Section::make('Lịch sử dòng tiền')
+                Components\Section::make('Cash flow history')
                     ->schema([
                         Components\ViewEntry::make('transaction_stats')
                             ->view('filament.admin.resources.users.user-transaction-stats')
                             ->columnSpanFull(),
                     ]),
 
-                Components\Section::make('Lịch sử giao dịch')
+                Components\Section::make('Transaction history')
                     ->schema([
                         Components\RepeatableEntry::make('transactions')
                             ->hiddenLabel()
@@ -219,13 +219,13 @@ class UserResource extends Resource
                                 Components\Grid::make(5)
                                     ->schema([
                                         Components\TextEntry::make('type_transaction')
-                                            ->label('Loại giao dịch')
+                                            ->label('Transaction type')
                                             ->badge()
                                             ->formatStateUsing(fn(string $state): string => match ($state) {
-                                                'recharge_point' => 'Nạp tiền',
-                                                'bid' => 'Trả giá',
-                                                'buy_product' => 'Mua sản phẩm',
-                                                default => 'Khác',
+                                                'recharge_point' => 'Recharge',
+                                                'bid' => 'Bid',
+                                                'buy_product' => 'Buy product',
+                                                default => 'Other',
                                             })
                                             ->color(fn(string $state): string => match ($state) {
                                                 'recharge_point' => 'success',
@@ -234,29 +234,29 @@ class UserResource extends Resource
                                                 default => 'gray',
                                             }),
                                         Components\TextEntry::make('point_change')
-                                            ->label('Số dư sau')
+                                            ->label('Balance after')
                                             ->formatStateUsing(
-                                                fn($state) => ($state > 0 ? '+' : '') . number_format($state, 0, ',', '.') . ' ₫'
+                                                fn($state) => ($state > 0 ? '+' : '') . number_format($state, 0, ',', '.') . '₫'
                                             )
                                             ->color(fn($state): string => $state > 0 ? 'success' : 'danger'),
                                         Components\TextEntry::make('point')
-                                            ->label('Số dư hiện tại')
-                                            ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
+                                            ->label('Current balance')
+                                            ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' $'),
                                         Components\TextEntry::make('created_at')
-                                            ->label('Ngày giao dịch')
+                                            ->label('Transaction date')
                                             ->dateTime(),
                                         Components\TextEntry::make('id')
-                                            ->label('Mã giao dịch')
+                                            ->label('Transaction code')
                                             ->prefix('#'),
                                     ]),
                             ])
                             ->columnSpanFull(),
                     ])
                     ->collapsible(),
-                Components\Section::make('Thông tin khác')
+                Components\Section::make('More info')
                     ->schema([
-                        Components\TextEntry::make('created_at')->label('Ngày tạo')->dateTime(),
-                        Components\TextEntry::make('updated_at')->label('Ngày cập nhật')->dateTime(),
+                        Components\TextEntry::make('created_at')->label('Created date')->dateTime(),
+                        Components\TextEntry::make('updated_at')->label('Updated date')->dateTime(),
                     ])
                     ->collapsible(),
             ]);

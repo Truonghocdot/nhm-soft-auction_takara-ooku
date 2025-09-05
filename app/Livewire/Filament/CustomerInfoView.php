@@ -32,7 +32,7 @@ class CustomerInfoView extends Component implements HasForms, HasInfolists
     }
 
     public function infolist(Infolist $infolist): Infolist
-    {   
+    {
         return $infolist
             ->record($this->auth)
             ->schema([
@@ -43,43 +43,43 @@ class CustomerInfoView extends Component implements HasForms, HasInfolists
                                 ->schema([
                                     Components\Group::make([
                                         Components\TextEntry::make('name')
-                                            ->label('Tên người dùng'),
+                                            ->label('Username'),
                                         Components\TextEntry::make('email')
                                             ->label('Email'),
                                         Components\TextEntry::make('phone')
-                                            ->label('Số điện thoại')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Phone number')
+                                            ->default("Not updated"),
                                         Components\TextEntry::make('created_at')
-                                            ->label('Ngày tạo tài khoản')
+                                            ->label('Account creation date')
                                             ->dateTime("d/m/Y H:i"),
                                         Components\TextEntry::make('contact_info.link_facebook')
-                                            ->label('Trang facebook')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Facebook page')
+                                            ->default("Not updated"),
                                         Components\TextEntry::make('contact_info.link_tiktok')
-                                            ->label('Gian hàng tiktok')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Tiktok store')
+                                            ->default("Not updated"),
                                     ]),
                                     Components\Group::make([
                                         Components\TextEntry::make('membership')->label('Membership')
-                                            ->formatStateUsing(fn($record): string => $record->activeMemberships->count() > 0 ? 'Membership' : 'Chưa đăng ký')
+                                            ->formatStateUsing(fn($record): string => $record->activeMemberships->count() > 0 ? 'Membership' : 'Not registered')
                                             ->badge()
                                             ->color(fn($record): string => $record->activeMemberships->count() > 0 ? 'success' : 'danger'),
                                         Components\TextEntry::make('address')
-                                            ->label('Địa chỉ')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Address')
+                                            ->default("Not updated"),
                                         Components\TextEntry::make('introduce')
-                                            ->label('Giới thiệu bản thân')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Introduce yourself')
+                                            ->default("Not updated"),
                                         Components\TextEntry::make('contact_info.link_shopee')
-                                            ->label('Gian hàng shopee')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Shopee booth')
+                                            ->default("Not updated"),
                                         Components\TextEntry::make('contact_info.link_zalo')
-                                            ->label('Số điện thoại zalo')
-                                            ->default("Chưa cập nhật"),
+                                            ->label('Zalo phone number')
+                                            ->default("Not updated"),
                                     ]),
                                 ]),
                             Components\ImageEntry::make('profile_photo_path')
-                                ->label('Ảnh')
+                                ->label('Image')
                                 ->hiddenLabel()
                                 ->getStateUsing(fn($record) => HelperFunc::generateURLFilePath($record->profile_photo_path))
                                 ->grow(false),

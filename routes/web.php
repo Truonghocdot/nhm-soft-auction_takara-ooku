@@ -28,12 +28,12 @@ Route::get('/file/{file_path}', [FileController::class, 'loadfile'])
     ->name('loadfile');
 
 
-Route::prefix('tin-tuc')->group(function () {
+Route::prefix('news')->group(function () {
     Route::get('/', [App\Http\Controllers\NewsController::class, 'list'])->name('news.list');
     Route::get('{slug}', [\App\Http\Controllers\NewsController::class, 'article'])->name('news.detail');
 });
 
-Route::prefix('san-pham')->group(function () {
+Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'list'])->name('products.list');
     Route::get('/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 });

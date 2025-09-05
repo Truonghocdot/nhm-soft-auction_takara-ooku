@@ -13,19 +13,19 @@ enum ConfigMembership: string
 
     public function label(): string
     {
-        return match($this) {
-            self::FREE_PRODUCT_LISTING => 'Đăng sản phẩm miễn phí',
-            self::FREE_AUCTION_PARTICIPATION => 'Tham gia trả giá miễn phí',
-            self::DISCOUNT_PERCENTAGE => 'Phần trăm giảm giá',
-            self::MAX_PRODUCTS_PER_MONTH => 'Số sản phẩm tối đa/tháng',
-            self::PRIORITY_SUPPORT => 'Hỗ trợ ưu tiên',
-            self::FEATURED_LISTING => 'Sản phẩm nổi bật',
+        return match ($this) {
+            self::FREE_PRODUCT_LISTING => 'Post a free product',
+            self::FREE_AUCTION_PARTICIPATION => 'Join a free bid',
+            self::DISCOUNT_PERCENTAGE => 'Discount percentage',
+            self::MAX_PRODUCTS_PER_MONTH => 'Maximum number of products/month',
+            self::PRIORITY_SUPPORT => 'Priority support',
+            self::FEATURED_LISTING => 'Featured products',
         };
     }
 
     public function type(): string
     {
-        return match($this) {
+        return match ($this) {
             self::FREE_PRODUCT_LISTING => 'boolean',
             self::FREE_AUCTION_PARTICIPATION => 'boolean',
             self::PRIORITY_SUPPORT => 'boolean',

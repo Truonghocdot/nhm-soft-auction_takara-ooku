@@ -50,7 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make()
-                    ->label('Quay lại trang chủ')
+                    ->label('Back To Home')
                     ->icon('heroicon-s-arrow-left')
                     ->url(url('/'))
                     ->sort(-100),

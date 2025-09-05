@@ -1,5 +1,5 @@
 <footer class=" bg-white gap-y-2 px-3 pt-4 flex flex-col items-center ">
-    <h3 class="mt-2 font-bold">Giới Thiệu Về Takara Ooku</h3>
+    <h3 class="mt-2 font-bold">About Takara Ooku</h3>
     <div class="flex flex-col text-left w-full items-start">
         @php
             $chunks = $pages->chunk(4);
@@ -44,6 +44,8 @@
         </div>
     </nav>
     <aside>
-        <p class="text-center text-sm my-4">Copyright © 2025 - All right reserved by ACME Industries Ltd</p>
+        <p class="text-center text-sm my-4">© {{ \Illuminate\Support\Carbon::now()->format('Y') }}
+            {{ config('app.name') }}.
+            Copyright registered</p>
     </aside>
 </footer>

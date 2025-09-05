@@ -13,8 +13,8 @@ class ViewMembershipPlans extends ViewRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Gói thành viên',
-            '' => 'Xem gói thành viên',
+            url()->previous() => 'Membership Package',
+            '' => 'View Membership Package',
         ];
     }
 

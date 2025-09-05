@@ -66,7 +66,7 @@ class CartController extends Controller
 					'price' => $auctionCheckoutData['amount'],
 					'total' => $auctionCheckoutData['amount'],
 					'product' => (object) [
-						'name' => $product->name ?? 'Sản phẩm trả giá',
+						'name' => $product->name ?? 'Priced product',
 						'price' => $auctionCheckoutData['amount'],
 						'images' => $product->images ?? collect(),
 					]
@@ -100,7 +100,7 @@ class CartController extends Controller
 			}
 			
 			if ($cartItems->isEmpty()) {
-				return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống!');
+				return redirect()->route('cart.index')->with('error', 'Cart is empty!');
 			}
 
 			$hasCreditCard = $this->checkoutService->hasCreditCardConfig();
@@ -138,7 +138,7 @@ class CartController extends Controller
 			];
 
 			if ($checkoutData['payment_method'] == '1' && !$this->checkoutService->hasCreditCardConfig()) {
-				return redirect()->back()->with('error', 'Chưa cấu hình thẻ ngân hàng để tạo QR.');
+				return redirect()->back()->with('error', 'Bank card not configured to generate QR.');
 			}
 
 			$result = $this->checkoutService->processAuctionCheckout($this->userId, $checkoutData);
@@ -168,7 +168,7 @@ class CartController extends Controller
 		];
 
 		if ($checkoutData['payment_method'] == '1' && !$this->checkoutService->hasCreditCardConfig()) {
-			return redirect()->back()->with('error', 'Chưa cấu hình thẻ ngân hàng để tạo QR.');
+			return redirect()->back()->with('error', 'Bank card not configured to generate QR.');
 		}
 
 		$result = $this->checkoutService->processCheckout($this->userId, $checkoutData);
@@ -195,7 +195,7 @@ class CartController extends Controller
 			$orderDetail = $result['data']['orderDetail'];
 			$payment = $result['data']['payment'];
 			if (!$this->checkoutService->hasCreditCardConfig()) {
-				return redirect()->route('cart.index')->with('error', 'Thiếu cấu hình thẻ ngân hàng để tạo QR.');
+				return redirect()->route('cart.index')->with('error', 'Missing bank card configuration to generate QR.');
 			}
 
 			$vietqrUrl = $this->checkoutService->buildVietQrUrl($orderDetail, $payment);
@@ -215,7 +215,7 @@ class CartController extends Controller
 				$orderDetail = $detail['data']['orderDetail'];
 				return view('pages.checkout.success', compact('orderDetail'));
 			}
-			return redirect()->back()->with('error', $detail['message'] ?? 'Không lấy được thông tin đơn hàng.');
+			return redirect()->back()->with('error', $detail['message'] ?? 'Unable to get order information.');
 		} else {
 			return redirect()->back()->with('error', $result['message']);
 		}
@@ -233,7 +233,7 @@ class CartController extends Controller
 			return redirect()->route('cart.checkout')
 				->with('auction_checkout_data', $checkoutData);
 		}
-		return redirect()->back()->with('error', $init['message'] ?? 'Không khởi tạo được thanh toán.');
+		return redirect()->back()->with('error', $init['message'] ?? 'Failed to initialize payment.');
 	}
 
 	public function orderSuccess($orderId)

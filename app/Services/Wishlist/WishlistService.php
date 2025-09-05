@@ -51,7 +51,7 @@ class WishlistService extends BaseService implements WishlistServiceInterface
             ->exists();
 
         if ($exists) {
-            throw new ServiceException('Sản phẩm đã có trong danh sách yêu thích');
+            throw new ServiceException('Product already in wishlist');
         }
 
         return $repo->insertOne([
@@ -70,7 +70,7 @@ class WishlistService extends BaseService implements WishlistServiceInterface
 
             return [
                 'success' => true,
-                'message' => 'Lấy thông tin wishlist thành công!',
+                'message' => 'Get wishlist information successfully!',
                 'data' => [
                     'count' => (int) $count,
                 ],
@@ -78,7 +78,7 @@ class WishlistService extends BaseService implements WishlistServiceInterface
         } catch (\Throwable $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy thông tin wishlist!',
+                'message' => 'An error occurred while getting wishlist information!',
                 'data' => null,
             ];
         }

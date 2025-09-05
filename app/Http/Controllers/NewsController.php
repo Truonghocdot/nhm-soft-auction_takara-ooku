@@ -56,7 +56,7 @@ class NewsController extends Controller
         $article = $this->articleService->getBySlug($slug);
 
         if (!$article) {
-            abort(404, 'Bài viết không tồn tại');
+            abort(404, 'Article does not exist');
         }
 
         $this->articleService->incrementViewCount($article->id);
@@ -66,7 +66,7 @@ class NewsController extends Controller
             5
         );
         $banner = $this->bannerService->getByNameTypeBanner(BannerType::SIDEBAR_ARTICLE->value)->first();
-        return view('pages.news.article', compact('article', 'related_articles','banner'));
+        return view('pages.news.article', compact('article', 'related_articles', 'banner'));
     }
 
     public function category(Request $request, string $categorySlug)
@@ -77,7 +77,7 @@ class NewsController extends Controller
         $category = $this->articleService->getCategoryBySlug($categorySlug);
 
         if (!$category) {
-            abort(404, 'Danh mục không tồn tại');
+            abort(404, 'Category does not exist');
         }
 
         $articles = $this->articleService->getArticlesByCategory($category->id, $page, $perPage);

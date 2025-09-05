@@ -15,7 +15,7 @@
             <div class="my-4">
                 <a href="{{ $section['target'] }}"
                     class="btn btn-neutral rounded-lg py-2 px-4 transition-colors hover:bg-slate-900">
-                    Xem thêm
+                    See more
                 </a>
             </div>
         </div>

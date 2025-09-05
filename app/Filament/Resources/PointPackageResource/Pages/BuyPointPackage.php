@@ -13,7 +13,7 @@ class BuyPointPackage extends Page
 
     protected static string $view = 'filament.admin.resources.points.buy-points-package';
 
-    protected ?string $heading = 'Mua gói điểm';
+    protected ?string $heading = 'Buy Points';
 
     public static function canAccess( array $parameters = []): bool
     {

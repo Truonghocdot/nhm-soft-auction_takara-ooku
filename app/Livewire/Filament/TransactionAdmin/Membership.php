@@ -33,26 +33,26 @@ class Membership extends Component implements HasForms, HasTable
             ->query($this->service->getQueryTransactionMembershipAdmin())
             ->columns([
                 TextColumn::make('transaction_code')
-                    ->label('Mã giao dịch')
+                    ->label('Transaction code')
                     ->copyable()
-                    ->tooltip("Nhấn để sao chép mã giao dịch")
-                    ->copyMessage('Copy mã giao dich thành công')
+                    ->tooltip("Click to copy transaction code")
+                    ->copyMessage('Copy transaction code successfully')
                     ->searchable(),
                 TextColumn::make('user.email')
-                    ->description(fn ($record) => $record->user->name)
-                    ->label('Người dùng')
+                    ->description(fn($record) => $record->user->name)
+                    ->label('User')
                     ->searchable(),
                 TextColumn::make('membershipUser.membershipPlan.name')
-                    ->label('Gói Membership đăng ký')
+                    ->label('Membership Plan registration')
                     ->searchable(),
                 TextColumn::make('money')
-                    ->label('Số tiền')
+                    ->label('Amount')
                     ->money('vnd'),
                 TextColumn::make('created_at')
-                    ->label('Thời gian giao dịch')
+                    ->label('Transaction time')
                     ->searchable(),
                 TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->badge()
                     ->formatStateUsing(fn(string $state) => MembershipTransactionStatus::getLabel((int)$state))
                     ->color(fn(string $state): string => match (MembershipTransactionStatus::from((int)$state)) {
@@ -63,8 +63,7 @@ class Membership extends Component implements HasForms, HasTable
                     }),
             ])
             ->filters([
-                SelectFilter::make('status')
-                    ->label('Trạng thái')
+                SelectFilter::make('status')->label('Status')
                     ->options([
                         MembershipTransactionStatus::WAITING->value => MembershipTransactionStatus::getLabel(MembershipTransactionStatus::WAITING->value),
                         MembershipTransactionStatus::ACTIVE->value => MembershipTransactionStatus::getLabel(MembershipTransactionStatus::ACTIVE->value),
@@ -74,58 +73,58 @@ class Membership extends Component implements HasForms, HasTable
             ->actions([
                 Action::make('change_status_success')
                     ->label('Xác nhận')
-                    ->visible(fn ($record) => in_array($record->status, [MembershipTransactionStatus::WAITING->value, MembershipTransactionStatus::FAILED->value]))
+                    ->visible(fn($record) => in_array($record->status, [MembershipTransactionStatus::WAITING->value, MembershipTransactionStatus::FAILED->value]))
                     ->action(function ($record) {
                         $result = $this->service->confirmMembershipTransaction($record, MembershipTransactionStatus::ACTIVE);
-                        if ($result){
+                        if ($result) {
                             Notification::make()
-                                ->title('Thành công')
-                                ->body('Xác nhận giao dịch thành công')
+                                ->title('Success')
+                                ->body('Transaction Confirmation Successful')
                                 ->success()
                                 ->send();
-                        }else{
+                        } else {
                             Notification::make()
-                                ->title('Thất bại')
-                                ->body('Xác nhận giao dịch thất bại')
+                                ->title('Failure')
+                                ->body('Transaction Confirmation Failed')
                                 ->danger()
                                 ->send();
                         }
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Xác nhận giao dịch')
-                    ->modalDescription('Bạn có chắc chắn muốn thực hiện hành động này?')
-                    ->modalSubmitActionLabel('Xác nhận')
+                    ->modalHeading('Confirm transaction')
+                    ->modalDescription('Are you sure you want to perform this action?')
+                    ->modalSubmitActionLabel('Confirm')
                     ->icon('heroicon-o-check')
                     ->color('success'),
                 Action::make('change_status_failed')
-                    ->label('Hủy bỏ')
-                    ->visible(fn ($record) => $record->status == MembershipTransactionStatus::WAITING->value)
+                    ->label('Cancel')
+                    ->visible(fn($record) => $record->status == MembershipTransactionStatus::WAITING->value)
                     ->action(function ($record) {
                         $result = $this->service->confirmMembershipTransaction($record, MembershipTransactionStatus::FAILED);
-                        if ($result){
+                        if ($result) {
                             Notification::make()
-                                ->title('Thành công')
-                                ->body('Hủy bỏ giao dịch thành công')
+                                ->title('Success')
+                                ->body('Cancel transaction successfully')
                                 ->success()
                                 ->send();
-                        }else{
+                        } else {
                             Notification::make()
-                                ->title('Thất bại')
-                                ->body('Hủy bỏ giao dịch thất bại')
+                                ->title('Failure')
+                                ->body('Cancel transaction failed')
                                 ->danger()
                                 ->send();
                         }
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Hủy bỏ giao dịch')
-                    ->modalDescription('Bạn có chắc chắn muốn thực hiện hành động này?')
-                    ->modalSubmitActionLabel('Xác nhận')
+                    ->modalHeading('Cancel transaction')
+                    ->modalDescription('Are you sure you want to perform this action?')
+                    ->modalSubmitActionLabel('Confirm')
                     ->icon('heroicon-o-exclamation-circle')
                     ->color('danger'),
             ])
-            ->emptyStateHeading("Chưa có giao dịch nào")
+            ->emptyStateHeading("No transactions have been made yet")
             ->emptyStateIcon("heroicon-o-rectangle-stack")
-            ->emptyStateDescription("Hiện tại chưa có giao dịch nào được thực hiện. Vui lòng quay lại sau.")
+            ->emptyStateDescription("No transactions have been made yet. Please come back later.")
             ->defaultPaginationPageOption(25)
             ->defaultSort('created_at', 'desc');
     }

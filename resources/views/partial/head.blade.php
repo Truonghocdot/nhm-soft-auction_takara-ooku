@@ -1,11 +1,11 @@
 <title>@yield('title', 'Takara-ooku')</title>
-<meta name="description" content="@yield('meta_description', 'Mô tả mặc định cho trang trả giá trực tuyến của bạn')">
-<meta name="keywords" content="@yield('meta_keywords', 'Trả giá, mua bán, auctions')">
-<meta name="author" content="Tên của bạn">
+<meta name="description" content="@yield('meta_description', 'Default description for your online bidding page')">
+<meta name="keywords" content="@yield('meta_keywords', 'Bidding, buying and selling, auctions')">
+<meta name="author" content="Your name">
 
 <!-- Open Graph -->
 <meta property="og:title" content="@yield('og_title', 'Takara-ooku')">
-<meta property="og:description" content="@yield('og_description', 'Mô tả mặc định cho Open Graph')">
+<meta property="og:description" content="@yield('og_description', 'Default description for Open Graph')">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:image" content="@yield('og_image', asset('images/default-og.jpg'))">
@@ -81,7 +81,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         @if (session('success'))
-            @if (str_contains(session('success'), 'Trả giá thành công'))
+            @if (str_contains(session('success'), 'Bid Successfully!'))
                 @if (session('user_bid_data'))
                     showAuctionSuccessToast({!! json_encode(session('user_bid_data'), JSON_UNESCAPED_UNICODE) !!});
                 @else

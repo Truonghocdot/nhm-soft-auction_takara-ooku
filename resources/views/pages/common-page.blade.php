@@ -5,7 +5,7 @@
 @endphp
 
 {{-- SEO / Meta --}}
-@section('title', $page->title . ' | ' . config('app.name', 'Takara-ooku') ?? ($page->title ?? 'Trang'))
+@section('title', $page->title . ' | ' . config('app.name', 'Takara-ooku') ?? ($page->title ?? 'Page'))
 @section('meta_description', $page->meta_description ?? Str::limit(strip_tags($page->content ?? ''), 150))
 @section('meta_keywords', $page->meta_keywords ?? '')
 @section('og_title', $page->meta_title ?? ($page->title ?? config('app.name')))
@@ -25,7 +25,7 @@
                             d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                         </path>
                     </svg>
-                    Trang chủ
+                    Home
                 </a>
                 <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
@@ -68,8 +68,7 @@
                                 <path fill-rule="evenodd"
                                     d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
                                     clip-rule="evenodd"></path>
-                            </svg>
-                            Bản nháp
+                            </svg>Draft
                         </span>
                     @endif
                 </div>
@@ -113,7 +112,7 @@
 
                                 {{-- Social Share --}}
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-sm text-gray-600 mr-2">Chia sẻ:</span>
+                                    <span class="text-sm text-gray-600 mr-2">Share:</span>
                                     <a href="https://facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
                                         target="_blank"
                                         class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors duration-200">
@@ -161,7 +160,7 @@
                                 class="bg-white bg-opacity-95 backdrop-blur-sm border border-white border-opacity-20 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-lg">
                                 <div class="flex items-center mb-6">
                                     <div class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded mr-4"></div>
-                                    <h2 class="text-2xl font-bold text-gray-900">Sản phẩm nổi bật</h2>
+                                    <h2 class="text-2xl font-bold text-gray-900">Featured Products</h2>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -186,7 +185,7 @@
                                         clip-rule="evenodd"></path>
                                     <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path>
                                 </svg>
-                                Tin tức mới nhất
+                                Latest News
                             </h3>
 
                             @if ($news && $news->isNotEmpty())
@@ -196,7 +195,7 @@
                                             class="group hover:bg-gray-50 rounded-lg transition-all md:block hidden duration-200 relative">
                                             <a href="{{ route('news.detail', $featured->slug) }}"
                                                 class="absolute inset-0 z-10" aria-hidden="true">
-                                                <span class="sr-only">Xem: {{ $featured->title }}</span>
+                                                <span class="sr-only">Views: {{ $featured->title }}</span>
                                             </a>
 
                                             <div class="flex gap-3 sm:gap-4 p-2 sm:p-3 relative z-0">
@@ -249,8 +248,7 @@
 
                                 <div class="mt-6 pt-4 border-t border-gray-200">
                                     <a href="{{ route('news.list') }}"
-                                        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                                        Xem tất cả tin tức
+                                        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200">View all news
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -265,8 +263,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                             d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
                                         </path>
-                                    </svg>
-                                    <p class="text-sm">Chưa có tin tức nào.</p>
+                                    </svg><p class="text-sm">No news yet.</p>
                                 </div>
                             @endif
                         </div>

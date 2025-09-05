@@ -1,22 +1,21 @@
 @assets
-@vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css'])
 @endassets
 
 <div class="space-y-4">
     <x-filament::section icon="heroicon-m-currency-dollar">
-        <x-slot name="heading">
-            Tổng quan
+        <x-slot name="heading">Overview
         </x-slot>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 ">
             <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Số dư tiền nạp vào</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Deposit balance</div>
                 <div class="text-3xl font-bold text-gray-700 dark:text-white">
                     {{ number_format($current_balance, 0, ',', '.') }}
                     <span class="text-2xl text-gray-600 dark:text-gray-400">VND</span>
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Số điểm hiện tại</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Current score</div>
                 <div class="text-3xl font-bold text-gray-700 dark:text-white">
                     {{ number_format($this->sumTransaction['sum_point'], 0, ',', '.') }}
                     <span class="text-2xl text-gray-600 dark:text-gray-400">Point</span>
@@ -41,7 +40,7 @@
     </x-filament::section>
 
     <x-filament::section>
-        <x-slot name="heading">Lịch sử giao dịch</x-slot>
+        <x-slot name="heading">Transaction History</x-slot>
         <div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                 @foreach (\App\Enums\PaymentViewType::cases() as $type)

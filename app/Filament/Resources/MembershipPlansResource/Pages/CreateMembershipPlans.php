@@ -13,8 +13,8 @@ class CreateMembershipPlans extends CreateRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Gói thành viên',
-            '' => 'Tạo gói thành viên',
+            url()->previous() => 'Membership Package',
+            '' => 'Create Membership Package',
         ];
     }
 }

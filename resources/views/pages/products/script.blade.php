@@ -229,7 +229,7 @@
         if (navigator.share) {
             navigator.share({
                 title: productName,
-                text: `Xem sản phẩm: ${productName}`,
+                text: `View detail: ${productName}`,
                 url: currentUrl
             }).catch((error) => {
                 copyToClipboard(currentUrl);
@@ -242,7 +242,7 @@
     function copyToClipboard(text) {
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(() => {
-                showShareNotification('Đã sao chép link vào clipboard!');
+                showShareNotification('Link copied to clipboard!');
             }).catch(() => {
                 fallbackCopyToClipboard(text);
             });
@@ -263,9 +263,9 @@
 
         try {
             document.execCommand('copy');
-            showShareNotification('Đã sao chép link vào clipboard!');
+            showShareNotification('Link copied to clipboard!');
         } catch (err) {
-            showShareNotification('Không thể sao chép link!');
+            showShareNotification('Cannot copy link!');
         }
 
         document.body.removeChild(textArea);
@@ -289,7 +289,7 @@
             toast.className = 'alert alert-warning shadow-lg';
             toast.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="stroke-current shrink-0 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Phiên trả giá đã kết thúc, không thể trả giá thêm!</span>
+                <span>Bidding session is over, no more bidding possible!</span>
             `;
             toastContainer.appendChild(toast);
             setTimeout(()=>{ if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
@@ -361,7 +361,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>Bạn cần đợi hết thời gian đếm ngược mới có thể Trả giá tiếp!</span>
+            <span>You need to wait for the countdown to end before you can Bid again!</span>
         `;
         
         toastContainer.appendChild(toast);
@@ -388,7 +388,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            <span>Bây giờ bạn có thể Trả giá tiếp!</span>
+            <span>Now you can Bid again!</span>
         `;
         
         toastContainer.appendChild(toast);
@@ -467,7 +467,7 @@
                     incCartBadge(qty);
                 }
                 if (typeof showToast === 'function') {
-                    showToast(resp && resp.message ? resp.message : 'Đã thêm vào giỏ hàng', 'success');
+                    showToast(resp && resp.message ? resp.message : 'Added to cart', 'success');
                 }
             }).fail(function(){
                 $this.off('submit');

@@ -13,8 +13,8 @@ class EditUser extends EditRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Người dùng',
-            '' => 'Sửa người dùng',
+            url()->previous() => 'User',
+            '' => 'Edit User',
         ];
     }
 
@@ -22,21 +22,21 @@ class EditUser extends EditRecord
     {
         return [
             Actions\ViewAction::make()
-                ->label('Xem chi tiết'),
+                ->label('View Detail'),
             Actions\DeleteAction::make()
-                ->label('Xóa'),
+                ->label('Delete'),
         ];
     }
 
     protected function getSaveFormAction(): Actions\Action
     {
         return parent::getSaveFormAction()
-            ->label('Lưu thay đổi');
+            ->label('Save Changed');
     }
 
     protected function getCancelFormAction(): Actions\Action
     {
         return parent::getCancelFormAction()
-            ->label('Hủy');
+            ->label('Cancel');
     }
 }

@@ -37,13 +37,13 @@ class BannerResource extends Resource
                         Grid::make(2)
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label('Tên banner')
+                                    ->label('Banner name')
                                     ->required()
                                     ->maxLength(255)
                                     ->columnSpan(1),
 
                                 Forms\Components\Select::make('banner_type_id')
-                                    ->label('Loại banner')
+                                    ->label('Banner type')
                                     ->options(fn() => BannerType::pluck('name', 'id')->toArray())
                                     ->searchable()
                                     ->required()
@@ -59,7 +59,7 @@ class BannerResource extends Resource
                             ]),
 
                         Forms\Components\FileUpload::make('url_image')
-                            ->label('Hình ảnh')
+                            ->label('Image')
                             ->directory('banners')
                             ->image()
                             ->required()
@@ -73,29 +73,29 @@ class BannerResource extends Resource
                         Grid::make(2)
                             ->schema([
                                 Forms\Components\TextInput::make('link_page')
-                                    ->label('Đường dẫn tới trang đích')
+                                    ->label('Path to destination page')
                                     ->url()
-                                    ->helperText('Nhập URL đầy đủ (ví dụ: https://domain.com/path)')
+                                    ->helperText('Enter the full URL (e.g. https://domain.com/path)')
                                     ->required()
                                     ->columnSpan(1),
 
                                 Forms\Components\Toggle::make('status')
-                                    ->label('Kích hoạt')
-                                    ->hint('Bật = hiển thị')
+                                    ->label('Size active')
+                                    ->hint('Enable = visible')
                                     ->default(1)
                                     ->inline(false)
                                     ->columnSpan(1),
                             ]),
                     ]),
 
-                Section::make('Danh mục banner')
-                    ->description('Chọn loại banner để hiển thị mô tả tương ứng')
+                Section::make('Banner category')
+                    ->description('Select banner type to display corresponding description')
                     ->schema([
                         Grid::make(2)
                             ->schema([
                                 Placeholder::make('banner_type_description')
-                                    ->label('Mô tả loại banner')
-                                    ->content(fn(callable $get) => $get('banner_type_description') ?: 'Chưa có mô tả')
+                                    ->label('Banner type description')
+                                    ->content(fn(callable $get) => $get('banner_type_description') ?: 'No description yet')
                                     ->columnSpan(2),
                             ]),
                     ])
@@ -112,26 +112,26 @@ class BannerResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ImageColumn::make('url_image')
-                    ->label('Hình ảnh'),
+                    ->label('Image'),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Tên banner')
+                    ->label('Banner name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('bannerType.name')
-                    ->label('Loại banner'),
+                    ->label('Banner type'),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
-                    ->formatStateUsing(fn($state) => $state ? 'Kích hoạt' : 'Ẩn'),
+                    ->label('Status')
+                    ->formatStateUsing(fn($state) => $state ? 'Enabled' : 'Hidden'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        1 => 'Kích hoạt',
-                        0 => 'Ẩn',
+                        1 => 'Enable',
+                        0 => 'Hide',
                     ]),
                 Tables\Filters\SelectFilter::make('banner_type_id')
                     ->label('Loại banner')

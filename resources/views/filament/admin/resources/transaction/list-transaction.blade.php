@@ -1,28 +1,20 @@
 <x-filament-panels::page>
-    <x-filament::section
-        collapsible
-        collapsed
-        icon="heroicon-o-user-group"
-    >
+    <x-filament::section collapsible collapsed icon="heroicon-o-user-group">
         <x-slot name="heading">
-            Giao dịch thanh toán gói hội viên
+            Membership Payment Transactions
         </x-slot>
         <x-slot name="description">
-            Đây là danh sách giao dịch thanh toán gói hội viên của khách hàng.
+            This is a list of customer membership payment transactions.
         </x-slot>
         @livewire('filament.transaction-admin.membership')
     </x-filament::section>
 
-    <x-filament::section
-        collapsible
-        collapsed
-        icon="heroicon-o-user-group"
-    >
+    <x-filament::section collapsible collapsed icon="heroicon-o-user-group">
         <x-slot name="heading">
-            Giao dịch thanh toán điểm
+            Point Payment Transactions
         </x-slot>
         <x-slot name="description">
-            Đây là danh sách giao dịch thanh toán điểm của khách hàng.
+            This is a list of customer points payment transactions.
         </x-slot>
         @livewire('filament.transaction-admin.point-package')
     </x-filament::section>

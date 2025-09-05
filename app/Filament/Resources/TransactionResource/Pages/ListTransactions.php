@@ -12,7 +12,7 @@ class ListTransactions extends Page
 
     protected static string $view = 'filament.admin.resources.transaction.list-transaction';
 
-    protected ?string $heading = 'Thống kê thanh toán';
+    protected ?string $heading = 'Payment statistics';
 
     public function getBreadcrumbs(): array
     {

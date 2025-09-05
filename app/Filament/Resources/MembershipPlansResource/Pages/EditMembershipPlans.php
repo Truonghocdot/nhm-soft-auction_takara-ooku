@@ -13,8 +13,8 @@ class EditMembershipPlans extends EditRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Gói thành viên',
-            '' => 'Sửa gói thành viên',
+            url()->previous() => 'Membership Package',
+            '' => 'Edit Membership Package',
         ];
     }
 

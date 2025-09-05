@@ -41,7 +41,7 @@ class ViewMembership extends Component
         $membershipUser = $this->membershipsService->getById('membershipUser', $id);
         if (!$membershipUser) {
             Notification::make()
-                ->title("Không tìm thấy thông tin gói thành viên này")
+                ->title("No information found for this membership package")
                 ->danger()
                 ->send();
             return;
@@ -49,7 +49,7 @@ class ViewMembership extends Component
         $valid = $this->membershipsService->validateActiveMembership($membershipUser);
         if (!$valid){
             Notification::make()
-                ->title("Gói thành viên này không hợp lệ hoặc đã hết hạn")
+                ->title("This membership package is invalid or expired")
                 ->danger()
                 ->send();
             return;
@@ -57,13 +57,13 @@ class ViewMembership extends Component
         $result = $this->membershipsService->reActivateMembershipForUser($membershipUser);
         if ($result) {
             Notification::make()
-                ->title("Kích hoạt gói thành viên thành công")
+                ->title("Activated membership package successfully")
                 ->success()
                 ->send();
             $this->mount();
         } else {
             Notification::make()
-                ->title("Kích hoạt gói thành viên thất bại")
+                ->title("Membership package activation failed")
                 ->danger()
                 ->send();
         }

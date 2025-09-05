@@ -10,8 +10,8 @@ enum ProductStatus: int
     public static function getOptions(): array
     {
         return [
-            self::INACTIVE->value => 'Không mở bán',
-            self::ACTIVE->value => 'Mở bán',
+            self::INACTIVE->value => 'Not for sale',
+            self::ACTIVE->value => 'Open for sale',
         ];
     }
 }

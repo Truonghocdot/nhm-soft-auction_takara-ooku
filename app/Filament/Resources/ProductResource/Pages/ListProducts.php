@@ -10,7 +10,7 @@ class ListProducts extends ListRecords
 {
     protected static string $resource = ProductResource::class;
 
-    protected static ?string $title = "Danh sách sản phẩm";
+    // protected static ?string $title = "Danh sách sản phẩm";
 
     protected function getHeaderActions(): array
     {
@@ -22,7 +22,7 @@ class ListProducts extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            'products' => 'Sản phẩm',
+            'products' => 'Product',
         ];
     }
 }

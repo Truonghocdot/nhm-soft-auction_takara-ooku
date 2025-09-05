@@ -14,7 +14,7 @@ class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
-    protected static ?string $navigationLabel = 'Chi tiết đơn hàng';
+    protected static ?string $navigationLabel = 'Order Details';
 
     protected ?OrderService $orderService = null;
 
@@ -37,7 +37,7 @@ class EditOrder extends EditRecord
 
     public function getTitle(): string|Htmlable
     {
-        return 'Chỉnh sửa đơn hàng';
+        return 'Edit order';
     }
 
     protected function afterSave(): void

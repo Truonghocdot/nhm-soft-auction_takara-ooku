@@ -11,11 +11,11 @@ class PaymentOwnCustomerResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    public static ?string $navigationGroup = 'Thông tin';
-    public static ?string $navigationLabel = 'Thống kê thanh toán';
+    public static ?string $navigationGroup = 'Info';
+    public static ?string $navigationLabel = 'Payment statistics';
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $modelLabel = 'Thông tin';
+    protected static ?string $modelLabel = 'Info';
     public static function canAccess(): bool
     {
         return auth()->user()->hasRole(RoleConstant::CUSTOMER);

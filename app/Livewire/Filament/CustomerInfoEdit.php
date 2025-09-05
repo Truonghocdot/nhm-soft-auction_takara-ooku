@@ -55,10 +55,10 @@ class CustomerInfoEdit extends Component implements HasForms
 
 
                 Forms\Components\Fieldset::make('identification')
-                    ->label("Thông tin cá nhân")
+                    ->label("Profile information")
                     ->schema([
                         Forms\Components\FileUpload::make('profile_photo_url')
-                            ->label('Ảnh đại diện')
+                            ->label('Profile')
                             ->avatar()
                             ->imageEditor()
                             ->storeFiles(false)
@@ -66,11 +66,11 @@ class CustomerInfoEdit extends Component implements HasForms
                             ->reorderable()
                             ->columnSpanFull()
                             ->alignCenter()
-                            ->helperText("Ảnh đại diện sẽ được hiển thị trên trang cá nhân của bạn. Vui lòng chọn ảnh có kích thước tối ưu để hiển thị tốt nhất.")
-                            ->maxSize(5120)  // 5MB = 5 * 1024 KB
+                            ->helperText("Profile will be displayed on your profile. Please select the optimal size for best display.")
+                            ->maxSize(5120) // 5MB = 5 * 1024 KB
                         ,
                         Forms\Components\TextInput::make('name')
-                            ->label('Tên')
+                            ->label('Name')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
@@ -79,82 +79,81 @@ class CustomerInfoEdit extends Component implements HasForms
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('phone')
-                            ->label('Số điện thoại')
-                            ->placeholder("Ví dụ: 0987654321")
+                            ->label('Phone number')
+                            ->placeholder("Example: 0987654321")
                             ->tel()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('contact_info.link_shopee')
-                            ->label('Gian hàng shoppe')
-                            ->placeholder("Ví dụ: shoppe.vn/shop_name"),
+                            ->label('Shoppe booth')
+                            ->placeholder("Example: shoppe.vn/shop_name"),
                         Forms\Components\TextInput::make('contact_info.link_zalo')
-                            ->label('Số điện thoại zalo')
+                            ->label('Zalo phone number')
                             ->tel()
-                            ->placeholder("Ví dụ: 0987654321"),
+                            ->placeholder("Example: 0987654321"),
                         Forms\Components\TextInput::make('contact_info.link_facebook')
-                            ->label('Trang facebook')
-                            ->placeholder("Ví dụ: facebook.com/id_facebook"),
+                            ->label('Facebook page')
+                            ->placeholder("Example: facebook.com/id_facebook"),
                         Forms\Components\TextInput::make('contact_info.link_tiktok')
-                            ->label('Gian hàng tiktok')
-                            ->placeholder("Ví dụ: tiktok.com/@id_tiktok"),
+                            ->label('Gian hang tiktok')
+                            ->placeholder("Example: tiktok.com/@id_tiktok"),
                         Forms\Components\Textarea::make('address')
-                            ->label('Địa chỉ')
-                            ->placeholder("Ví dụ: 123 Đường ABC, Phường 1, TP.Hà Nội")
-                            ->helperText("Địa chỉ của bạn cũng sẽ được sử dụng để giao hàng hoặc là nơi lấy sản phẩm. Vui lòng cung cấp địa chỉ chính xác.")
+                            ->label('Address')
+                            ->placeholder("Example: 123 ABC Street, Ward 1, Hanoi City")
+                            ->helperText("Your address will also be used for delivery or product pickup. Please provide the correct address.")
                             ->columnSpanFull()
                             ->maxLength(255),
                         Forms\Components\Textarea::make('introduce')
-                            ->label('Giới thiệu bản thân')
-                            ->placeholder("Ví dụ: Tôi là một người yêu thích công nghệ, thích khám phá những điều mới mẻ trong cuộc sống.")
+                            ->label('Introduce myself')
+                            ->placeholder("Example: I am a technology enthusiast, love to explore new things in life live.")
                             ->columnSpanFull()
                             ->maxLength(255),
                     ]),
-
                 Forms\Components\Fieldset::make('Password')
-                    ->label("Đổi Mật khẩu")
+                    ->label("Change Password")
                     ->schema([
                         Forms\Components\TextInput::make('new_password')
-                            ->label('Mật khẩu mới')
+                            ->label('New Password')
                             ->required(fn($record) => !empty($record))
                             ->password()
                             ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                             ->dehydrated(fn($state) => filled($state))
                             ->minLength(8)
                             ->validationMessages([
-                                'minLength' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
+                                'minLength' => 'New password must be at least 8 characters long.',
                             ]),
 
                         Forms\Components\TextInput::make('new_password_confirmation')
-                            ->label('Xác nhận mật khẩu mới')
+                            ->label('Confirm new password')
                             ->password()
                             ->same('new_password')
                             ->validationMessages([
-                                'same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
+                                'same' => 'The confirmation password does not match the password new.',
                             ]),
                     ]),
 
                 Forms\Components\Fieldset::make('payment')
-                    ->label("Thông tin tài khoản ngân hàng")
+                    ->label("Bank account information")
                     ->schema([
                         Forms\Components\Select::make('bin_bank')
-                            ->label('Ngân hàng')
+                            ->label('Bank')
                             ->searchable()
                             ->required(fn(callable $get) => $get('card_number') || $get('card_holder_name'))
                             ->options(HelperFunc::getListBankOptions()),
                         Forms\Components\TextInput::make('card_number')
-                            ->label('Số tài khoản ngân hàng')
+                            ->label('Bank account number')
                             ->numeric()
                             ->required(fn(callable $get) => $get('bin_bank') || $get('card_holder_name')),
                         Forms\Components\TextInput::make('card_holder_name')
-                            ->label('Chủ tài khoản')
+                            ->label('Account owner')
                             ->required(fn(callable $get) => $get('bin_bank') || $get('card_number'))
                             ->reactive()
                             ->debounce(1000)
                             ->afterStateUpdated(function ($state, callable $set) {
                                 if ($state) {
-                                    // 1. Loại bỏ dấu
+                                    // 1. Remove accents 
                                     $state = HelperFunc::removeVietnameseTones($state);
                                     $newState = strtoupper($state);
-                                    // Cập nhật giá trị trên FE ngay lập tức
+                                    // Update the value on FE immediately 
                                     $set('card_holder_name', $newState);
                                 }
                             })
@@ -174,14 +173,14 @@ class CustomerInfoEdit extends Component implements HasForms
         $result = $this->service->updateAuthUser($form);
         if ($result) {
             Notification::make()
-                ->title('Thành công')
-                ->body('Cập nhật thông tin thành công!')
+                ->title('Success')
+                ->body('Update information successfully!')
                 ->success()
                 ->send();
         } else {
             Notification::make()
-                ->title('Thất bại')
-                ->body('Cập nhật thông tin thất bại!')
+                ->title('Failure')
+                ->body('Update information failed!')
                 ->danger()
                 ->send();
         }

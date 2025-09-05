@@ -10,12 +10,12 @@ class ViewCustomerInfoEdit extends Page
 
     protected static string $view = 'filament.admin.resources.users.user-info-edit';
 
-    protected ?string $heading = 'Chỉnh sửa thông tin cá nhân';
+    protected ?string $heading = 'Edit personal information';
 
     public function getBreadcrumbs(): array
     {
         return [
-            url()->route('filament.admin.resources.customer-infos.index') => 'Thông tin cá nhân',
+            url()->route('filament.admin.resources.customer-infos.index') => 'Personal information',
         ];
     }
 }

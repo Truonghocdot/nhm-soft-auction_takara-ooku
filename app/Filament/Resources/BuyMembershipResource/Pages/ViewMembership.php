@@ -15,7 +15,7 @@ class ViewMembership extends Page
 
     protected static string $view = 'filament.admin.resources.membership.view-membership';
 
-    protected ?string $heading = 'Gói thành viên';
+    protected ?string $heading = 'Membership Package';
 
     public function getBreadcrumbs(): array
     {
@@ -34,7 +34,7 @@ class ViewMembership extends Page
             return [
                 Actions\Action::make("buy_membership")
                     ->icon('heroicon-o-user-group')
-                    ->label('Mua gói thành viên')
+                    ->label('Buy membership')
                     ->url(fn(): string => BuyMembershipResource::getUrl('buy'))
             ];
         }else {

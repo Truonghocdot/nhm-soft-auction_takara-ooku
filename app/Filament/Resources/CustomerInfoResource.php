@@ -12,10 +12,10 @@ class CustomerInfoResource extends Resource
     protected static ?string $model = User::class;
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    public static ?string $navigationGroup = 'Thông tin';
-    public static ?string $navigationLabel = 'Cá nhân';
+    public static ?string $navigationGroup = 'Info';
+    public static ?string $navigationLabel = 'Individual';
 
-    protected static ?string $modelLabel = 'Thông tin';
+    protected static ?string $modelLabel = 'Info';
     protected static ?int $navigationSort = 99;
 
     public static function canAccess(): bool

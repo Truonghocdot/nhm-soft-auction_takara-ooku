@@ -18,12 +18,6 @@ class MembershipPlansResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationLabel = 'Gói thành viên';
-
-    protected static ?string $modelLabel = 'Gói thành viên';
-
-    protected static ?string $pluralModelLabel = 'Gói thành viên';
-
     public static function canAccess(): bool
     {
         return auth()->user()->hasRole(RoleConstant::ADMIN);
@@ -33,88 +27,88 @@ class MembershipPlansResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Tên gói thành viên')
+                    ->label('Membership Package Name')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull()
                     ->live(onBlur: true),
 
                 Forms\Components\TextInput::make('price')
-                    ->label('Số điểm yêu cầu')
+                    ->label('Required Points')
                     ->required()
                     ->numeric()
                     ->minValue(0),
 
                 Forms\Components\TextInput::make('duration')
-                    ->label('Thời gian')
+                    ->label('Time')
                     ->required()
                     ->numeric()
-                    ->placeholder('Bao nhiêu tháng')
+                    ->placeholder('How many months')
                     ->minValue(0),
 
                 Forms\Components\Select::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        true => 'Hoạt động',
-                        false => 'Không hoạt động',
+                        true => 'Active',
+                        false => 'Inactive',
                     ])
                     ->default(true)
                     ->required(),
                 Forms\Components\TextInput::make('sort')
-                    ->label('Sắp xếp')
-                    ->helperText("Số càng nhỏ, gói sẽ hiển thị càng cao trong danh sách")
+                    ->label('Sort')
+                    ->helperText("The smaller the number, the higher the package will appear in the list")
                     ->integer()
                     ->minValue(0),
                 Forms\Components\TextInput::make('badge')
-                    ->label('Huy hiệu gói thành viên')
+                    ->label('Membership package badge')
                     ->maxLength(255),
 
                 ColorPicker::make('badge_color')
-                    ->label('Chọn màu huy hiệu')
+                    ->label('Choose badge color')
                     ->default('#ff5733'),
 
                 Forms\Components\Textarea::make('description')
-                    ->label('Miêu tả')
+                    ->label('Description')
                     ->required()
                     ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\Section::make('Cấu hình quyền lợi')
+                Forms\Components\Section::make('Benefit configuration')
                     ->schema([
                         Forms\Components\Toggle::make('config.free_product_listing')
-                            ->label('Đăng sản phẩm miễn phí')
-                            ->helperText('Cho phép đăng sản phẩm không mất phí')
+                            ->label('Free product listing fee')
+                            ->helperText('Allow free listings')
                             ->default(false),
 
                         Forms\Components\Toggle::make('config.free_auction_participation')
-                            ->label('Tham gia trả giá miễn phí')
-                            ->helperText('Cho phép tham gia trả giá không mất phí')
+                            ->label('Enroll in free auctions')
+                            ->helperText('Enroll in free auctions')
                             ->default(false),
 
                         Forms\Components\Toggle::make('config.priority_support')
-                            ->label('Hỗ trợ ưu tiên')
-                            ->helperText('Được ưu tiên hỗ trợ khi có vấn đề')
+                            ->label('Priority support')
+                            ->helperText('Get priority support when problems arise')
                             ->default(false),
 
                         Forms\Components\Toggle::make('config.featured_listing')
-                            ->label('Sản phẩm nổi bật')
-                            ->helperText('Sản phẩm được hiển thị ở vị trí nổi bật')
+                            ->label('Featured products')
+                            ->helperText('Products are displayed in a featured position')
                             ->default(false),
 
                         Forms\Components\TextInput::make('config.discount_percentage')
-                            ->label('Phần trăm giảm giá (%)')
+                            ->label('Discount Percentage (%)')
                             ->numeric()
                             ->minValue(0)
                             ->maxValue(100)
                             ->suffix('%')
                             ->default(0)
-                            ->helperText('Giảm giá khi mua sản phẩm'),
+                            ->helperText('Discount on Purchase of Products'),
 
                         Forms\Components\TextInput::make('config.max_products_per_month')
-                            ->label('Số sản phẩm tối đa/tháng')
+                            ->label('Maximum number of products/month')
                             ->numeric()
                             ->minValue(0)
                             ->default(0)
-                            ->helperText('0 = không giới hạn'),
+                            ->helperText('0 = unlimited'),
                     ])
                     ->columns(2),
             ]);
@@ -125,22 +119,22 @@ class MembershipPlansResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Tên gói')
+                    ->label('Package name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Giá')
+                    ->label('Price')
                     ->suffix('₫')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('duration')
-                    ->label('Thời gian')
-                    ->suffix(' tháng')
+                    ->label('Time')
+                    ->suffix('month')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('config.free_product_listing')
-                    ->label('Đăng SP miễn phí')
+                    ->label('Post free product')
                     ->boolean()
                     ->trueIcon('heroicon-o-check')
                     ->falseIcon('heroicon-o-x-mark')
@@ -148,12 +142,12 @@ class MembershipPlansResource extends Resource
                     ->falseColor('gray'),
 
                 Tables\Columns\TextColumn::make('config.discount_percentage')
-                    ->label('Giảm giá')
+                    ->label('Discount')
                     ->suffix('%')
                     ->default('0%'),
 
                 Tables\Columns\IconColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->boolean()
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
@@ -161,27 +155,27 @@ class MembershipPlansResource extends Resource
                     ->falseColor('danger'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ngày tạo')
+                    ->label('Date created')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        true => 'Hoạt động',
-                        false => 'Không hoạt động',
+                        true => 'Active',
+                        false => 'Not working',
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Xem'),
-                Tables\Actions\EditAction::make()->label('Sửa'),
-                Tables\Actions\DeleteAction::make()->label('Xóa'),
+                Tables\Actions\ViewAction::make()->label('View'),
+                Tables\Actions\EditAction::make()->label('Edit'),
+                Tables\Actions\DeleteAction::make()->label('Delete'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Xóa nhiều'),
+                    Tables\Actions\DeleteBulkAction::make()->label('Delete Bulk'),
                 ]),
             ]);
     }

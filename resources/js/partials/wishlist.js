@@ -158,7 +158,7 @@
                     ? API.home + "/file/" + product.first_image.image_url
                     : DEFAULT_IMG;
 
-            const name = product.name || "Sản phẩm";
+            const name = product.name || "Product";
             const typeSale = Number(product.type_sale || 0);
             console.log(typeSale);
 
@@ -169,12 +169,12 @@
                 <div class="grid grid-cols-3 gap-2">
                     <a href="${productUrl}" class="btn btn-sm btn-outline w-full col-span-2">Xem chi tiết</a>
                     <form action="${API.cart_add.replace(
-                        ":id",
-                        pid
-                    )}" method="POST" class="add-cart-form col-span-1">
+                    ":id",
+                    pid
+                )}" method="POST" class="add-cart-form col-span-1">
                         <input type="hidden" name="_token" value="${csrf}">
                         <input type="hidden" name="product_id" value="${pid}">
-                        <button type="submit" class="btn btn-sm btn-neutral w-full" title="Thêm vào giỏ" aria-label="Thêm vào giỏ">
+                        <button type="submit" class="btn btn-sm btn-neutral w-full" title="Add to Cart" aria-label="Add To Cart">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4.01" />
@@ -189,13 +189,13 @@
 
             const priceHtml = product.price
                 ? `<div class="text-[15px] font-bold text-orange-600">${formatPrice(
-                      product.price
-                  )}</div>`
+                    product.price
+                )}</div>`
                 : product.min_bid_amount && product.max_bid_amount
-                ? `<div class="text-[13px] font-semibold text-green-700">${formatPrice(
-                      product.min_bid_amount
-                  )} - ${formatPrice(product.max_bid_amount)}</div>`
-                : `<div class="text-[15px] font-bold text-orange-600">0 ₫</div>`;
+                    ? `<div class="text-[13px] font-semibold text-green-700">${formatPrice(
+                        product.min_bid_amount
+                    )} - ${formatPrice(product.max_bid_amount)}</div>`
+                    : `<div class="text-[15px] font-bold text-orange-600">0 ₫</div>`;
 
             const itemHtml = `
                 <div class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300" id="wishlist-item-${pid}">
@@ -206,11 +206,10 @@
                                 onerror="this.src='${DEFAULT_IMG}'">
                         </a>
 
-                        ${
-                            typeSale === 2
-                                ? `<span class="absolute top-2 left-2 badge badge-warning gap-1 text-[10px]">Trả giá</span>`
-                                : `<span class="absolute top-2 left-2 badge badge-accent gap-1 text-[10px]">Bán hàng</span>`
-                        }
+                        ${typeSale === 2
+                    ? `<span class="absolute top-2 left-2 badge badge-warning gap-1 text-[10px]">Auction</span>`
+                    : `<span class="absolute top-2 left-2 badge badge-accent gap-1 text-[10px]">For sale</span>`
+                }
 
                         <button type="button" data-id="${pid}"
                             class="remove-wishlist-btn absolute top-2 right-2 btn btn-xs btn-circle bg-white text-red-500 hover:bg-red-50 shadow">
@@ -224,13 +223,13 @@
                     <div class="p-3">
                         <h3 class="font-semibold text-[14px] text-slate-900 mb-1 line-clamp-2 max-h-[38px]">
                             <a href="${productUrl}" class="hover:text-blue-600 transition-colors">${escapeHtml(
-                        name
-                    )}</a>
+                    name
+                )}</a>
                         </h3>
 
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-xs text-slate-500">
-                                ${typeSale === 2 ? "Giá hiện tại:" : "Giá:"}
+                                ${typeSale === 2 ? "Current Price:" : "Price:"}
                             </div>
                             ${priceHtml}
                         </div>
@@ -253,17 +252,17 @@
         return str.replace(
             /[&<>"']/g,
             (tag) =>
-                ({
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#39;",
-                }[tag])
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            }[tag])
         );
     }
 
-    const AUTH_MESSAGE = "Bạn phải đăng nhập để sử dụng chức năng này.";
+    const AUTH_MESSAGE = "You must be logged in to use this feature.";
 
     async function loadWishlistItems() {
         try {
@@ -339,9 +338,9 @@
                 } else {
                     incrementWishlistCount(1);
                 }
-                showToastSafe("Đã thêm vào danh sách yêu thích", "success");
+                showToastSafe("Added to wishlist", "success");
             } else {
-                showToastSafe("Thêm thất bại", "error");
+                showToastSafe("Add failed", "error");
             }
         } catch (err) {
             console.error(err);
@@ -352,7 +351,7 @@
             console.log(err);
 
             showToastSafe(
-                err.responseJSON.message || "Lỗi khi thêm danh sách yêu thích",
+                err.responseJSON.message || "Error adding favorites list",
                 "error"
             );
         } finally {
@@ -389,9 +388,9 @@
                         $empty.show();
                     }
                 });
-                showToastSafe(resp.message || "Đã xóa", "success");
+                showToastSafe(resp.message || "Deleted", "success");
             } else {
-                showToastSafe(resp.message || "Xóa thất bại", "error");
+                showToastSafe(resp.message || "Deletion failed", "error");
             }
         } catch (err) {
             console.error(err);
@@ -399,14 +398,14 @@
                 showToastSafe(AUTH_MESSAGE, "info");
                 return;
             }
-            showToastSafe(err.message || "Lỗi khi xóa sản phẩm", "error");
+            showToastSafe(err.message || "Error deleting product", "error");
         }
     }
 
     async function clearWishlist() {
         if (
             !confirm(
-                "Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi danh sách yêu thích?"
+                "Are you sure you want to delete all products from your wishlist?"
             )
         )
             return;
@@ -428,9 +427,9 @@
                     $empty.show();
                     setWishlistCount(0);
                 });
-                showToastSafe(resp.message || "Đã xóa tất cả", "success");
+                showToastSafe(resp.message || "All deleted", "success");
             } else {
-                showToastSafe(resp.message || "Xóa thất bại", "error");
+                showToastSafe(resp.message || "Deletion failed", "error");
             }
         } catch (err) {
             console.error(err);
@@ -439,7 +438,7 @@
                 return;
             }
             showToastSafe(
-                err.message || "Lỗi khi xóa danh sách yêu thích",
+                err.message || "Error deleting favorites",
                 "error"
             );
         }

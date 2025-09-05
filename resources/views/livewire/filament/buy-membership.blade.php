@@ -6,7 +6,7 @@
     @if (!$this->nextStepBuy)
         @if ($this->list->isEmpty())
             <x-filament::section>
-                <div class="text-center text-gray-500">Không có gói thành viên nào</div>
+                <div class="text-center text-gray-500">No membership plans</div>
             </x-filament::section>
         @else
             <div id="membership_list" class="w-full py-12">
@@ -35,7 +35,7 @@
                                         <h6 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $item->price }}
                                             POINT
                                             <span class="text-sm text-gray-500 dark:text-white">/ {{ $item->duration }}
-                                                tháng</span>
+                                                months</span>
                                         </h6>
                                         <p class="text-gray-900 dark:text-white">
                                             {{ $item->description }}
@@ -50,8 +50,7 @@
                                                             fill="currentColor" viewBox="0 0 20 20">
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                        </svg>
-                                                        Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                                        </svg>Products for sale are displayed in a prominent position
                                                     </li>
                                                 @endif
                                                 @if ($item->config['priority_support'])
@@ -61,8 +60,7 @@
                                                             fill="currentColor" viewBox="0 0 20 20">
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                        </svg>
-                                                        Được ưu tiên hỗ trợ khi có vấn đề
+                                                        </svg>Get priority support when problems arise
                                                     </li>
                                                 @endif
                                                 @if ($item->config['discount_percentage'] > 0)
@@ -73,8 +71,9 @@
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                         </svg>
-                                                        Giảm {{ $item->config['discount_percentage'] }} % khi mua sản
-                                                        phẩm
+                                                        Discount {{ $item->config['discount_percentage'] }} % when
+                                                        purchasing products
+                                                        product
                                                     </li>
                                                 @endif
                                                 @if ($item->config['free_product_listing'])
@@ -85,7 +84,7 @@
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                         </svg>
-                                                        Đăng bán sản phẩm miễn phí
+                                                        Post your product for free
                                                     </li>
                                                 @elseif($item->config['max_products_per_month'] > 0)
                                                     <li class="flex items-center">
@@ -95,9 +94,9 @@
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                         </svg>
-                                                        Miễn phí đăng bán {{ $item->config['max_products_per_month'] }}
-                                                        sản
-                                                        phẩm/ tháng
+                                                        Free listing {{ $item->config['max_products_per_month'] }}
+                                                        product
+                                                        product/month
                                                     </li>
                                                 @endif
                                                 @if ($item->config['free_auction_participation'])
@@ -108,17 +107,16 @@
                                                             <path
                                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                         </svg>
-                                                        Tham gia trả giá miễn phí
+                                                        Join the free bid
                                                     </li>
                                                 @endif
-
                                             </ul>
                                         </div>
                                     </div>
                                     <!-- Khi nhấn vào nút Mua ngay, giá trị id của membership sẽ được gán cho Alpine -->
                                     <x-filament::button wire:key="{{ $item->id }}" class="w-full" color="success"
                                         icon="heroicon-m-check-badge" wire:click="onNextStep('{{ $item->id }}')">
-                                        Mua ngay
+                                        Buy now
                                     </x-filament::button>
                                 </div>
                             </div>
@@ -131,7 +129,7 @@
     @else
         <x-filament::section>
             <x-slot name="heading">
-                Thanh toán gói thành viên
+                Pay for membership
             </x-slot>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <img src="{{ $dataTransfer['urlBankQrcode'] }}" class="w-full h-auto rounded-lg" alt="QR Code">
@@ -171,8 +169,7 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                            </svg>Products for sale are displayed in a prominent position
                                         </li>
                                     @endif
                                     @if ($membership->config['priority_support'])
@@ -182,8 +179,7 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Được ưu tiên hỗ trợ khi có vấn đề
+                                            </svg>Get priority support when problems arise
                                         </li>
                                     @endif
                                     @if ($membership->config['discount_percentage'] > 0)
@@ -193,8 +189,7 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Giảm {{ $membership->config['discount_percentage'] }} % khi mua sản phẩm
+                                            </svg>Get priority support when problems arise
                                         </li>
                                     @endif
                                     @if ($membership->config['free_product_listing'])
@@ -204,8 +199,7 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Đăng bán sản phẩm miễn phí
+                                            </svg>Post your products for free
                                         </li>
                                     @elseif($membership->config['max_products_per_month'] > 0)
                                         <li class="flex items-center">
@@ -214,9 +208,8 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Miễn phí đăng bán {{ $membership->config['max_products_per_month'] }} sản
-                                            phẩm/ tháng
+                                            </svg>Free to post {{ $membership->config['max_products_per_month'] }}
+                                            products/month
                                         </li>
                                     @endif
                                     @if ($membership->config['free_auction_participation'])
@@ -226,8 +219,7 @@
                                                 fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                            </svg>
-                                            Tham gia Trả giá miễn phí
+                                            </svg>Join Bid for free
                                         </li>
                                     @endif
 
@@ -239,7 +231,7 @@
                             <!-- Primary Button -->
                             <x-filament::button class="w-full" color="success" icon="heroicon-m-check-badge"
                                 wire:click="submit('{{ \App\Enums\PayTypes::QRCODE->value }}')">
-                                Xác nhận thanh toán
+                                Payment confirmation
                             </x-filament::button>
 
                             <!-- Secondary Button: Outline -->
@@ -248,13 +240,13 @@
                                 color="{{ $user->current_balance >= $membership->price ? 'success' : 'danger' }}"
                                 icon="{{ $user->current_balance >= $membership->price ? 'heroicon-m-check-badge' : 'heroicon-m-x-mark' }}">
                                 @if ($user->current_balance >= $membership->price)
-                                    Thanh toán bằng điểm
+                                    Pay with points
                                 @else
-                                    Không đủ điểm
+                                    Not enough points
                                 @endif
 
                                 <span class="text-xs">
-                                    (số dư hiện tại: {{ number_format($user->current_balance) }})
+                                    (current balance: {{ number_format($user->current_balance) }})
                                 </span>
                             </x-filament::button>
                         </div>

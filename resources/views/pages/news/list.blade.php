@@ -12,38 +12,38 @@
 
     // Title logic
     if ($searchTerm) {
-        $metaTitle = 'Kết quả tìm kiếm: "' . e($searchTerm) . '" - Tin tức & Sự kiện | ' . $siteName;
+        $metaTitle = 'Search results: "' . e($searchTerm) . '" - News & Events | ' . $siteName;
     } elseif ($categoryId) {
         $cat = $categories->where('id', $categoryId)->first();
         $catName = $cat?->name ?? $categoryId;
-        $metaTitle = $catName . ' - Tin tức & Sự kiện | ' . $siteName;
+        $metaTitle = $catName . ' - News & Events | ' . $siteName;
     } else {
-        $metaTitle = 'Tin tức & Sự kiện' . ($pageNumber > 1 ? " — Trang {$pageNumber}" : '') . ' | ' . $siteName;
+        $metaTitle = 'News & Events' . ($pageNumber > 1 ? " — Page {$pageNumber}" : '') . ' | ' . $siteName;
     }
 
     // Meta description logic
     if ($searchTerm) {
         $metaDescription =
-            'Kết quả tìm kiếm cho "' .
+            'Search results for "' .
             e($searchTerm) .
-            '" trên ' .
+            '" on ' .
             $siteName .
-            '. Tìm các bài viết, hướng dẫn, sự kiện và tin tức liên quan đến chủ đề bạn quan tâm.';
+            '. Find articles, guides, events and news related to your topic of interest.';
     } elseif ($categoryId) {
         $metaDescription =
-            ($cat?->description ?? 'Các bài viết thuộc danh mục ' . ($catName ?? $categoryId) . ' trên ' . $siteName) .
-            '. Cập nhật tin tức mới nhất, phân tích và hướng dẫn.';
+            ($cat?->description ?? 'Articles in category ' . ($catName ?? $categoryId) . ' on ' . $siteName) .
+            '. Get the latest news, analysis and guides.';
     } else {
         $metaDescription =
-            'Cập nhật tin tức & sự kiện mới nhất về công nghệ, kinh doanh và xã hội trên ' .
+            'Get the latest news & events on technology, business and society on ' .
             $siteName .
-            '. Bài viết chuyên sâu, thông tin chính xác và kịp thời.';
+            '. In-depth articles, accurate and timely information.';
     }
 
-    // Meta keywords (ngắn gọn)
+    // Meta keywords (short)
     $metaKeywords = $categories->pluck('name')->take(10)->map(fn($n) => Str::slug($n, ' '))->join(', ');
     if (empty($metaKeywords)) {
-        $metaKeywords = 'tin tức, sự kiện, ' . Str::slug($siteName, ' ');
+        $metaKeywords = 'news, events, ' . Str::slug($siteName, ' ');
     }
 
     // OG image: banner nếu có, fallback
@@ -99,37 +99,37 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
             @if ($primary)
                 <div class="overflow-hidden" aria-label="Promotional Banner">
                     <img src="{{ asset('images/banner_buyeeEnSp.png') }}" class="w-full max-h-[585px] object-cover"
-                        alt="{{ $siteName }} - Khuyến mãi" loading="lazy">
+                        alt="{{ $siteName }} - Promotion" loading="lazy">
                 </div>
             @else
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 mt-14">
-                        Tin Tức & Sự Kiện
+                        News & Events
                     </h1>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Cập nhật những thông tin mới nhất về công nghệ, kinh doanh và xã hội
+                        Stay up to date with the latest news on technology, business and society
                     </p>
                 </div>
             @endif
 
             <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
-                {{-- Lưu ý: đổi name input trùng với controller: product_name, category_id, sort_by --}}
+                {{-- Note: change the input name to match the controller: product_name, category_id, sort_by --}}
                 <form action="{{ route('news.list') }}" method="GET" class="flex flex-col md:flex-row gap-4"
-                    role="search" aria-label="Form tìm kiếm bài viết">
+                    role="search" aria-label="Form search for articles">
                     <div class="flex-1">
                         <div class="relative">
                             <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                                 aria-hidden="true"></i>
                             <input type="text" name="q" value="{{ old('q', $searchTerm) }}"
-                                placeholder="Tìm kiếm bài viết..." aria-label="Tìm kiếm bài viết"
+                                placeholder="Search for articles..." aria-label="Search for articles"
                                 class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                     </div>
 
                     <div class="md:w-48">
-                        <select name="category_id" aria-label="Lọc theo danh mục"
+                        <select name="category_id" aria-label="Filter by category"
                             class="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Tất cả danh mục</option>
+                            <option value="">All categories</option>
                             {{-- Nếu partial.category-node xuất option theo id thì ok; nếu không, bạn có thể render trực tiếp --}}
                             @foreach ($categories as $node)
                                 {{-- Giữ partial nếu nó trả option với value = id; nếu partial hiện tree bằng <option>, nó sẽ hoạt động --}}
@@ -143,7 +143,7 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                     </div>
 
                     <div class="md:w-48">
-                        <select name="sort_by" aria-label="Sắp xếp"
+                        <select name="sort_by" aria-label="Sort"
                             class="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="">Mọi bài viết</option>
                             <option value="view" {{ $sortBy === 'view' ? 'selected' : '' }}>Lượt xem</option>
@@ -153,7 +153,7 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
 
                     <button type="submit"
                         class="btn btn-neutral text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200">
-                        <i class="fas fa-search mr-2" aria-hidden="true"></i>Tìm kiếm
+                        <i class="fas fa-search mr-2" aria-hidden="true"></i>Search
                     </button>
                 </form>
             </div>
@@ -162,7 +162,7 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                 <div class="mt-4 p-4 bg-blue-50 rounded-lg" role="status" aria-live="polite">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <span class="text-blue-800 font-medium">Kết quả tìm kiếm:</span>
+                            <span class="text-blue-800 font-medium">Search results:</span>
                             @if ($searchTerm)
                                 <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">
                                     <i class="fas fa-search mr-1" aria-hidden="true"></i>
@@ -176,17 +176,17 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                                 </span>
                             @endif
                             <span class="text-gray-600">
-                                ({{ $articles->total() }} bài viết)
+                                ({{ $articles->total() }} articles)
                             </span>
                         </div>
                         <a href="{{ route('news.list') }}" class="text-blue-600 hover:text-blue-800 text-sm">
-                            <i class="fas fa-times mr-1" aria-hidden="true"></i>Xóa bộ lọc
+                            <i class="fas fa-times mr-1" aria-hidden="true"></i>Clear filter
                         </a>
                     </div>
                 </div>
             @endif
 
-            <section class="my-12" aria-label="Danh sách bài viết">
+            <section class="my-12" aria-label="List of articles">
                 @if ($articles->count() > 0)
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach ($articles as $index => $article)
@@ -195,7 +195,7 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                     </div>
 
                     <div class="mt-12">
-                        {{-- Giữ các query khác khi phân trang --}}
+                        {{-- Keep other queries when paginating --}}
                         {{ $articles->appends(request()->except('page'))->links('pagination::daisyui') }}
                     </div>
                 @else
@@ -204,14 +204,14 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                             <i class="fas fa-search text-gray-400 text-6xl" aria-hidden="true"></i>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">
-                            Không tìm thấy bài viết nào
+                            No articles found
                         </h3>
                         <p class="text-gray-600 mb-6">
-                            Thử thay đổi từ khóa tìm kiếm hoặc danh mục để xem thêm kết quả.
+                            Try changing the search keyword or category to see more results.
                         </p>
                         <a href="{{ route('news.list') }}"
                             class="btn btn-neutral text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
-                            <i class="fas fa-list mr-2" aria-hidden="true"></i>Xem tất cả bài viết
+                            <i class="fas fa-list mr-2" aria-hidden="true"></i>See all posts
                         </a>
                     </div>
                 @endif
@@ -219,18 +219,18 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
 
             <section class="mt-16 bg-gradient-to-r from-[#646068] to-[#777f92] rounded-2xl p-8 text-white text-center">
                 <h3 class="text-2xl md:text-3xl font-bold mb-4">
-                    Đăng ký nhận tin tức mới nhất
+                    Sign up for the latest news
                 </h3>
                 <p class="text-blue-100 mb-8 max-w-2xl mx-auto">
-                    Nhận những bài viết mới nhất và thông tin độc quyền trước người khác
+                    Get the latest articles and exclusive information before others
                 </p>
                 <div class="max-w-md mx-auto flex gap-4">
-                    <input type="email" placeholder="Nhập email của bạn..."
+                    <input type="email" placeholder="Enter your email..."
                         class="flex-1 px-4 py-3 rounded-lg text-blue-600 focus:outline-none focus:ring-2 focus:ring-white"
-                        aria-label="Email nhận tin">
+                        aria-label="Email to receive news">
                     <button
                         class="bg-white text-blue-600 hover:bg-slate-400 px-6 py-3 rounded-lg font-medium transition-colors duration-200">
-                        <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>Đăng ký
+                        <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>Sign up
                     </button>
                 </div>
             </section>

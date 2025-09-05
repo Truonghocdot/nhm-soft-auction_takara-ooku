@@ -60,38 +60,38 @@
 
                 <div class="hidden lg:flex items-center space-x-8">
                     <div class="flex items-center space-x-6">
-
                         <a href="{{ route('products.list') }}"
-                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
+                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
                             <x-heroicon-o-shopping-bag class="w-6 h-6 mb-1"></x-heroicon-o-shopping-bag>
-                            <span class="text-xs font-medium">sản phẩm</span>
+                            <span class="text-xs font-medium">product</span>
                         </a>
 
                         <a href="{{ route('auctions.my-participating') }}"
-                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
-                            <img src="{{ asset('images/svg/auction-bid-svg.svg') }}" class="w-6 h-6 mb-1" alt="Trả giá">
-                            <span class="text-xs font-medium">Trả giá</span>
+                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                            <img src="{{ asset('images/svg/auction-bid-svg.svg') }}" class="w-6 h-6 mb-1"
+                                alt="Bid">
+                            <span class="text-xs font-medium">Bid</span>
                         </a>
 
                         <a href="{{ route('news.list') }}"
-                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
+                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
                             <x-heroicon-o-newspaper class="w-6 h-6 mb-1"></x-heroicon-o-newspaper>
-                            <span class="text-xs font-medium">Tin tức</span>
+                            <span class="text-xs font-medium">News</span>
                         </a>
 
                         <button id="search-btn"
                             class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 transition-all cursor-pointer duration-300 hover:-translate-y-0.5"
-                            aria-label="Mở tìm kiếm">
+                            aria-label="Open search">
                             <x-heroicon-o-magnifying-glass class="w-6 h-6 mb-1"></x-heroicon-o-magnifying-glass>
-                            <span class="text-xs font-medium">Tìm kiếm</span>
+                            <span class="text-xs font-medium">Search</span>
                         </button>
 
                         <a href="{{ route('wishlist.list') }}"
-                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                            transition-all duration-300 hover:-translate-y-0.5 relative">
+                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
                             <x-heroicon-o-heart class="w-6 h-6 mb-1"></x-heroicon-o-heart>
                             @auth
                                 <span id="wishlist-count"
@@ -99,11 +99,11 @@
                                     {{ $headerWishlistCount ?? 0 }}
                                 </span>
                             @endauth
-                            <span class="text-xs font-medium">Yêu thích</span>
+                            <span class="text-xs font-medium">Favorite</span>
                         </a>
                         <a href="{{ route('cart.index') }}"
-                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
+                            class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
                             <x-heroicon-o-shopping-cart class="w-6 h-6 mb-1"></x-heroicon-o-shopping-cart>
                             @auth
                                 <span id="header-cart-count"
@@ -111,20 +111,20 @@
                                     {{ $headerCartCount ?? 0 }}
                                 </span>
                             @endauth
-                            <span class="text-xs font-medium">Giỏ hàng</span>
+                            <span class="text-xs font-medium">Shopping Cart</span>
                         </a>
-                        
-                        <div class="relative group">
+
+                        <div class="related group">
                             <a href="{{ route('home') . '/admin' }}"
-                                class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                                   transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
+                                class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
                                 aria-expanded="false" aria-haspopup="true">
                                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>
-                                <span class="text-xs font-medium">Tài khoản</span>
+                                <span class="text-xs font-medium">Account</span>
                             </a>
                         </div>
                     </div>
@@ -161,66 +161,65 @@
 
         <div class="flex flex-col h-full overflow-y-auto">
             <div class="grid grid-cols-3 gap-2 p-2">
-                    <a href="{{ route('products.list') }}"
-                       class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
-                        <x-heroicon-o-shopping-bag class="w-6 h-6 mb-1"></x-heroicon-o-shopping-bag>
-                        <span class="text-xs font-medium">sản phẩm</span>
-                    </a>
+                <a href="{{ route('products.list') }}"
+                    class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                    <x-heroicon-o-shopping-bag class="w-6 h-6 mb-1"></x-heroicon-o-shopping-bag>
+                    <span class="text-xs font-medium">product</span>
+                </a>
 
-                    <a href="{{ route('auctions.my-participating') }}"
-                       class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
-                        <x-heroicon-o-shopping-bag class="w-6 h-6 mb-1"></x-heroicon-o-shopping-bag>
-                        <span class="text-xs font-medium">Trả giá</span>
-                    </a>
+                <a href="{{ route('auctions.my-participating') }}"
+                    class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                    <x-heroicon-o-shopping-bag class="w-6 h-6 mb-1"></x-heroicon-o-shopping-bag>
+                    <span class="text-xs font-medium">Bid</span>
+                </a>
 
-                    <a href="{{ route('news.list') }}"
-                       class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
-                        <x-heroicon-o-newspaper class="w-6 h-6 mb-1"></x-heroicon-o-newspaper>
-                        <span class="text-xs font-medium">Tin tức</span>
-                    </a>
+                <a href="{{ route('news.list') }}"
+                    class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                    <x-heroicon-o-newspaper class="w-6 h-6 mb-1"></x-heroicon-o-newspaper>
+                    <span class="text-xs font-medium">News</span>
+                </a>
 
-                    <div class="relative group">
-                        <a href="{{ route('filament.admin.pages.dashboard') }}"
-                           class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                                   transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
-                           aria-expanded="false" aria-haspopup="true">
-                            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                                </path>
-                            </svg>
-                            <span class="text-xs font-medium">Tài khoản</span>
-                        </a>
-                    </div>
-
-                    <a href="{{ route('wishlist.list') }}"
-                       class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                            transition-all duration-300 hover:-translate-y-0.5 relative">
-                        <x-heroicon-o-heart class="w-6 h-6 mb-1"></x-heroicon-o-heart>
-                        @auth
-                            <span id="wishlist-count"
-                                  class="absolute -top-0.5 right-3 !bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow pointer-events-none {{ ($headerWishlistCount ?? 0) > 0 ? '' : 'hidden' }}">
-                                    {{ $headerWishlistCount ?? 0 }}
-                                </span>
-                        @endauth
-                        <span class="text-xs font-medium">Yêu thích</span>
-                    </a>
-                    <a href="{{ route('cart.index') }}"
-                       class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600
-                               transition-all duration-300 hover:-translate-y-0.5 relative">
-                        <x-heroicon-o-shopping-cart class="w-6 h-6 mb-1"></x-heroicon-o-shopping-cart>
-                        @auth
-                            <span id="header-cart-count"
-                                  class="absolute -top-0.5 right-3 !bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow pointer-events-none {{ ($headerCartCount ?? 0) > 0 ? '' : 'hidden' }}">
-                                    {{ $headerCartCount ?? 0 }}
-                                </span>
-                        @endauth
-                        <span class="text-xs font-medium">Giỏ hàng</span>
+                <div class="related group">
+                    <a href="{{ route('filament.admin.pages.dashboard') }}"
+                        class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
+                        aria-expanded="false" aria-haspopup="true">
+                        <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                            </path>
+                        </svg>
+                        <span class="text-xs font-medium">Account</span>
                     </a>
                 </div>
+
+                <a href="{{ route('wishlist.list') }}"
+                    class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                    <x-heroicon-o-heart class="w-6 h-6 mb-1"></x-heroicon-o-heart>
+                    @auth
+                        <span id="wishlist-count"
+                            class="absolute -top-0.5 right-3 !bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow pointer-events-none {{ ($headerWishlistCount ?? 0) > 0 ? '' : 'hidden' }}">
+                            {{ $headerWishlistCount ?? 0 }}
+                        </span>
+                    @endauth
+                    <span class="text-xs font-medium">Favorite</span>
+                </a><a href="{{ route('cart.index') }}"
+                    class="flex flex-col items-center p-2 text-gray-600 hover:text-blue-600 
+transition-all duration-300 hover:-translate-y-0.5 relative">
+                    <x-heroicon-o-shopping-cart class="w-6 h-6 mb-1"></x-heroicon-o-shopping-cart>
+                    @auth
+                        <span id="header-cart-count"
+                            class="absolute -top-0.5 right-3 !bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow pointer-events-none {{ ($headerCartCount ?? 0) > 0 ? '' : 'hidden' }}">
+                            {{ $headerCartCount ?? 0 }}
+                        </span>
+                    @endauth
+                    <span class="text-xs font-medium">Cart</span>
+                </a>
+            </div>
 
             <div class="p-4 bg-gray-50">
                 <form id="mobile-search-form" action="{{ route('products.list') }}" method="GET"
@@ -238,7 +237,7 @@
                     </div>
                     <button type="submit"
                         class="w-full btn btn-neutral py-2 rounded-lg font-medium transition-colors duration-300">
-                        Tìm kiếm
+                        Search
                     </button>
                 </form>
             </div>
@@ -266,7 +265,7 @@
                             </div>
                         @endforeach
                     @else
-                        <h2>Không có danh mục nào</h2>
+                        <h2>None categories</h2>
                     @endif
                 </div>
             </nav>
@@ -282,9 +281,8 @@
             <div
                 class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 transform scale-95 opacity-0 transition-all duration-300">
                 <div class="flex items-center justify-between p-6 border-b border-gray-100">
-                    <h3 id="search-title" class="text-lg font-semibold text-gray-900">Tìm kiếm sản phẩm</h3>
-                    <button id="close-search" class="p-2 text-gray-400 hover:text-gray-600"
-                        aria-label="Đóng tìm kiếm">
+                    <h3 id="search-title" class="text-lg font-semibold text-gray-900">Search for products</h3>
+                    <button id="close-search" class="p-2 text-gray-400 hover:text-gray-600"aria-label="Close Search">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12"></path>
@@ -296,9 +294,9 @@
                     <form id="search-form" action="{{ route('products.list') }}" method="GET" class="space-y-4">
                         <div class="relative">
                             <input type="search" name="product_name" id="search-input"
-                                placeholder="Nhập từ khóa tìm kiếm..."
-                                class="w-full pl-12 pr-4 py-3 text-lg border border-gray-300 rounded-lg active:border-slate-400"
-                                aria-label="Từ khóa tìm kiếm" autocomplete="off">
+                                placeholder="Enter search keywords..."
+                                class="w-full pl-12 pr-4 py-3 text-lg border border-gray-300 rounded-lg active:border-slate-400"aria-label="Search Keyword"
+                                autocomplete="off">
                             <svg class="absolute left-4 top-3.5 w-6 h-6 text-gray-400" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -309,11 +307,11 @@
                         <div class="!mb-5 float-right">
                             <button type="submit"
                                 class="btn btn-neutral flex-1 py-3 rounded-lg font-medium transition-colors duration-300">
-                                Tìm kiếm
+                                Search
                             </button>
                             <button type="button" id="cancel-search"
                                 class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium">
-                                Hủy
+                                Cancel
                             </button>
                         </div>
                     </form>

@@ -34,11 +34,11 @@ class RegisterEmailVerification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Xác thực đăng ký tài khoản')
-                    ->view('emails.verify_register_user',[
-                        'url' => $this->url,
-                        'app_name' => config('app.name')
-                    ]);
+            ->subject('Verify account registration')
+            ->view('emails.verify_register_user', [
+                'url' => $this->url,
+                'app_name' => config('app.name')
+            ]);
     }
 
     /**

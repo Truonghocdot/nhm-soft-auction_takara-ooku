@@ -34,7 +34,7 @@
     $modifiedTime = optional($article->updated_at ?? null)->toIso8601String();
 
     // author
-    $authorName = $article->author?->name ?? ($article->author_name ?? 'Ban biên tập');
+    $authorName = $article->author?->name ?? $article->author_name;
     $authorUrl = $article->author?->url ?? null;
 
     // publisher
@@ -149,7 +149,7 @@
             </article>
 
             <div class="bg-gray-50 p-4 rounded-lg mt-6">
-                <h3 class="font-semibold text-gray-700 mb-3 text-center">Chia sẻ bài viết</h3>
+                <h3 class="font-semibold text-gray-700 mb-3 text-center">Share this post</h3>
                 <div class="flex flex-wrap justify-center gap-3">
                     {{-- share buttons unchanged, keep as before --}}
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
@@ -195,7 +195,7 @@
 
                     <button onclick="window.print()"
                         class="share-btn bg-gray-700 hover:bg-gray-800 text-white flex items-center px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
-                        In bài
+                        Print article
                     </button>
                 </div>
             </div>
@@ -204,7 +204,7 @@
         <aside class="lg:col-span-4 space-y-6">
             {{-- Related articles + Banner as before --}}
             <div class="bg-base-100 p-4 rounded-lg shadow">
-                <h2 class="text-xl font-bold mb-4 border-b pb-2">Bài viết liên quan</h2>
+                <h2 class="text-xl font-bold mb-4 border-b pb-2">Related Articles</h2>
                 <ul class="space-y-3">
                     @foreach ($related_articles as $featured)
                         <li class="group hover:bg-gray-50 rounded-lg transition-all md:block hidden duration-200 relative">
@@ -253,7 +253,7 @@
 
             @if ($banner)
                 <div class="bg-base-200 p-4 rounded-lg text-center">
-                    <a href="{{ $banner['link_page'] }}" title="{{ $banner['name'] ?? 'Xem chi tiết quảng cáo' }}"
+                    <a href="{{ $banner['link_page'] }}" title="{{ $banner['name'] ?? 'View ad details' }}"
                         rel="nofollow sponsored">
                         <img src="{{ \App\Utils\HelperFunc::generateURLFilePath($banner['url_image']) }}"
                             alt="{{ $banner['name'] ?? 'Quảng cáo banner' }}" loading="lazy" class="mx-auto rounded" />
@@ -261,7 +261,7 @@
                 </div>
             @else
                 <div class="bg-base-200 p-4 rounded-lg text-center">
-                    <p class="text-sm text-gray-500">Quảng cáo</p>
+                    <p class="text-sm text-gray-500">Advertisement</p>
                     <div class="bg-gray-300 h-40 flex items-center justify-center rounded">
                         <img src="/images/default-banner-300x250.png" alt="Banner quảng cáo 300x250" loading="lazy"
                             class="mx-auto rounded" />
@@ -273,7 +273,7 @@
 
     <section class="max-w-7xl mx-auto px-4 lg:px-0 my-12">
         <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center">Bài viết tương tự</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center">Similar articles</h2>
 
             <div class="swiper similar-articles-swiper">
                 <div class="swiper-wrapper">
@@ -335,13 +335,13 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "Trang chủ",
+          "name": "Home Page",
           "item": {!! json_encode(url('/')) !!}
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Tin tức",
+          "name": "News",
           "item": {!! json_encode(route('news.list')) !!}
         },
         {
@@ -359,9 +359,9 @@
             const text = window.location.href;
             navigator.clipboard?.writeText(text).then(() => {
                 const el = document.getElementById('copy-text');
-                if (el) el.textContent = 'Đã sao chép';
+                if (el) el.textContent = 'Copied';
                 setTimeout(() => el && (el.textContent = 'Copy Link'), 2000);
-            }).catch(() => alert('Không thể sao chép liên kết'));
+            }).catch(() => alert('Could not copy link'));
         }
     </script>
 @endsection

@@ -51,13 +51,17 @@
 
         let iconSvg = '';
         if (type === 'success') {
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>';
+            iconSvg =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>';
         } else if (type === 'error') {
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>';
+            iconSvg =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>';
         } else if (type === 'warning') {
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>';
+            iconSvg =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>';
         } else {
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+            iconSvg =
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
         }
 
         alert.innerHTML = iconSvg + '<span>' + message + '</span>';
@@ -99,7 +103,7 @@
             updateLocalPrice(productId, newQuantity);
             checkForChanges();
         } else {
-            showToast('Không thể cập nhật sản phẩm vượt quá số lượng tồn kho', 'error');
+            showToast('Cannot update product beyond stock quantity', 'error');
         }
     }
 
@@ -140,7 +144,7 @@
             newQuantity = 1;
             inputs.forEach(el => el.value = 1);
         } else if (newQuantity > maxStock) {
-            showToast('Không thể cập nhật sản phẩm vượt quá số lượng tồn kho', 'error');
+            showToast('Cannot update product beyond stock quantity', 'error');
             newQuantity = maxStock;
             inputs.forEach(el => el.value = maxStock);
         }
@@ -189,7 +193,7 @@
         const updateAllBtn = document.getElementById('update-all-btn');
 
         updateAllBtn.disabled = true;
-        updateAllBtn.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Đang cập nhật...';
+        updateAllBtn.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Updating...';
 
         const itemsToUpdate = [];
         quantityInputs.forEach(input => {
@@ -206,9 +210,9 @@
         });
 
         if (itemsToUpdate.length === 0) {
-            showToast('Không có sản phẩm nào cần cập nhật!', 'info');
+            showToast('No products to update!', 'info');
             updateAllBtn.disabled = false;
-            updateAllBtn.innerHTML = 'Cập nhật tất cả';
+            updateAllBtn.innerHTML = 'Update All';
             return Promise.resolve();
         }
 
@@ -220,7 +224,7 @@
 
         return Promise.all(updatePromises)
             .then(() => {
-                showToast(`Đã cập nhật ${itemsToUpdate.length} sản phẩm thành công!`, 'success');
+                showToast(`${itemsToUpdate.length} product successfully updated!`, 'success');
 
                 itemsToUpdate.forEach(item => {
                     const input = document.getElementById(`quantity-input-${item.productId}`);
@@ -230,19 +234,19 @@
                 updateAllBtn.style.display = 'none';
             })
             .catch((error) => {
-                showToast('Có lỗi xảy ra khi cập nhật!', 'error');
+                showToast('An error occurred while updating!', 'error');
                 console.error('Error:', error);
                 throw error;
             })
             .finally(() => {
                 updateAllBtn.disabled = false;
-                updateAllBtn.innerHTML = 'Cập nhật tất cả';
+                updateAllBtn.innerHTML = 'Update All';
             });
     }
 
     function updateQuantity(productId, newQuantity, resolve = null, reject = null) {
         if (newQuantity < 1) {
-            if (reject) reject(new Error('Số lượng phải lớn hơn 0'));
+            if (reject) reject(new Error('Quantity must be greater than 0'));
             return;
         }
 
@@ -287,22 +291,22 @@
 
                     if (resolve) resolve(response);
                 } else {
-                    if (reject) reject(new Error(response.message || 'Cập nhật thất bại'));
+                    if (reject) reject(new Error(response.message || 'Update failed'));
                 }
             },
             error: function(xhr) {
                 const response = xhr.responseJSON;
-                let errorMessage = 'Có lỗi xảy ra!';
+                let errorMessage = 'An error occurred!';
 
                 if (response && response.message) {
-                    if (response.message.includes('vượt quá tồn kho')) {
-                        errorMessage = 'Không thể cập nhật sản phẩm vượt quá số lượng tồn kho';
-                    } else if (response.message.includes('Số lượng phải lớn hơn 0')) {
-                        errorMessage = 'Số lượng phải lớn hơn 0';
-                    } else if (response.message.includes('không tồn tại')) {
-                        errorMessage = 'Sản phẩm không tồn tại hoặc không khả dụng';
-                    } else if (response.message.includes('Không tìm thấy')) {
-                        errorMessage = 'Không tìm thấy sản phẩm trong giỏ hàng';
+                    if (response.message.includes('exceeded stock')) {
+                        errorMessage = 'Cannot update product that exceeds stock';
+                    } else if (response.message.includes('Quantity must be greater than 0')) {
+                        errorMessage = 'Quantity must be greater than 0';
+                    } else if (response.message.includes('does not exist')) {
+                        errorMessage = 'Product does not exist or is not available';
+                    } else if (response.message.includes('Not found')) {
+                        errorMessage = 'No products found in cart';
                     } else {
                         errorMessage = response.message;
                     }
@@ -324,7 +328,7 @@
     }
 
     function removeItem(productId) {
-        if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        if (!confirm('Are you sure you want to delete this product?')) {
             return;
         }
 
@@ -369,14 +373,14 @@
             },
             error: function(xhr) {
                 const response = xhr.responseJSON;
-                showToast(response?.message || 'Có lỗi xảy ra!', 'error');
+                showToast(response?.message || 'An error occurred!', 'error');
                 removeBtn.prop('disabled', false).removeClass('loading');
             }
         });
     }
 
     function clearCart() {
-        if (!confirm('Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?')) {
+        if (!confirm('Are you sure you want to delete all items in your cart?')) {
             return;
         }
 
@@ -398,7 +402,7 @@
             },
             error: function(xhr) {
                 const response = xhr.responseJSON;
-                showToast(response?.message || 'Có lỗi xảy ra!', 'error');
+                showToast(response?.message || 'An error occurred!', 'error');
                 clearBtn.prop('disabled', false).removeClass('loading');
             }
         });
@@ -445,9 +449,9 @@
     function confirmSaveChanges() {
         const modal = document.getElementById('save-changes-modal');
         const checkoutUrl = modal.getAttribute('data-checkout-url');
-        
+
         if (!checkoutUrl) {
-            showToast('Có lỗi xảy ra!', 'error');
+            showToast('An error occurred!', 'error');
             return;
         }
 
@@ -456,7 +460,7 @@
         updateAllCartItems().then(() => {
             window.location.href = checkoutUrl;
         }).catch(() => {
-            showToast('Có lỗi xảy ra khi lưu thay đổi!', 'error');
+            showToast('An error occurred while saving changes!', 'error');
         });
     }
 
@@ -495,7 +499,8 @@
                 const productId = this.getAttribute('data-product-id');
                 const newQuantity = parseInt(this.value) || 0;
 
-                const allInputs = document.querySelectorAll(`[id="quantity-input-${productId}"]`);
+                const allInputs = document.querySelectorAll(
+                    `[id="quantity-input-${productId}"]`);
                 allInputs.forEach(el => {
                     if (el !== this) {
                         el.value = this.value;
@@ -513,5 +518,4 @@
             });
         });
     });
-
 </script>

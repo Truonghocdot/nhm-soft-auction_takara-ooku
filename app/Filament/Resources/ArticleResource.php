@@ -19,10 +19,10 @@ class ArticleResource extends Resource
 {
     protected static ?string $model = Article::class;
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-    public static ?string $navigationGroup = 'Tin tức';
-    protected static ?string $modelLabel = 'Bài viết';
-    protected static ?string $navigationLabel = 'Bài viết';
-    protected static ?string $pluralModelLabel = 'Tin tức';
+    public static ?string $navigationGroup = 'News';
+    protected static ?string $modelLabel = 'Article';
+    protected static ?string $navigationLabel = 'Article';
+    protected static ?string $pluralModelLabel = 'News';
     public static function canAccess(): bool
     {
         return auth()->user()->hasRole(RoleConstant::ADMIN);
@@ -31,10 +31,10 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Thông tin cơ bản')
+                Forms\Components\Section::make('Basic information')
                     ->schema([
                         Forms\Components\TextInput::make('title')
-                            ->label('Tiêu đề')
+                            ->label('Title')
                             ->required()
                             ->maxLength(255)
                             ->live(debounce: 1000)
@@ -46,20 +46,20 @@ class ArticleResource extends Resource
                             }),
 
                         Forms\Components\TextInput::make('slug')
-                            ->label('Đường dẫn')
+                            ->label('Path')
                             ->required()
                             ->readOnly()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
 
                         Forms\Components\FileUpload::make('image')
-                            ->label('Hình ảnh đại diện')
+                            ->label('Avatar Image')
                             ->image()
                             ->directory('articles')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jfif'])
                             ->maxSize(2048),
                         SelectTree::make('category_article_id')
-                            ->label('Danh mục')
+                            ->label('Category')
                             ->relationship('category', 'name', 'parent_id')
                             ->searchable()
                             ->formatStateUsing(fn($state) => (string) $state)
@@ -69,10 +69,10 @@ class ArticleResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Nội dung')
+                Forms\Components\Section::make('Content')
                     ->schema([
                         TiptapEditor::make('content')
-                            ->label('Nội dung bài viết')
+                            ->label('Article content')
                             ->profile('default')
                             ->required()
                             ->columnSpanFull()
@@ -93,24 +93,24 @@ class ArticleResource extends Resource
                             ])
                     ]),
 
-                Forms\Components\Section::make('Cài đặt')
+                Forms\Components\Section::make('Installation')
                     ->schema([
                         Forms\Components\Select::make('status')
-                            ->label('Trạng thái')
+                            ->label('Status')
                             ->options([
-                                'draft' => 'Nháp',
-                                'published' => 'Đã đăng',
+                                'draft' => 'Draft',
+                                'published' => 'Posted',
                             ])
                             ->default('draft')
                             ->required(),
 
                         Forms\Components\TextInput::make('sort')
-                            ->label('Thứ tự')
+                            ->label('Order')
                             ->numeric()
                             ->default(0),
 
                         Forms\Components\TextInput::make('view')
-                            ->label('Lượt xem')
+                            ->label('Views')
                             ->numeric()
                             ->default(0)
                             ->disabled(),
@@ -126,7 +126,7 @@ class ArticleResource extends Resource
                             ->rows(3),
                         Forms\Components\TextInput::make('seo.keywords')
                             ->label('SEO Keywords')
-                            ->placeholder('Từ khóa, cách nhau bởi dấu phẩy')
+                            ->placeholder('Keywords, separated by commas')
                             ->maxLength(255),
                     ])
                     ->columns(1)
@@ -139,72 +139,72 @@ class ArticleResource extends Resource
         return $table->modifyQueryUsing(fn(Builder $query) => $query->with('author', 'category'))
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Hình ảnh')
+                    ->label('Image')
                     ->getStateUsing(fn($record) => HelperFunc::generateURLFilePath($record->image))
                     ->circular()
                     ->size(60),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Tiêu đề')
+                    ->label('Title')
                     ->color('primary')
                     ->limit(40)
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Đường dẫn')
+                    ->label('Path')
                     ->limit(30)
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Danh mục')
+                    ->label('Category')
                     ->formatStateUsing(fn($state) => $state),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->badge(true)
                     ->colors([
                         'success' => 'published',
                         'gray' => 'draft',
                     ])
                     ->formatStateUsing(fn($state): string => match ($state) {
-                        'published' => 'Đã đăng',
-                        'draft' => 'Nháp',
+                        'published' => 'Published',
+                        'draft' => 'Draft',
                         default => $state
                     }),
 
                 Tables\Columns\TextColumn::make('view')
-                    ->label('Lượt xem')
+                    ->label('Views')
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('sort')
-                    ->label('Thứ tự')
+                    ->label('Order')
                     ->sortable()
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->label('Tác giả')
+                    ->label('Author')
                     ->color('danger')
                     ->url(fn($record): string => '/admin/users/' . $record->author->id),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ngày tạo')
+                    ->label('Date created')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        'draft' => 'Nháp',
-                        'published' => 'Đã đăng',
+                        'draft' => 'Draft',
+                        'published' => 'Posted',
                     ]),
                 Tables\Filters\Filter::make('view')
                     ->form([
                         Forms\Components\TextInput::make('min_view')
-                            ->label('Số lượt xem từ')
+                            ->label('Views from')
                             ->numeric(),
                         Forms\Components\TextInput::make('max_view')
-                            ->label('Số lượt xem tới')
+                            ->label('Incoming views')
                             ->numeric()
                     ])->query(function (Builder $query, array $data) {
                         return $query->when($data['min_view'], fn($q, $value) => $q->where('view', '>=', $value))
@@ -213,9 +213,9 @@ class ArticleResource extends Resource
                 Tables\Filters\Filter::make('publish_time')
                     ->form([
                         Forms\Components\DatePicker::make('start_from')
-                            ->label('Đăng từ'),
+                            ->label('Post from'),
                         Forms\Components\DatePicker::make('start_to')
-                            ->label('Đến'),
+                            ->label('To'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
@@ -225,16 +225,16 @@ class ArticleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->label('Xem'),
+                    ->label('View'),
                 Tables\Actions\EditAction::make()
-                    ->label('Sửa'),
+                    ->label('Edit'),
                 Tables\Actions\DeleteAction::make()
-                    ->label('Xóa'),
+                    ->label('Delete'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label('Xóa đã chọn'),
+                        ->label('Delete selected'),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

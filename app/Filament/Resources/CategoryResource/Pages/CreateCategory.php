@@ -15,8 +15,8 @@ class CreateCategory extends CreateRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Danh mục',
-            '' => 'Tạo danh mục',
+            url()->previous() => 'Category',
+            '' => 'Create category',
         ];
     }
 
@@ -24,8 +24,8 @@ class CreateCategory extends CreateRecord
     {
         if (Category::where('name', $data['name'])->exists()) {
             Notification::make()
-                ->title('Lỗi')
-                ->body('Tên danh mục đã tồn tại.')
+                ->title('Error')
+                ->body('Category name already exists.')
                 ->danger()
                 ->send();
 

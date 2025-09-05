@@ -41,11 +41,11 @@ class ListOrders extends ListRecords
         $user = auth()->user();
         return [
             null => Tab::make('Tất cả'),
-            'Đang chờ xử lý' => Tab::make()->query(fn($query) => $query->where('status', '1')),
-            'Đã xác nhận' => Tab::make()->query(fn($query) => $query->where('status', '2')),
-            'Đang giao' => Tab::make()->query(fn($query) => $query->where('status', '3')),
-            'Đã giao' => Tab::make()->query(fn($query) => $query->where('status', '4')),
-            'Đã hủy' => Tab::make()->query(fn($query) => $query->where('status', '5')),
+            'Pending' => Tab::make()->query(fn($query) => $query->where('status', '1')),
+            'Confirmed' => Tab::make()->query(fn($query) => $query->where('status', '2')),
+            'Delivering' => Tab::make()->query(fn($query) => $query->where('status', '3')),
+            'Delivered' => Tab::make()->query(fn($query) => $query->where('status', '4')),
+            'Cancelled' => Tab::make()->query(fn($query) => $query->where('status', '5')),
         ];
     }
 }

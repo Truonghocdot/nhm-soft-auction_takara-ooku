@@ -13,8 +13,8 @@ enum ProductPaymentMethod: int
     {
         return [
             self::COD->value => 'Ship COD',
-            self::QR_CODE->value => 'Chuyển khoản ngân hàng',
-            self::BOTH->value => 'Cả 2 phương thức'
+            self::QR_CODE->value => 'Bank transfer',
+            self::BOTH->value => 'Both methods'
         ];
     }
 

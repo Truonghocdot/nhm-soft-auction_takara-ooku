@@ -13,8 +13,8 @@ class ListUsers extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Người dùng',
-            '' => 'Danh sách',
+            url()->previous() => 'User',
+            '' => 'List',
         ];
     }
 
@@ -22,7 +22,7 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Tạo người dùng mới'),
+                ->label('Create new user'),
         ];
     }
 }

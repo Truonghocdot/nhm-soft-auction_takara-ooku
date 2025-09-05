@@ -76,8 +76,8 @@ class BuyMembership extends Component
             return;
         }
         Notification::make()
-            ->title('Lỗi')
-            ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+            ->title('Error')
+            ->body('An error occurred, please try again later.')
             ->danger()
             ->send();
         $this->nextStepBuy = false;
@@ -85,7 +85,7 @@ class BuyMembership extends Component
     }
 
     public function submit($payType)
-    {   
+    {
         $result = $this->membershipService->createMembershipForUser(
             userId: auth()->id(),
             membershipPlan: $this->membership,
@@ -94,14 +94,14 @@ class BuyMembership extends Component
         );
         if ($result) {
             Notification::make()
-                ->title('Thành công')
-                ->body('Thanh toán thành công, vui lòng chờ duyệt.')
+                ->title('Success')
+                ->body('Payment successful, please wait for approval.')
                 ->success()
                 ->send();
         } else {
             Notification::make()
-                ->title('Lỗi')
-                ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+                ->title('Error')
+                ->body('An error occurred, please try again later.')
                 ->danger()
                 ->send();
         }

@@ -26,16 +26,17 @@ use Illuminate\Support\Carbon;
 use App\Services\Orders\OrderService;
 use App\Enums\Permission\RoleConstant;
 use Filament\Support\Enums\MaxWidth;
+
 class OrderResource extends Resource
 {
     protected static ?string $model = OrderDetail::class;
     protected static ?string $recordTitleAttribute = 'number';
-    protected static ?string $modelLabel = 'Chi tiết đơn hàng';
-    protected static ?string $navigationLabel = 'Đơn hàng';
-    protected static ?string $pluralModelLabel = 'Đơn hàng';
+    protected static ?string $modelLabel = 'Order Details';
+    protected static ?string $navigationLabel = 'Orders';
+    protected static ?string $pluralModelLabel = 'Orders';
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
     protected static ?int $navigationSort = 1;
-    
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->hasRole(RoleConstant::ADMIN);
@@ -75,7 +76,7 @@ class OrderResource extends Resource
                             ->schema(static::getDetailsFormSchema())
                             ->columns(2),
 
-                        Forms\Components\Section::make('Sản phẩm trong đơn hàng')
+                        Forms\Components\Section::make('Products in order')
                             // ->headerActions([
                             //     Action::make('Xóa toàn bộ')
                             //         ->modalHeading('Bạn có chắc chắn?')
@@ -88,7 +89,7 @@ class OrderResource extends Resource
                             ->schema([
                                 static::getItemsRepeater($isEdit),
                                 Forms\Components\Placeholder::make('subtotal_display')
-                                    ->label('Tổng tiền sản phẩm')
+                                    ->label('Total product amount')
                                     ->content(function (Forms\Get $get): string {
                                         $items = $get('items') ?? [];
                                         return static::orderService()->formatCurrency(static::orderService()->calculateSubtotal($items));
@@ -96,14 +97,14 @@ class OrderResource extends Resource
                                     ->columnSpan('full')
                                     ->extraAttributes(['class' => 'text-lg font-bold text-blue-600']),
                                 Forms\Components\Placeholder::make('shipping_fee_display')
-                                    ->label('Phí vận chuyển')
+                                    ->label('Shipping fee')
                                     ->content(function (Forms\Get $get): string {
                                         $shippingFee = (float) ($get('shipping_fee') ?: 0);
-                                        return number_format($shippingFee, 0, ',', '.') . ' ₫';
+                                        return number_format($shippingFee, 0, ',', '.') . '$';
                                     })->columnSpan(['lg' => 1])
                                     ->extraAttributes(['class' => 'text-base text-gray-600']),
                                 Forms\Components\Placeholder::make('total_display')
-                                    ->label('Tổng tiền đơn hàng')
+                                    ->label('Total order amount')
                                     ->content(function (Forms\Get $get): string {
                                         $items = $get('items') ?? [];
                                         $shippingFee = (float) ($get('shipping_fee') ?: 0);
@@ -111,15 +112,15 @@ class OrderResource extends Resource
                                     })->columnSpan(['lg' => 1])
                                     ->extraAttributes(['class' => 'text-lg font-bold text-green-600']),
                                 Forms\Components\Placeholder::make('created_at')
-                                    ->label('Thời điểm tạo')->columnSpan(['lg' => 1])
+                                    ->label('Creation time')->columnSpan(['lg' => 1])
                                     ->content(fn(OrderDetail $record): ?string => $record->created_at?->diffForHumans()),
 
                                 Forms\Components\Placeholder::make('updated_at')
-                                    ->label('Thời điểm sửa lần cuối')->columnSpan(['lg' => 1])
+                                    ->label('Last modified time')->columnSpan(['lg' => 1])
                                     ->content(fn(OrderDetail $record): ?string => $record->updated_at?->diffForHumans()),
                             ]),
                     ])
-                    ->columnSpan(['lg' =>  3]),
+                    ->columnSpan(['lg' => 3]),
             ])
             ->columns(3);
     }
@@ -129,22 +130,22 @@ class OrderResource extends Resource
         return $table->recordUrl(null)
             ->columns([
                 Tables\Columns\TextColumn::make('code_orders')
-                    ->label('Mã đơn hàng')
+                    ->label('Order code')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Khách hàng')
+                    ->label('Customer')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('shipping_fee')
-                    ->label('Phí vận chuyển')
+                    ->label('Shipping fee')
                     ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫')
                     ->searchable()
                     ->sortable()
@@ -155,17 +156,17 @@ class OrderResource extends Resource
                     ]),
 
                 Tables\Columns\TextColumn::make('total')
-                    ->label('Tổng tiền')
-                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫')
+                    ->label('Total amount')
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' VND')
                     ->searchable()
                     ->sortable()
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
-                            ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
+                            ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' $'),
                     ]),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ngày đặt hàng')
+                    ->label('Order date')
                     ->date()
                     ->toggleable(),
             ])
@@ -175,29 +176,29 @@ class OrderResource extends Resource
 
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('Tạo từ')
-                            ->placeholder(fn(): string => 'Dec 18, ' . now()->subYear()->format('Y')),
-                        Forms\Components\DatePicker::make('Đến')
+                        Forms\Components\DatePicker::make('Make from')
+                            ->placeholder(fn(): string => 'December 18, ' . now()->subYear()->format('Y')),
+                        Forms\Components\DatePicker::make('Arrive')
                             ->placeholder(fn(): string => now()->format('M d, Y')),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['Tạo từ'] ?? null,
+                                $data['Create word'] ?? null,
                                 fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
-                                $data['Đến'] ?? null,
+                                $data['To'] ?? null,
                                 fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
-                        if ($data['Tạo từ'] ?? null) {
-                            $indicators['Tạo từ'] = 'Order từ ' . Carbon::parse($data['Tạo từ'])->toFormattedDateString();
+                        if ($data['Create word'] ?? null) {
+                            $indicators['Create from'] = 'Order from ' . Carbon::parse($data['Created from'])->toFormattedDateString();
                         }
-                        if ($data['Đến'] ?? null) {
-                            $indicators['Đến'] = 'Order đến ' . Carbon::parse($data['Đến'])->toFormattedDateString();
+                        if ($data['To'] ?? null) {
+                            $indicators['Arrived'] = 'Order arrived ' . Carbon::parse($data['To'])->toFormattedDateString();
                         }
 
                         return $indicators;
@@ -205,19 +206,19 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->label('Chỉnh sửa')
+                    ->label('Edit')
                     ->visible(fn() => static::currentUserIsAdmin()),
                 Tables\Actions\ViewAction::make()
-                    ->label('Xem')
+                    ->label('View')
                     ->modalWidth(MaxWidth::SixExtraLarge),
                 Tables\Actions\Action::make('payment_status')
-                    ->label('Trạng thái thanh toán')
+                    ->label('Payment Status')
                     ->icon('heroicon-o-credit-card')
                     ->color('info')
                     ->modalContent(function (OrderDetail $record) {
                         $payment = $record->payments->first();
                         $isAdmin = static::currentUserIsAdmin();
-                        
+
                         return view('filament.admin.resources.orders.payment-status-modal', [
                             'order' => $record,
                             'payment' => $payment,
@@ -258,26 +259,26 @@ class OrderResource extends Resource
                 ->schema([
                     Info\Grid::make(2)
                         ->schema([
-                            Info\TextEntry::make('code_orders')->label('Mã đơn hàng'),
-                            Info\TextEntry::make('user.name')->label('Khách hàng'),
-                            Info\TextEntry::make('ship_address')->label('Địa chỉ giao hàng'),
-                            Info\TextEntry::make('email_receiver')->label('Email người nhận'),
-                            Info\TextEntry::make('status')->label('Trạng thái')->badge(),
+                            Info\TextEntry::make('code_orders')->label('Order code'),
+                            Info\TextEntry::make('user.name')->label('Customer'),
+                            Info\TextEntry::make('ship_address')->label('Shipping address'),
+                            Info\TextEntry::make('email_receiver')->label('Receiver email'),
+                            Info\TextEntry::make('status')->label('Status')->badge(),
                             Info\TextEntry::make('shipping_fee')
-                                ->label('Phí vận chuyển')
+                                ->label('Shipping fee')
                                 ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' ₫'),
                             Info\TextEntry::make('subtotal')
-                                ->label('Tổng tiền sản phẩm')
-                                ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' ₫'),
+                                ->label('Total product price')
+                                ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' $'),
                             Info\TextEntry::make('total')
-                                ->label('Tổng tiền đơn hàng')
-                                ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' ₫'),
-                            Info\TextEntry::make('created_at')->dateTime()->label('Ngày tạo'),
-                            Info\TextEntry::make('updated_at')->dateTime()->label('Cập nhật'),
+                                ->label('Total order amount')
+                                ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' $'),
+                            Info\TextEntry::make('created_at')->dateTime()->label('Created date'),
+                            Info\TextEntry::make('updated_at')->dateTime()->label('Updated'),
                         ]),
                 ]),
 
-            Info\Section::make('Sản phẩm trong đơn hàng')
+            Info\Section::make('Products in order')
                 ->schema([
                     Info\RepeatableEntry::make('items')
                         ->hiddenLabel()
@@ -285,15 +286,15 @@ class OrderResource extends Resource
                             Info\Grid::make(5)
                                 ->schema([
                                     Info\TextEntry::make('product.name')
-                                        ->label('Sản phẩm')
+                                        ->label('Product')
                                         ->columnSpan(2),
-                                    Info\TextEntry::make('quantity')->label('Số lượng'),
+                                    Info\TextEntry::make('quantity')->label('Quantity'),
                                     Info\TextEntry::make('price')
-                                        ->label('Đơn giá')
+                                        ->label('Unit price')
                                         ->state(fn($record) => (float) static::orderService()->getProductCurrentPrice((int) ($record->product_id ?? 0)))
-                                        ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' ₫'),
+                                        ->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' $'),
                                     Info\TextEntry::make('total')
-                                        ->label('Tổng tiền')
+                                        ->label('Total amount')
                                         ->state(function ($record) {
                                             $unit = (float) static::orderService()->getProductCurrentPrice((int) ($record->product_id ?? 0));
                                             $qty = (float) ($record->quantity ?? 0);
@@ -394,7 +395,7 @@ class OrderResource extends Resource
     {
         return [
             Forms\Components\TextInput::make('code_orders')
-                ->label('Mã đơn hàng')
+                ->label('Order code')
                 ->default('ORD' . HelperFunc::getTimestampAsId())
                 ->disabled()
                 ->dehydrated()
@@ -403,7 +404,7 @@ class OrderResource extends Resource
                 ->unique(OrderDetail::class, 'code_orders', ignoreRecord: true),
 
             Forms\Components\Select::make('user_id')
-                ->label('Khách hàng')
+                ->label('Customer')
                 ->relationship('user', 'name')
                 ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} - {$record->phone}")
                 ->searchable()
@@ -420,7 +421,7 @@ class OrderResource extends Resource
                 })
                 ->createOptionForm([
                     Forms\Components\TextInput::make('name')
-                        ->label('Tên khách hàng')
+                        ->label('Customer name')
                         ->required()
                         ->maxLength(255),
 
@@ -432,25 +433,25 @@ class OrderResource extends Resource
                         ->unique(),
 
                     Forms\Components\TextInput::make('phone')
-                        ->label('Số điện thoại')
+                        ->label('Phone number')
                         ->required()
                         ->maxLength(255),
 
                     Forms\Components\TextInput::make('address')
-                        ->label('Địa chỉ')
+                        ->label('Address')
                         ->required()
                         ->maxLength(255),
 
                 ])
                 ->createOptionAction(function (Action $action) {
                     return $action
-                        ->modalHeading('Tạo khách hàng')
-                        ->modalSubmitActionLabel('Tạo khách hàng')
+                        ->modalHeading('Create customer')
+                        ->modalSubmitActionLabel('Create customer')
                         ->modalWidth('lg');
                 }),
 
             Forms\Components\Select::make('ship_address')
-                ->label('Địa chỉ giao hàng')
+                ->label('Delivery address')
                 ->options(function (Forms\Get $get) {
                     $userId = $get('user_id');
                     if (!$userId) {
@@ -467,22 +468,22 @@ class OrderResource extends Resource
                 ->searchable()
                 ->required()
                 ->visible(fn(Forms\Get $get) => !empty($get('user_id')))
-                ->placeholder('Chọn khách hàng trước')
+                ->placeholder('Select a customer first')
                 ->suffixAction(
                     Forms\Components\Actions\Action::make('editAddress')
-                        ->label('Sửa địa chỉ')
+                        ->label('Edit address')
                         ->icon('heroicon-o-pencil')
                         ->color('warning')
-                        ->modalHeading('Sửa địa chỉ giao hàng')
-                        ->modalDescription('Nhập địa chỉ giao hàng mới cho đơn hàng này')
-                        ->modalSubmitActionLabel('Cập nhật')
-                        ->modalCancelActionLabel('Hủy')
+                        ->modalHeading('Edit shipping address')
+                        ->modalDescription('Enter a new shipping address for this order')
+                        ->modalSubmitActionLabel('Update')
+                        ->modalCancelActionLabel('Cancel')
                         ->form([
                             Forms\Components\Textarea::make('new_address')
-                                ->label('Địa chỉ mới')
+                                ->label('New address')
                                 ->required()
                                 ->rows(3)
-                                ->placeholder('Nhập địa chỉ giao hàng...')
+                                ->placeholder('Enter shipping address...')
                                 ->default(fn(Forms\Get $get) => $get('ship_address'))
                         ])
                         ->action(function (array $data, Forms\Set $set, Forms\Get $get) {
@@ -497,8 +498,8 @@ class OrderResource extends Resource
                             }
 
                             \Filament\Notifications\Notification::make()
-                                ->title('Thành công!')
-                                ->body('Địa chỉ giao hàng đã được cập nhật')
+                                ->title('Success!')
+                                ->body('Shipping address updated')
                                 ->success()
                                 ->send();
                         })
@@ -507,12 +508,12 @@ class OrderResource extends Resource
 
             Forms\Components\ToggleButtons::make('status')
                 ->inline()
-                ->label('Trạng thái')
+                ->label('Status')
                 ->options(OrderStatus::class)
                 ->required(),
 
             Forms\Components\TextInput::make('email_receiver')
-                ->label('Email người nhận')
+                ->label('Recipient email')
                 ->maxLength(255)
                 ->required()
                 ->live()
@@ -529,10 +530,10 @@ class OrderResource extends Resource
                 })
                 ->suffixAction(
                     Forms\Components\Actions\Action::make('useUserEmail')
-                        ->label('Dùng email người dùng')
+                        ->label('Use user email')
                         ->icon('heroicon-o-user')
                         ->color('info')
-                        ->tooltip('Sử dụng email của khách hàng đã chọn')
+                        ->tooltip('Use selected customer email')
                         ->action(function (Forms\Set $set, Forms\Get $get) {
                             $userId = $get('user_id');
                             if ($userId) {
@@ -541,28 +542,28 @@ class OrderResource extends Resource
                                     $set('email_receiver', $user->email);
 
                                     \Filament\Notifications\Notification::make()
-                                        ->title('Thành công!')
-                                        ->body('Đã sử dụng email của khách hàng: ' . $user->email)
+                                        ->title('Success!')
+                                        ->body('Used customer email: ' . $user->email)
                                         ->success()
                                         ->send();
                                 } else {
                                     \Filament\Notifications\Notification::make()
-                                        ->title('Lỗi!')
-                                        ->body('Khách hàng này không có email')
+                                        ->title('Error!')
+                                        ->body('This customer does not have an email')
                                         ->danger()
                                         ->send();
                                 }
                             } else {
                                 \Filament\Notifications\Notification::make()
-                                    ->title('Lỗi!')
-                                    ->body('Vui lòng chọn khách hàng trước')
+                                    ->title('Error!')
+                                    ->body('Please select a customer first')
                                     ->warning()
                                     ->send();
                             }
                         })
                         ->visible(fn(Forms\Get $get) => !empty($get('user_id')))
                 )
-                ->placeholder('Nhập email hoặc chọn email từ khách hàng')
+                ->placeholder('Enter email or select email from customer')
                 ->columnSpan('full'),
 
             Forms\Components\Hidden::make('subtotal')
@@ -575,10 +576,8 @@ class OrderResource extends Resource
                 ->dehydrated()
                 ->required(),
 
-
-
             Forms\Components\MarkdownEditor::make('note')
-                ->label('Ghi chú')
+                ->label('Note')
                 ->columnSpan('full'),
         ];
     }
@@ -586,13 +585,13 @@ class OrderResource extends Resource
     public static function getItemsRepeater(bool $isEdit = false): Repeater
     {
         return Repeater::make('items')
-            ->label('Sản phẩm')
+            ->label('Product')
             ->relationship()
-            ->addable(! $isEdit)
-            ->deletable(! $isEdit)
+            ->addable(!$isEdit)
+            ->deletable(!$isEdit)
             ->schema([
                 Forms\Components\Select::make('product_id')
-                    ->label('Sản phẩm')
+                    ->label('Product')
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->disabled($isEdit)
@@ -611,7 +610,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Số lượng')
+                    ->label('Quantity')
                     ->numeric()
                     ->default(1)
                     ->disabled($isEdit)
@@ -638,7 +637,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('price')
-                    ->label('Đơn giá')
+                    ->label('Unit price')
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -648,7 +647,7 @@ class OrderResource extends Resource
                     ]),
 
                 Forms\Components\TextInput::make('subtotal')
-                    ->label('Thành tiền')
+                    ->label('Amount')
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -658,7 +657,7 @@ class OrderResource extends Resource
                     ]),
 
                 Forms\Components\Hidden::make('total')
-                    ->label('Tổng tiền')
+                    ->label('Total amount')
                     ->disabled()
                     ->dehydrated()
                     ->default(0)
@@ -675,7 +674,7 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->reorderable(false)
             ->collapsible(false)
-            ->addActionLabel('Thêm sản phẩm')
+            ->addActionLabel('Add product')
             ->required();
     }
 
@@ -683,22 +682,22 @@ class OrderResource extends Resource
     {
         return [
             Forms\Components\Select::make('payment_method')
-                ->label('Phương thức thanh toán')
+                ->label('Payment method')
                 ->options([
-                    '0' => 'Giao dịch trực tiếp',
-                    '1' => 'Chuyển khoản ngân hàng',
+                    '0' => 'Direct transaction',
+                    '1' => 'Bank transfer',
                 ])
                 ->required()
                 ->default('0'),
 
             Forms\Components\TextInput::make('shipping_fee')
-                ->label('Phí vận chuyển')
+                ->label('Shipping fee')
                 ->numeric()
                 ->default(0)
                 ->required(),
 
             Forms\Components\Placeholder::make('subtotal')
-                ->label('Tổng tiền sản phẩm')
+                ->label('Total product amount')
                 ->content(function (Forms\Get $get): string {
                     $items = $get('items') ?? [];
                     $subtotal = 0;
@@ -709,11 +708,11 @@ class OrderResource extends Resource
                         }
                     }
 
-                    return number_format($subtotal, 0, ',', '.') . ' ₫';
+                    return number_format($subtotal, 0, ',', '.') . '$';
                 }),
 
             Forms\Components\Placeholder::make('total')
-                ->label('Tổng tiền đơn hàng')
+                ->label('Total order amount')
                 ->content(function (Forms\Get $get): string {
                     $items = $get('items') ?? [];
                     $subtotal = 0;

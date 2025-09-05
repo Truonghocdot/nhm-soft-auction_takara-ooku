@@ -20,9 +20,9 @@ class CustomerOrdersPage extends Page implements HasTable
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static string $view = 'filament.admin.pages.customer-orders';
-    protected static ?string $title = 'Đơn của khách hàng';
-    protected static ?string $navigationLabel = 'Đơn của khách hàng';
-    protected static ?string $navigationGroup = 'Đơn hàng';
+    protected static ?string $title = 'Customer Orders';
+    protected static ?string $navigationLabel = 'Customer Orders';
+    protected static ?string $navigationGroup = 'Order';
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -40,12 +40,12 @@ class CustomerOrdersPage extends Page implements HasTable
                     })
             )
             ->columns([
-                Tables\Columns\TextColumn::make('code_orders')->label('Mã đơn')->searchable(),
-                Tables\Columns\TextColumn::make('user.name')->label('Khách hàng'),
-                Tables\Columns\TextColumn::make('total')->label('Tổng')->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' ₫'),
-                Tables\Columns\TextColumn::make('status')->label('Trạng thái đơn')->badge(),
+                Tabilities\Columns\TextColumn::make('code_orders')->label('Code order')->searchable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Customer'),
+                Tables\Columns\TextColumn::make('total')->label('Total')->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' $'),
+                Tables\Columns\TextColumn::make('status')->label('Single status')->badge(),
                 Tables\Columns\TextColumn::make('payment_status')
-                    ->label('Thanh toán')
+                    ->label('Payment')
                     ->state(function (OrderDetail $record) {
                         $payment = $record->payments->first();
                         return $payment?->status ?? 'pending';
@@ -57,24 +57,24 @@ class CustomerOrdersPage extends Page implements HasTable
                         default => 'gray',
                     })
                     ->formatStateUsing(fn(string $state): string => match ($state) {
-                        'success' => 'Đã thanh toán',
-                        'pending' => 'Chờ xác nhận',
+                        'success' => 'Paid',
+                        'pending' => 'Waiting for confirmation',
                         default => ucfirst($state),
                     }),
                 Tables\Columns\TextColumn::make('seller_confirmed')
-                    ->label('Người bán xác nhận')
+                    ->label('Seller confirmed')
                     ->state(function (OrderDetail $record) {
                         $payment = $record->payments->first();
                         return !empty($payment?->confirmation_at) ? 'confirmed' : 'not_confirmed';
                     })
                     ->badge()
                     ->color(fn(string $state): string => $state === 'confirmed' ? 'success' : 'gray')
-                    ->formatStateUsing(fn(string $state): string => $state === 'confirmed' ? 'Đã xác nhận' : 'Chưa xác nhận'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Ngày tạo'),
+                    ->formatStateUsing(fn(string $state): string => $state === 'confirmed' ? 'Confirmed' : 'Not confirmed'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created date'),
             ])
             ->actions([
                 Tables\Actions\Action::make('confirm_payment')
-                    ->label('Xác nhận thanh toán')
+                    ->label('Payment Confirmation')
                     ->icon('heroicon-o-check')
                     ->color('success')
                     ->visible(function (OrderDetail $record) {
@@ -82,15 +82,15 @@ class CustomerOrdersPage extends Page implements HasTable
                         return $payment && empty($payment->confirmation_at);
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Xác nhận thanh toán')
-                    ->modalDescription('Xác nhận rằng khách hàng đã chuyển tiền. Hệ thống sẽ lưu thời điểm xác nhận vào đơn này.')
+                    ->modalHeading('Payment Confirmation')
+                    ->modalDescription('Confirm that the customer has transferred the money. The system will save the confirmation time on this order.')
                     ->action(function (OrderDetail $record) {
                         $paymentService = app(PaymentServiceInterface::class);
                         $ok = $paymentService->confirmPaymentBySeller($record->id, auth()->id());
                         if ($ok) {
-                            Notification::make()->title('Thành công')->body('Đã xác nhận thanh toán cho đơn hàng.')->success()->send();
+                            Notification::make()->title('Success')->body('Payment confirmed for order row.')->success()->send();
                         } else {
-                            Notification::make()->title('Thất bại')->body('Bạn không có quyền hoặc đơn chưa có thanh toán.')->danger()->send();
+                            Notification::make()->title('Failure')->body('You do not have permission or the order has not been paid yet.')->danger()->send();
                         }
                     })
                     ->after(function () {
@@ -99,12 +99,12 @@ class CustomerOrdersPage extends Page implements HasTable
                         }
                     }),
                 Tables\Actions\ViewAction::make()
-                    ->label('Xem')
-                    ->modalHeading('Trạng thái thanh toán')
+                    ->label('View')
+                    ->modalHeading('Payment Status')
                     ->infolist(fn() => OrderResource::getInfolistSchema())
                     ->modalWidth(MaxWidth::SixExtraLarge)
                     ->modalSubmitAction(false)
-                    ->modalCancelActionLabel('Đóng'),
+                    ->modalCancelActionLabel('Close'),
             ])
             ->recordUrl(null);
     }

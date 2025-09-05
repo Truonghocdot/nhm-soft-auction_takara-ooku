@@ -33,7 +33,7 @@ class WishlistController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi lấy danh sách yêu thích'
+                'message' => 'Error getting favorites list'
             ], 500);
         }
     }
@@ -47,7 +47,7 @@ class WishlistController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Sản phẩm đã được thêm vào yêu thích'
+                'message' => 'Product has been added to favorites'
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -66,12 +66,12 @@ class WishlistController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Sản phẩm đã được xoá khỏi yêu thích'
+                'message' => 'Product has been removed from favorites'
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi xoá sản phẩm khỏi yêu thích'
+                'message' => 'Error removing product from favorites'
             ], 500);
         }
     }
@@ -84,7 +84,7 @@ class WishlistController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Danh sách yêu thích đã được làm trống'
+                'message' => 'Wishlist has been emptied'
             ]);
         } catch (\Exception $e) {
             return response()->json([

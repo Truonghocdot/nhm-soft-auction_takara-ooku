@@ -13,7 +13,7 @@ class ViewCustomerInfo extends Page
 
     protected static string $view = 'filament.admin.resources.users.user-info';
 
-    protected ?string $heading = 'Thông tin cá nhân';
+    protected ?string $heading = 'Personal Information';
 
     public function getBreadcrumbs(): array
     {
@@ -24,12 +24,12 @@ class ViewCustomerInfo extends Page
     {
         return [
             Actions\Action::make('edit')
-                ->label('Chỉnh sửa')
+                ->label('Edit Info')
                 ->url(route('filament.admin.resources.customer-infos.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('primary'),
             Actions\Action::make('payment')
-                ->label('Nạp tiền')
+                ->label('Deposit')
                 ->url(route('filament.admin.resources.point-packages.buy'))
                 ->icon('heroicon-o-credit-card')
                 ->color('success'),

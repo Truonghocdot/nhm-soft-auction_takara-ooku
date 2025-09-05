@@ -33,9 +33,9 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $modelLabel = 'Sản phẩm';
+    // protected static ?string $modelLabel = 'Sản phẩm';
 
-    protected static ?string  $pluralModelLabel = 'Sản phẩm';
+    // protected static ?string  $pluralModelLabel = 'Sản phẩm';
 
 
     public static function canEdit($record): bool
@@ -47,7 +47,7 @@ class ProductResource extends Resource
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')
-                ->label('Tên')
+                ->label('Name')
                 ->required()
                 ->maxLength(255)
                 ->live(debounce: 2000)
@@ -62,20 +62,20 @@ class ProductResource extends Resource
                 }),
 
             Forms\Components\TextInput::make('slug')
-                ->label('Đường dẫn')
+                ->label('Path')
                 ->required()
                 ->readOnly()
                 ->maxLength(255)
                 ->unique(ignoreRecord: true),
 
             Forms\Components\Select::make('type_sale')
-                ->label('Dạng sản phẩm')
+                ->label('Product type')
                 ->options(ProductTypeSale::getOptions())
                 ->required()
                 ->default(ProductTypeSale::SALE->value)
                 ->live(),
             Forms\Components\TextInput::make('price')
-                ->label('Giá')
+                ->label('Price')
                 ->numeric()
                 ->requiredIf('type_sale', ProductTypeSale::SALE->value)
                 ->visible(function ($get) {
@@ -89,12 +89,12 @@ class ProductResource extends Resource
                     return $v === ProductTypeSale::SALE->value;
                 }),
             Forms\Components\TextInput::make('stock')
-                ->label('Số lượng')
+                ->label('Quantity')
                 ->numeric()
                 ->minValue(1)
                 ->required(),
             Forms\Components\TextInput::make('min_bid_amount')
-                ->label('Giá Dưới')
+                ->label('Price Below')
                 ->numeric()
                 ->default(0)
                 ->requiredIf('type_sale', ProductTypeSale::AUCTION->value)
@@ -104,7 +104,7 @@ class ProductResource extends Resource
                     return $v === ProductTypeSale::AUCTION->value;
                 }),
             Forms\Components\TextInput::make('max_bid_amount')
-                ->label('Giá Trên')
+                ->label('Price Above')
                 ->numeric()
                 ->default(0)
                 ->requiredIf('type_sale', ProductTypeSale::AUCTION->value)
@@ -120,13 +120,13 @@ class ProductResource extends Resource
                         if ($v === ProductTypeSale::AUCTION->value) {
                             $min = $get('min_bid_amount');
                             if ($min !== null && $value <= $min) {
-                                $fail('Giá trên phải lớn hơn giá dưới.');
+                                $fail('The upper price must be greater than the lower price.');
                             }
                         }
                     }
                 ]),
             Forms\Components\TextInput::make('step_price')
-                ->label('Bước giá')
+                ->label('Price step')
                 ->numeric()
                 ->requiredIf('type_sale', ProductTypeSale::AUCTION->value)
                 ->visible(function ($get) {
@@ -148,7 +148,7 @@ class ProductResource extends Resource
                     }
                 }),
             Forms\Components\DateTimePicker::make('start_time')
-                ->label('Thời gian bắt đầu')
+                ->label('Start time')
                 ->seconds(true)
                 ->required()
                 ->visible(function ($get) {
@@ -157,7 +157,7 @@ class ProductResource extends Resource
                     return $v === ProductTypeSale::AUCTION->value;
                 }),
             Forms\Components\DateTimePicker::make('end_time')
-                ->label('Thời gian kết thúc')
+                ->label('End time')
                 ->seconds(true)
                 ->required()
                 ->visible(function ($get) {
@@ -166,7 +166,7 @@ class ProductResource extends Resource
                     return $v === ProductTypeSale::AUCTION->value;
                 }),
             SelectTree::make('category_id')
-                ->label('Danh mục')
+                ->label('Category')
                 ->formatStateUsing(fn($state) => (string) $state)
                 ->relationship('category', 'name', 'parent_id')
                 ->searchable()
@@ -175,24 +175,24 @@ class ProductResource extends Resource
                 ->required(),
 
             Forms\Components\Select::make('status')
-                ->label('Trạng thái')
+                ->label('Status')
                 ->options(ProductStatus::getOptions())
                 ->required(),
             Forms\Components\Select::make('state')
-                ->label('Tình trạng sản phẩm')
+                ->label('Product Status')
                 ->required()
                 ->options(ProductState::getOptions())
                 ->default(ProductState::UNUSED),
             Forms\Components\Select::make('pay_method')
-                ->label('Phương thức thanh toán')
+                ->label('Payment method')
                 ->required()
                 ->options(ProductPaymentMethod::getOptions())
                 ->default(ProductPaymentMethod::BOTH),
             Forms\Components\TextInput::make('brand')
-                ->label('Thương hiệu'),
+                ->label('Brand'),
             Forms\Components\FileUpload::make('images')
                 ->required()
-                ->label('Hình ảnh')
+                ->label('Figure image')
                 ->multiple()
                 ->image()
                 ->directory('product-images')
@@ -201,7 +201,7 @@ class ProductResource extends Resource
                 ->columnSpanFull()
                 ->hidden(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
             TiptapEditor::make('description')
-                ->label('Miêu tả sản phẩm')
+                ->label('Product description')
                 ->output(TiptapOutput::Html)
                 ->extraInputAttributes([
                     'style' => 'min-height: 400px;'
@@ -209,7 +209,7 @@ class ProductResource extends Resource
                 ->required()
                 ->columnSpanFull(),
             Forms\Components\Toggle::make('is_hot')
-                ->label('Sản phẩm ưu tiên')
+                ->label('Priority products')
                 ->reactive()
                 ->afterStateUpdated(function (bool $state, callable $set) {
                     if (!auth()->user()->hasRole(RoleConstant::ADMIN)) {
@@ -220,9 +220,9 @@ class ProductResource extends Resource
                             $set('is_hot', false);
 
                             Notification::make()
-                                ->title('Không đủ quyền')
+                                ->title('Insufficient permissions')
                                 ->warning()
-                                ->body('Bạn cần nâng cấp gói thành viên để đánh dấu sản phẩm là ưu tiên hoặc kích hoạt gói khác!')
+                                ->body('You need to upgrade your membership plan to mark the product as preferred or activate another plan!')
                                 ->send();
                         }
                     }
@@ -238,7 +238,7 @@ class ProductResource extends Resource
                         ->rows(3),
                     Forms\Components\TextInput::make('seo.keywords')
                         ->label('SEO Keywords')
-                        ->placeholder('Từ khóa, cách nhau bởi dấu phẩy')
+                        ->placeholder('Keywords, separated by commas')
                         ->maxLength(255),
                 ])
                 ->columns(1)
@@ -248,13 +248,13 @@ class ProductResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->modifyQueryUsing(fn(Builder $query) => $query->with('firstImage', 'category')->orderBy('created_at','desc'),)
+        return $table->modifyQueryUsing(fn(Builder $query) => $query->with('firstImage', 'category')->orderBy('created_at', 'desc'),)
             ->recordUrl(fn($record): string => static::getUrl('edit', ['record' => $record]))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->limit(50)
-                    ->label('Tên')
+                    ->label('Name')
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
                         if (strlen($state) <= $column->getCharacterLimit()) {
@@ -264,49 +264,49 @@ class ProductResource extends Resource
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Giá')
+                    ->label('Price')
                     ->money('VND')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('view')
-                    ->label('Lượt xem')
+                    ->label('Views')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('stock')
-                    ->label('Số lượng')
+                    ->label('Quantity')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('min_bid_amount')
-                    ->label('Giá dưới')
+                    ->label('Lower price')
                     ->money('VND')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('max_bid_amount')
-                    ->label('Giá Trên')
+                    ->label('Price Above')
                     ->money('VND')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->color(fn($state) => match ($state) {
                         ProductStatus::ACTIVE->value => 'success',
                         ProductStatus::INACTIVE->value => 'warning',
                         default => 'default',
-                    })->formatStateUsing(fn($state) => $state ? 'hoạt động' : 'không hoạt động'),
+                    })->formatStateUsing(fn($state) => $state ? 'active' : 'inactive'),
                 Tables\Columns\TextColumn::make('type_sale')
-                    ->label('Dạng Sản Phẩm')
-                    ->formatStateUsing(fn($state): string => $state == 1 ? 'Bán trực tiếp' : ($state == 2 ? 'Trả giá' : 'Không xác định'))
+                    ->label('Product Type')
+                    ->formatStateUsing(fn($state): string => $state == 1 ? 'Sell directly' : ($state == 2 ? 'Bid' : 'Unknown'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make("start_time")
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->dateTime()
-                    ->label('Thời Gian bắt đầu')
+                    ->label('Start Time')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_time')
                     ->dateTime()
-                    ->label('Thời gian kết thúc')
+                    ->label('End time')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\ImageColumn::make('images.image_url')
-                    ->label('Hình ảnh')
+                    ->label('Image')
                     ->getStateUsing(fn($record) => HelperFunc::generateURLFilePath($record->images->pluck('image_url')->first()))
                     ->disk('public')
                     ->height(100)
@@ -315,57 +315,58 @@ class ProductResource extends Resource
                     ->limit(3)
                     ->limitedRemainingText(isSeparate: true),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Danh mục')
+                    ->label('Category')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('is_hot')
-                    ->label('Sản phẩm ưu tiên')
-                    ->color(fn($state)  => match ($state) {
+                    ->label('Priority products')
+                    ->color(fn($state) => match ($state) {
                         0 => 'success',
                         1 => 'danger'
                     })
-                    ->formatStateUsing(fn($state) =>  $state ? 'có' : 'không'),
+                    ->formatStateUsing(fn($state) => $state ? 'yes' : 'no'),
                 Tables\Columns\TextColumn::make('state')
-                    ->label('Tình trạng sản phẩm')
+                    ->label('Product Status')
                     ->formatStateUsing(fn($state) => ProductState::getLabel(ProductState::from($state))),
                 Tables\Columns\TextColumn::make('pay_method')
-                    ->label('Phương thức thanh toán')
+                    ->label('Payment method')
                     ->formatStateUsing(fn($state) => ProductPaymentMethod::getLabel(ProductPaymentMethod::from($state))),
                 Tables\Columns\TextColumn::make('brand')
-                    ->label("Thương hiệu"),
+                    ->label("Brand"),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
-                    ->label('Danh mục')
+                    ->label('Category')
                     ->options(fn() => Category::pluck('name', 'id')->toArray())
                     ->searchable(),
 
                 Tables\Filters\SelectFilter::make('type_sale')
-                    ->label('Dạng sản phẩm')
+                    ->label('Product type')
                     ->options([
-                        1 => 'Bán trực tiếp',
-                        2 => 'Trả giá',
+                        1 => 'Direct sale',
+                        2 => 'Bargain',
                     ]),
 
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        1 => 'Hoạt động',
-                        0 => 'Dừng hoạt động',
+                        1 => 'Active',
+                        0 => 'Disabled',
                     ]),
 
                 Tables\Filters\SelectFilter::make('is_hot')
-                    ->label('Sản phẩm ưu tiên')
+                    ->label('Preferred product')
                     ->options([
-                        1 => 'Có',
-                        0 => 'Không',
+                        1 => 'Yes',
+                        0 => 'No',
                     ]),
+
                 Tables\Filters\Filter::make('price_range')
                     ->form([
                         Forms\Components\TextInput::make('min_price')
-                            ->label('Giá từ')
+                            ->label('Price from')
                             ->numeric(),
                         Forms\Components\TextInput::make('max_price')
-                            ->label('Giá đến')
+                            ->label('Arrival price')
                             ->numeric(),
                     ])
                     ->query(function (Builder $query, array $data) {
@@ -377,9 +378,9 @@ class ProductResource extends Resource
                 Tables\Filters\Filter::make('auction_time')
                     ->form([
                         Forms\Components\DatePicker::make('start_from')
-                            ->label('Bắt đầu từ'),
+                            ->label('Start from'),
                         Forms\Components\DatePicker::make('start_to')
-                            ->label('Bắt đầu đến'),
+                            ->label('Start to'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
@@ -391,27 +392,27 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make('View')
-                    ->label('Xem'),
+                    ->label('View'),
 
                 Tables\Actions\EditAction::make('Edit')
-                    ->label('Sửa')->visible(
+                    ->label('Edit')->visible(
                         fn(Product $record): bool =>
                         auth()->user()->hasRole(RoleConstant::ADMIN)
                             || auth()->id() === $record->created_by
                     ),
                 Tables\Actions\Action::make('delete')
-                    ->label('Xóa')
+                    ->label('Delete')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->visible(fn(Product $record) => auth()->user()->hasRole(RoleConstant::ADMIN) || auth()->id() === $record->created_by)
                     ->requiresConfirmation()
-                    ->modalHeading('Xác nhận xóa sản phẩm')
-                    ->modalDescription('Bạn có chắc chắn muốn xóa sản phẩm này không? Thao tác này không thể hoàn tác.')
+                    ->modalHeading('Confirm delete product')
+                    ->modalDescription('Are you sure you want to delete this product? This action cannot be undone.')
                     ->action(function (Product $record) {
                         $record->delete();
                         Notification::make()
-                            ->title('Thành côngg')
-                            ->body('Sản phẩm xóa thành công!')
+                            ->title('Success')
+                            ->body('Product deleted successfully!')
                             ->success()
                             ->send();
                     }),
@@ -419,16 +420,16 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label('Xóa vĩnh viễn')
+                        ->label('Permanently delete')
                         ->requiresConfirmation()
-                        ->modalHeading('Xác nhận xóa vĩnh viễn')
-                        ->modalDescription('Bạn có chắc chắn muốn xóa vĩnh viễn các sản phẩm đã chọn không? Thao tác này không thể hoàn tác được?')
+                        ->modalHeading('Confirm permanently delete')
+                        ->modalDescription('Are you sure you want to permanently delete the selected products? This action cannot be undone?')
                         ->action(function ($records) {
                             foreach ($records as $record) {
                                 if (empty($record->auction()->get()) || empty($record->orderDetails()->get())) {
                                     Notification::make()
-                                        ->title('Lỗi')
-                                        ->body("Không thể xóa sản phẩm '{$record->name}' vì nó có liên quan đến lệnh hoặc trả giá trực tuyến.")
+                                        ->title('Error')
+                                        ->body("Cannot delete product '{$record->name}' because it is associated with an order or online bid.")
                                         ->danger()
                                         ->send();
                                     return;
@@ -436,29 +437,29 @@ class ProductResource extends Resource
                             }
                             $records->each->forceDelete();
                             Notification::make()
-                                ->title('Thành Công')
-                                ->body('Sản phẩm đã được xóa vĩnh viễn thành công!')
+                                ->title('Success')
+                                ->body('The product has been permanently deleted successfully!')
                                 ->success()
                                 ->send();
                         }),
                     Tables\Actions\RestoreBulkAction::make()
-                        ->label('Phục hồi')
+                        ->label('Restore')
                         ->action(function ($records) {
                             $records->each->restore();
                             Notification::make()
-                                ->title('Thành Công')
-                                ->body('Các sản phẩm đã được phục hồi thành công!')
+                                ->title('Success')
+                                ->body('Products have been successfully restored!')
                                 ->success()
                                 ->send();
                         })
                 ]),
             ])
-            ->emptyStateHeading("Chưa có sản phẩm nào")
-            ->emptyStateDescription('Một khi bạn đăng bán 1 sản phẩm, nó sẽ xuất hiện ở đây.')
+            ->emptyStateHeading("There are no products yet")
+            ->emptyStateDescription('Once you list a product, it will appear here.')
             ->emptyStateIcon("heroicon-o-rectangle-stack")
             ->emptyStateActions([
                 TableAction::make('create')
-                    ->label('Đăng sản phẩm')
+                    ->label('Post product')
                     ->url(route('filament.admin.resources.products.create'))
                     ->icon('heroicon-m-plus')
                     ->button(),

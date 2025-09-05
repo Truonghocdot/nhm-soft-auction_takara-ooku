@@ -11,7 +11,7 @@ class ViewPaymentOwnCustomer extends Page
 
     protected static string $view = 'filament.admin.resources.payment-own-customer.view';
 
-    protected ?string $heading = 'Thống kê thanh toán';
+    protected ?string $heading = 'Payment statistics';
 
     public function getBreadcrumbs(): array
     {

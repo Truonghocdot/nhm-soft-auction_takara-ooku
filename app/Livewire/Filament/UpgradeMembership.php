@@ -85,8 +85,8 @@ class UpgradeMembership extends Component
             return;
         }
         Notification::make()
-            ->title('Lỗi')
-            ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+            ->title('Error')
+            ->body('An error occurred, please try again later.')
             ->danger()
             ->send();
         $this->nextStepUpgrade = false;
@@ -108,14 +108,14 @@ class UpgradeMembership extends Component
         );
         if ($result) {
             Notification::make()
-                ->title('Thành công')
-                ->body('Thanh toán thành công, vui lòng chờ duyệt.')
+                ->title('Success')
+                ->body('Payment successful, please wait for approval.')
                 ->success()
                 ->send();
         } else {
             Notification::make()
-                ->title('Lỗi')
-                ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+                ->title('Error')
+                ->body('An error occurred, please try again later.')
                 ->danger()
                 ->send();
         }

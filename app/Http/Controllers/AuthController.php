@@ -19,22 +19,22 @@ class AuthController extends Controller
     public function verify($id, $hash)
     {
         $check = Auth::check();
-        if(!$check) {
+        if (!$check) {
             Auth::logout();
             session()->flush();
         }
         $result = $this->authService->verifyEmailUser($id, $hash);
         if ($result) {
             Notification::make()
-                ->title('Xác thực tài khoản thành công')
-                ->body("Hãy đăng nhập bằng tài khoản bạn đã xác thực")
+                ->title('Account Verification Successful')
+                ->body("Please log in with the account you have authenticated")
                 ->success()
                 ->send();
-            // Redirect tới trang login
+            // Redirect to login page
         } else {
             Notification::make()
-                ->title('Xác thực tài khoản thất bại')
-                ->body("Vui lòng liên hệ với quản trị để khắc phục sự cố")
+                ->title('Account Verification Failed')
+                ->body("Please contact the administrator to resolve the issue")
                 ->success()
                 ->send();
         }

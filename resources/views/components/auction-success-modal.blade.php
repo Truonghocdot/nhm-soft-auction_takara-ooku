@@ -8,20 +8,20 @@
             </div>
             
             <div class="flex-1 min-w-0">
-                <h4 class="text-lg font-bold text-green-800 mb-2">Trả giá thành công!</h4>
+                <h4 class="text-lg font-bold text-green-800 mb-2">Bid successful!</h4>
                 
                 <div class="space-y-2 text-sm text-green-700 mb-2">
                     <div class="flex items-start">
                         <div class="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                        <span>Bạn đang dẫn đầu cuộc trả giá trực tuyến này</span>
+                        <span>You are leading this online bidding</span>
                     </div>
                     <div class="flex items-start">
                         <div class="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                        <span>Chúng tôi sẽ thông báo nếu có người trả giá cao hơn</span>
+                        <span>We will notify you if someone bids higher.</span>
                     </div>
                     <div class="flex items-start mb-2">
                         <div class="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                        <span>Nhớ theo dõi thời gian kết thúc trả giá trực tuyến</span>
+                        <span>Remember to keep track of the online bidding end time</span>
                     </div>
                 </div>
             </div>

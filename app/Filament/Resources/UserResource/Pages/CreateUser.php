@@ -13,20 +13,20 @@ class CreateUser extends CreateRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Người dùng',
-            '' => 'Tạo người dùng mới',
+            url()->previous() => 'User',
+            '' => 'Make New User',
         ];
     }
 
     protected function getCreateFormAction(): Actions\Action
     {
         return parent::getCreateFormAction()
-            ->label('Tạo mới');
+            ->label('Add User');
     }
 
     protected function getCancelFormAction(): Actions\Action
     {
         return parent::getCancelFormAction()
-            ->label('Hủy');
+            ->label('Cancel');
     }
 }

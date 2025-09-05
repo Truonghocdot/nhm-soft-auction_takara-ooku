@@ -52,8 +52,8 @@ class EditProduct extends EditRecord
     public function getBreadcrumbs(): array
     {
         return [
-            'products' => 'Sản phẩm',
-            'products' => 'Chỉnh sửa',
+            'products' => 'Products',
+            'products' => 'Edit',
         ];
     }
 }

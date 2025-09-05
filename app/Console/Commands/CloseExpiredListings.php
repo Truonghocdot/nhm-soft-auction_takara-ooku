@@ -19,7 +19,7 @@ class CloseExpiredListings extends Command
      *
      * @var string
      */
-    protected $description = 'Tự động đóng các sản phẩm sau thời gian hiển thị đã set ở DISPLAY_TIME_AFTER_AUCTION';
+    protected $description = 'Automatically close products after the display time set in DISPLAY_TIME_AFTER_AUCTION';
 
     /**
      * Execute the console command.
@@ -27,8 +27,8 @@ class CloseExpiredListings extends Command
     public function handle(ProductServiceInterface $productService)
     {
         $closedCount = $productService->closeExpiredListings();
-        $this->info("Đã đóng {$closedCount} sản phẩm hết hạn.");
-        $this->info('Đã xử lý tất cả sản phẩm hết hạn.');
+        $this->info("Closed {$closedCount} expired products.");
+        $this->info('All expired products processed.');
 
         return Command::SUCCESS;
     }

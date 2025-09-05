@@ -11,10 +11,10 @@ enum MembershipTransactionStatus: int
     public static function getLabel(int $value): string
     {
         return match ($value) {
-            self::WAITING->value => 'Đang chờ xử lý',
-            self::ACTIVE->value => 'Thành công',
-            self::FAILED->value => 'Thất bại',
-            default => 'Không xác định',
+            self::WAITING->value => 'Waiting',
+            self::ACTIVE->value => 'Success',
+            self::FAILED->value => 'Failed',
+            default => 'Unknown',
         };
     }
 }

@@ -62,7 +62,7 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
         ]);
         $this->auth = $this->authService->getInfoAuth();
         $this->sumTransaction = $this->authService->getSumTransaction();
-        $this->current_balance =  (int) $this->auth->current_balance * (int) $this->config['PRICE_ONE_COIN'] ;
+        $this->current_balance =  (int) $this->auth->current_balance * (int) $this->config['PRICE_ONE_COIN'];
     }
 
     protected function getTableQuery(): Builder
@@ -80,7 +80,7 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
     protected function moneyColumn(string $field): Tables\Columns\TextColumn
     {
         return Tables\Columns\TextColumn::make($field)
-            ->label('Số tiền')
+            ->label('Amount')
             ->sortable()
             ->formatStateUsing(fn($state) => number_format($state ?? 0, 0, ',', '.'));
     }
@@ -88,7 +88,7 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
     protected function createdAtColumn(): Tables\Columns\TextColumn
     {
         return Tables\Columns\TextColumn::make('created_at')
-            ->label('Thời điểm giao dịch')
+            ->label('Transaction time')
             ->dateTime()
             ->sortable();
     }
@@ -97,14 +97,14 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
     {
         return match ($this->viewType) {
             '1' => [
-                Tables\Columns\TextColumn::make('description')->label('Mã GD')->sortable(),
+                Tables\Columns\TextColumn::make('description')->label('GD code')->sortable(),
                 Tables\Columns\TextColumn::make('type')
-                    ->label('Loại')
+                    ->label('Type')
                     ->toggleable()
                     ->formatStateUsing(fn($state) => TransactionPaymentType::label($state ?? '')),
                 $this->moneyColumn('money'),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->formatStateUsing(function ($state) {
                         $int = is_numeric($state) ? (int)$state : null;
                         return $int !== null ? TransactionPaymentStatus::getLabel($int) : $state;
@@ -113,8 +113,8 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
                         if (!is_numeric($state)) return 'default';
                         return match (TransactionPaymentStatus::from((int)$state)) {
                             TransactionPaymentStatus::WAITING => 'warning',
-                            TransactionPaymentStatus::ACTIVE  => 'success',
-                            TransactionPaymentStatus::FAILED  => 'danger',
+                            TransactionPaymentStatus::ACTIVE => 'success',
+                            TransactionPaymentStatus::FAILED => 'danger',
                             default => 'default',
                         };
                     }),
@@ -122,15 +122,15 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
             ],
 
             '2' => [
-                Tables\Columns\TextColumn::make('transaction_code')->label('Mã GD')->sortable(),
+                Tables\Columns\TextColumn::make('transaction_code')->label('Transaction_code')->sortable(),
                 $this->moneyColumn('money'),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->formatStateUsing(fn($state) => is_numeric($state) ? TransactionPaymentStatus::getLabel((int)$state) : $state)
                     ->color(fn($state) => is_numeric($state) ? match (TransactionPaymentStatus::from((int)$state)) {
                         TransactionPaymentStatus::WAITING => 'warning',
-                        TransactionPaymentStatus::ACTIVE  => 'success',
-                        TransactionPaymentStatus::FAILED  => 'danger',
+                        TransactionPaymentStatus::ACTIVE => 'success',
+                        TransactionPaymentStatus::FAILED => 'danger',
                         default => 'default',
                     } : 'default'),
                 $this->createdAtColumn(),
@@ -158,16 +158,16 @@ class PaymentOwnCustomerView extends Component implements HasTable, HasForms
     {
         return [
             Tables\Filters\SelectFilter::make('status')
-                ->label('Trạng thái')
+                ->label('Status')
                 ->options([
-                    TransactionPaymentStatus::WAITING->value => 'Đang xử lý',
-                    TransactionPaymentStatus::ACTIVE->value  => 'Thành công',
-                    TransactionPaymentStatus::FAILED->value  => 'Thất bại',
+                    TransactionPaymentStatus::WAITING->value => 'Processing',
+                    TransactionPaymentStatus::ACTIVE->value => 'Successful',
+                    TransactionPaymentStatus::FAILED->value => 'Failed',
                 ]),
             Tables\Filters\Filter::make('date_range')
                 ->form([
-                    Forms\Components\DatePicker::make('from')->label('Từ'),
-                    Forms\Components\DatePicker::make('to')->label('Đến'),
+                    Forms\Components\DatePicker::make('from')->label('From'),
+                    Forms\Components\DatePicker::make('to')->label('To'),
                 ])
                 ->query(
                     fn(Builder $query, array $data) =>

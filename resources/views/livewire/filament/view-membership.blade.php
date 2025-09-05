@@ -9,11 +9,11 @@
                     <div class="max-w-sm">
                         @if ($membership->status === \App\Enums\CommonConstant::ACTIVE)
                             <x-filament::badge size="xs" color="success">
-                                Đang hoạt động
+                                Active
                             </x-filament::badge>
                         @elseif($membership->status === \App\Enums\CommonConstant::INACTIVE)
                             <x-filament::badge size="xs" color="warning">
-                                Chưa kích hoạt
+                                Not activated yet
                             </x-filament::badge>
                         @endif
                         <div class="p-2">
@@ -27,7 +27,7 @@
                                     {{ $membership->membershipPlan->price }}
                                     POINT
                                     <span class="text-sm text-gray-500 dark:text-white">/
-                                        {{ $membership->membershipPlan->duration }} tháng</span>
+                                        {{ $membership->membershipPlan->duration }} months</span>
                                 </h6>
                                 <p class="text-gray-900 dark:text-white">
                                     {{ $membership->membershipPlan->description }}
@@ -37,13 +37,13 @@
                                     <ul
                                         class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                                         <li>
-                                            Ngày bắt
-                                            đầu
+                                            Date of capture
+                                            head
                                             {{ \Illuminate\Support\Carbon::make($membership->start_date)->format('d/m/Y') }}
                                         </li>
                                         <li>
-                                            Ngày kết
-                                            thúc
+                                            Closing date
+                                            end
                                             {{ \Illuminate\Support\Carbon::make($membership->end_date)->format('d/m/Y') }}
                                         </li>
                                     </ul>
@@ -58,8 +58,7 @@
                                                     fill="currentColor" viewBox="0 0 20 20">
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                </svg>
-                                                Sản phẩm được bán hiển thị ở vị trí nổi bật
+                                                </svg>Products for sale are displayed in a prominent position
                                             </li>
                                         @endif
                                         @if ($membership->membershipPlan->config['priority_support'])
@@ -69,8 +68,7 @@
                                                     fill="currentColor" viewBox="0 0 20 20">
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                </svg>
-                                                Được ưu tiên hỗ trợ khi có vấn đề
+                                                </svg>Get priority support when problems arise
                                             </li>
                                         @endif
                                         @if ($membership->membershipPlan->config['discount_percentage'] > 0)
@@ -81,9 +79,10 @@
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                 </svg>
-                                                Giảm {{ $membership->membershipPlan->config['discount_percentage'] }} %
-                                                khi
-                                                mua sản phẩm
+                                                Get {{ $membership->membershipPlan->config['discount_percentage'] }} %
+                                                off
+                                                when
+                                                buying a product
                                             </li>
                                         @endif
                                         @if ($membership->membershipPlan->config['free_product_listing'])
@@ -93,8 +92,7 @@
                                                     fill="currentColor" viewBox="0 0 20 20">
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                </svg>
-                                                Đăng bán sản phẩm miễn phí
+                                                </svg>Post your products for free
                                             </li>
                                         @elseif($membership->membershipPlan->config['max_products_per_month'] > 0)
                                             <li class="flex items-center">
@@ -104,10 +102,9 @@
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                 </svg>
-                                                Miễn phí đăng
-                                                bán {{ $membership->membershipPlan->config['max_products_per_month'] }}
-                                                sản
-                                                phẩm/ tháng
+                                                Free to post
+                                                {{ $membership->membershipPlan->config['max_products_per_month'] }}
+                                                products/month
                                             </li>
                                         @endif
                                         @if ($membership->membershipPlan->config['free_auction_participation'])
@@ -117,8 +114,7 @@
                                                     fill="currentColor" viewBox="0 0 20 20">
                                                     <path
                                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                                </svg>
-                                                Tham gia trả giá miễn phí
+                                                </svg>Join the free bid
                                             </li>
                                         @endif
                                     </ul>
@@ -135,8 +131,7 @@
                         @if ($membership->status == \App\Enums\CommonConstant::ACTIVE || $membership->end_date < now())
                             <div class="fi-ta-actions flex shrink-0 items-center gap-3 flex-wrap justify-center">
                                 <x-filament::button icon="heroicon-m-arrow-up-circle"
-                                    wire:click="goToUpgradeMembership()" class="my-4">
-                                    Nâng cấp hoặc gia hạn gói thành viên
+                                    wire:click="goToUpgradeMembership()" class="my-4">Upgrade or renew your membership
                                 </x-filament::button>
                             </div>
                         @endif
@@ -152,26 +147,24 @@
                             <div
                                 class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                                 <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-                                    Giao dịch #{{ $transaction->id }}
+                                    Transaction #{{ $transaction->id }}
                                 </h5>
                                 <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                                    Ngày giao
-                                    dịch:
+                                    Transaction Date:
                                     {{ \Illuminate\Support\Carbon::make($transaction->created_at)->format('d/m/Y H:i') }}
                                 </p>
                                 <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
 
                                     @if ($transaction->transaction_code == 'PAY BY POINTS')
-                                        Số điểm: {{ number_format($transaction->money, 0, ',', '.') }}
-                                        Đ
+                                        Number of points: {{ number_format($transaction->money, 0, ',', '.') }}
+                                        D
                                     @else
-                                        Số tiền: {{ number_format($transaction->money, 0, ',', '.') }}
+                                        Amount: {{ number_format($transaction->money, 0, ',', '.') }}
                                         VND
                                     @endif
                                 </p>
                                 <p class="font-normal text-gray-500 dark:text-gray-400">
-                                    Trạng
-                                    thái:
+                                    Status:
                                     {{ \App\Enums\Membership\MembershipTransactionStatus::getLabel($transaction->status) }}
                                 </p>
                             </div>
@@ -191,16 +184,14 @@
                     </svg>
                 </div>
                 <h4 class="text-base font-semibold leading-6 text-gray-950 dark:text-white">
-                    Bạn chưa đăng ký gói thành viên nào
+                    You have not signed up for any membership plans
                 </h4>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Hãy đăng ký một gói thành viên để sử dụng các tính năng ưu đãi.
+                    Sign up for a membership plan to use the preferential features.
                 </p>
-
-
                 <div class="fi-ta-actions flex shrink-0 items-center gap-3 flex-wrap justify-center mt-6">
                     <x-filament::button icon="heroicon-m-user-group" wire:click="goToBuyMembership" class="mt-4">
-                        Mua gói thành viên
+                        Buy membership
                     </x-filament::button>
                 </div>
 

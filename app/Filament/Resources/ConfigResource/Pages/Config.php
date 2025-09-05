@@ -10,8 +10,7 @@ class Config extends Page
     protected static string $resource = ConfigResource::class;
 
     protected static string $view = 'filament.admin.resources.config.view';
-
-    protected ?string $heading = 'Cấu hình hệ thống';
+    protected ?string $heading = 'System Configuration';
 
     protected function getHeaderActions(): array
     {

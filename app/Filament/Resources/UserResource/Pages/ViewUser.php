@@ -13,8 +13,8 @@ class ViewUser extends ViewRecord
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Người dùng',
-            '' => 'Xem người dùng',
+            url()->previous() => 'User',
+            '' => 'View users',
         ];
     }
 
@@ -22,7 +22,7 @@ class ViewUser extends ViewRecord
     {
         return [
             Actions\EditAction::make()
-                ->label('Chỉnh sửa'),
+                ->label('Edit'),
         ];
     }
 }

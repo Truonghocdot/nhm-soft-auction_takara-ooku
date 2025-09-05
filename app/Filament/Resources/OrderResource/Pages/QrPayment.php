@@ -31,14 +31,14 @@ class QrPayment extends Page
 
     public function getTitle(): string
     {
-        return 'QR Code Thanh Toán - Đơn hàng ' . $this->record->code_orders;
+        return 'QR Code Payment - Order ' . $this->record->code_orders;
     }
 
     public function getVietQRUrl(): string
     {
         $vietqrUrl = 'https://img.vietqr.io/image/'.$this->creditCard->bin_bank.'-'.$this->creditCard->card_number.'-compact2.jpg';
         $vietqrUrl .= "?amount=" . $this->payment->amount;
-        $vietqrUrl .= "&addInfo=" . urlencode("Thanh toan don hang " . $this->record->code_orders);
+        $vietqrUrl .= "&addInfo=" . urlencode("Payment of order " . $this->record->code_orders);
         $vietqrUrl .= "&accountName=" . urlencode($this->creditCard->name);
         return $vietqrUrl;
     }
@@ -54,7 +54,7 @@ class QrPayment extends Page
             'status'=> 2,
         ]);
         Notification::make()
-            ->title('Thanh toán đã được xác nhận!')
+            ->title('Payment confirmed!')
             ->success()
             ->send();
 

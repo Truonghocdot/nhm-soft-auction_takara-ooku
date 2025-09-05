@@ -40,7 +40,7 @@
                                     {{ number_format($package->points) }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">
-                                    Điểm
+                                    Points
                                 </p>
                             </div>
 
@@ -52,7 +52,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
-                                    Chọn gói này
+                                    Select this package
                                 </span>
                             </x-filament::button>
                         </div>
@@ -70,9 +70,9 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-blue-900 mb-1">Lưu ý quan trọng</h4>
-                        <p class="text-sm text-blue-700">Điểm sẽ được cộng vào tài khoản ngay sau khi thanh toán thành
-                            công.</p>
+                        <h4 class="font-semibold text-blue-900 mb-1">Important Note</h4>
+                        <p class="text-sm text-blue-700">Points will be added to your account immediately after
+                            successful payment.</p>
                     </div>
                 </div>
             </div>
@@ -95,10 +95,10 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-2xl font-bold text-primary-800 mb-2">
-                                    Gói đã chọn
+                                    Selected Package
                                 </h3>
                                 <p class="text-primary-700">
-                                    Xác nhận thông tin gói điểm của bạn
+                                    Confirm your package information
                                 </p>
                             </div>
 
@@ -106,35 +106,35 @@
                             <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
                                 <div class="text-center mb-4">
                                     <h4 class="text-xl font-bold text-gray-800 mb-2">
-                                        {{ $pointPackage->name ?? 'Gói Premium' }}
+                                        {{ $pointPackage->name ?? 'Premium Package' }}
                                     </h4>
                                     @if (($pointPackage->discount ?? 0) > 0)
                                         <span
                                             class="inline-block bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full mb-3">
-                                            Giảm {{ $pointPackage->discount }}%
+                                            Discount {{ $pointPackage->discount }}%
                                         </span>
                                     @endif
                                 </div>
 
                                 <div class="space-y-3">
                                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                                        <span class="text-sm font-medium text-gray-600">Điểm nhận được:</span>
+                                        <span class="text-sm font-medium text-gray-600">Points received:</span>
                                         <span class="text-2xl font-black text-primary-600">
                                             {{ number_format($pointPackage->points ?? 0) }}
                                         </span>
                                     </div>
 
                                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                                        <span class="text-sm font-medium text-gray-600">Số tiền thanh toán:</span>
+                                        <span class="text-sm font-medium text-gray-600">Payment amount:</span>
                                         <span class="text-lg font-bold text-gray-800">
-                                            {{ number_format($dataTransfer['totalPrice'] ?? 0) }} VNĐ
+                                            {{ number_format($dataTransfer['totalPrice'] ?? 0) }} VND
                                         </span>
                                     </div>
                                 </div>
 
                                 <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
                                     <p class="text-sm text-blue-700 leading-relaxed">
-                                        {!! $pointPackage->description ?? 'Gói điểm premium với nhiều ưu đãi hấp dẫn' !!}
+                                        {!! $pointPackage->description ?? 'Premium points package with many attractive offers' !!}
                                     </p>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-sm text-gray-700">Điểm được cộng ngay lập tức</span>
+                                    <span class="text-sm text-gray-700">Points are added immediately</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none"
@@ -155,7 +155,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-sm text-gray-700">Không có phí ẩn</span>
+                                    <span class="text-sm text-gray-700">No hidden fees</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none"
@@ -163,7 +163,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-sm text-gray-700">Bảo mật 100%</span>
+                                    <span class="text-sm text-gray-700">100% secure</span>
                                 </div>
                             </div>
                         </div>
@@ -185,10 +185,10 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-2xl font-bold text-gray-800 mb-2">
-                                    Quét mã QR để thanh toán
+                                    Scan QR code to pay
                                 </h3>
                                 <p class="text-gray-600">
-                                    Sử dụng ứng dụng ngân hàng để quét mã QR
+                                    Use banking app to scan QR code
                                 </p>
                             </div>
 
@@ -222,7 +222,7 @@
                                         <div
                                             class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2">
                                         </div>
-                                        <p class="text-xs text-gray-600">Đang chờ thanh toán...</p>
+                                        <p class="text-xs text-gray-600">Waiting for payment...</p>
                                     </div>
                                 </div>
                             </div>
@@ -231,13 +231,12 @@
                             <div
                                 class="bg-gradient-to-r from-primary-50 to-primary-100 rounded-2xl p-4 mb-6 border border-primary-200">
                                 <div class="text-center">
-                                    <p class="text-sm text-primary-700 mb-1">Số tiền thanh toán</p>
+                                    <p class="text-sm text-primary-700 mb-1">Payment amount</p>
                                     <p class="text-2xl font-black text-primary-800">
-                                        {{ number_format($dataTransfer['totalPrice'] ?? 0) }} VNĐ
+                                        {{ number_format($dataTransfer['totalPrice'] ?? 0) }} VND
                                     </p>
                                 </div>
                             </div>
-
                             <!-- Action Buttons -->
                             <div class="space-y-3">
                                 <!-- Xác nhận giao dịch thành công -->
@@ -249,7 +248,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        Xác nhận đã thanh toán thành công
+                                        Confirm successful payment
                                     </span>
                                 </x-filament::button>
 
@@ -262,13 +261,13 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                         </svg>
-                                        Quay lại chọn gói khác
+                                        Go back and choose another package
                                     </span>
                                 </x-filament::button>
 
                                 <button
                                     class="w-full text-sm text-gray-500 hover:text-primary-600 transition-colors py-2">
-                                    Cần hỗ trợ? Liên hệ với chúng tôi
+                                    Need support? Contact us
                                 </button>
                             </div>
 
@@ -277,10 +276,9 @@
                                 <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                                Bảo mật SSL 256-bit
-                            </div>
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a
+                            </div>2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>256-bit SSL Security
                         </div>
                     </div>
                 </div>

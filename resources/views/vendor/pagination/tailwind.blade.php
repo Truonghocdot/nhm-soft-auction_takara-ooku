@@ -4,11 +4,11 @@
 
         <div class="mb-4 sm:mb-0">
             <p class="text-sm text-gray-700">
-                Hiển thị
+                Show
                 <span class="font-medium text-gray-900">{{ $paginator->firstItem() }}</span>
-                đến
+                arrive
                 <span class="font-medium text-gray-900">{{ $paginator->lastItem() }}</span>
-                trong tổng số
+                in total
                 <span class="font-medium text-gray-900">{{ $paginator->total() }}</span>
             </p>
         </div>
@@ -19,13 +19,13 @@
                 <span
                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-lg cursor-not-allowed">
                     <i class="fas fa-chevron-left mr-1"></i>
-                    <span class="hidden sm:inline">Trước</span>
+                    <span class="hidden sm:inline">Previous</span>
                 </span>
             @else
                 <a href="{{ $paginator->previousPageUrl() }}"
                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
                     <i class="fas fa-chevron-left mr-1"></i>
-                    <span class="hidden sm:inline">Trước</span>
+                    <span class="hidden sm:inline">Previous</span>
                 </a>
             @endif
 
@@ -61,27 +61,27 @@
             @if ($paginator->hasMorePages())
                 <a href="{{ $paginator->nextPageUrl() }}"
                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
-                    <span class="hidden sm:inline">Sau</span>
+                    <span class="hidden sm:inline">Next</span>
                     <i class="fas fa-chevron-right ml-1"></i>
                 </a>
             @else
                 <span
                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-lg cursor-not-allowed">
-                    <span class="hidden sm:inline">Sau</span>
+                    <span class="hidden sm:inline">Next</span>
                     <i class="fas fa-chevron-right ml-1"></i>
                 </span>
             @endif
 
             {{-- Jump to Page (Optional) --}}
             <div class="hidden md:flex items-center ml-4 space-x-2">
-                <span class="text-sm text-gray-700">Đi đến:</span>
+                <span class="text-sm text-gray-700">Go to:</span>
                 <input type="number" min="1" max="{{ $paginator->lastPage() }}"
                     value="{{ $paginator->currentPage() }}"
                     class="w-16 px-2 py-1 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     onchange="jumpToPage(this.value)">
                 <button onclick="jumpToPage(document.querySelector('input[type=number]').value)"
                     class="px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-200">
-                    Đi
+                    Go
                 </button>
             </div>
         </div>

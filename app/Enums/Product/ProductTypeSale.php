@@ -10,9 +10,8 @@ enum ProductTypeSale: int
     public static function getOptions(): array
     {
         return [
-            self::SALE->value => 'Bán hàng',
-            self::AUCTION->value => 'Trả giá trực tuyến',
+            self::SALE->value => 'Sale',
+            self::AUCTION->value => 'Online Bid',
         ];
     }
 }
-

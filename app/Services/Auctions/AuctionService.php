@@ -40,7 +40,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
             $auction = $this->auctionRepo->getAuctionByProductId($productId);
 
             if (!$auction) {
-                throw new ServiceException('Không tìm thấy phiên trả giá trực tuyến cho sản phẩm này!');
+                throw new ServiceException('No online bids found for this product!');
             }
 
             $highestBid = $this->bidRepo->query()
@@ -70,7 +70,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy thông tin trả giá trực tuyến!'
+                'message' => 'An error occurred while retrieving online bid information!'
             ];
         }
     }
@@ -87,9 +87,9 @@ class AuctionService extends BaseService implements AuctionServiceInterface
             }
             $memberplanActives = auth()->user()['activeMemberships'];
             if (count($memberplanActives) == 0) {
-                throw new ServiceException('Cần mua hoặc kích hoạt gói thành viên khác để sử dụng tính năng này!');
+                throw new ServiceException('You need to purchase or activate another membership plan to use this feature!');
             } else if ($memberplanActives[0]['config']['free_auction_participation'] == false) {
-                throw new ServiceException('Cần nâng cấp hoặc kích hoạt gói thành viên khác để sử dụng tính năng này!');
+                throw new ServiceException('You need to upgrade or activate another membership plan to use this feature!');
             }
             $auction = $validation['auction'];
 
@@ -129,7 +129,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
 
             return [
                 'success' => true,
-                'message' => 'Trả giá thành công!',
+                'message' => 'Bid successful!',
                 'data' => $bid
             ];
         } catch (ServiceException $e) {
@@ -158,7 +158,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy lịch sử trả giá!'
+                'message' => 'An error occurred while retrieving bid history!'
             ];
         }
     }
@@ -200,7 +200,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy lịch sử trả giá của user!'
+                'message' => 'An error occurred while retrieving the user bid history!'
             ];
         }
     }
@@ -210,7 +210,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         try {
             $auction = $this->auctionRepo->getAuctionByProductId($productId);
             if (!$auction) {
-                throw new ServiceException('Không tìm thấy phiên rả giá cho sản phẩm này!');
+                throw new ServiceException('No bids found for this product!');
             }
             $auction->step_price = $stepPrice;
             return (bool) $auction->save();
@@ -228,7 +228,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
             if (!$auction) {
                 return [
                     'success' => false,
-                    'message' => 'Sản phẩm chưa có phiên trả giá!',
+                    'message' => 'There is no bid for this product yet!',
                 ];
             }
 
@@ -237,7 +237,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
             ) {
                 return [
                     'success' => false,
-                    'message' => 'Phiên trả giá đã kết thúc, không thể trả giá thêm!',
+                    'message' => 'The bid has ended, no more bids!',
                 ];
             }
 
@@ -257,7 +257,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
 
                     return [
                         'success' => false,
-                        'message' => "Bạn cần chờ thêm {$remainingMinutes} phút nữa mới có thể trả giá tiếp!",
+                        'message' => "You need to wait {$remainingMinutes} more minutes before you can bid again!",
                     ];
                 }
             }
@@ -269,7 +269,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi kiểm tra phiên trả giá!'
+                'message' => 'An error occurred while checking the bidding session!'
             ];
         }
     }
@@ -286,7 +286,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy danh sách trả giá!'
+                'message' => 'An error occurred while retrieving the bid list!'
             ];
         }
     }
@@ -296,7 +296,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         try {
             $auctions = $this->auctionRepo->getUserParticipatingAuctions($userId);
 
-            $auctions->each(function($auction) {
+            $auctions->each(function ($auction) {
                 $this->processAuctionData($auction);
             });
 
@@ -307,7 +307,7 @@ class AuctionService extends BaseService implements AuctionServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy danh sách sản phẩm trả giá của user!'
+                'message' => 'An error occurred while retrieving the user bid list!'
             ];
         }
     }
@@ -316,14 +316,14 @@ class AuctionService extends BaseService implements AuctionServiceInterface
     {
         $highestBid = $auction->bids()->orderBy('bid_price', 'desc')->first();
         $currentPrice = $highestBid ? $highestBid->bid_price : $auction->starting_price;
-        
+
         $auction->current_price_display = number_format($currentPrice, 0, ',', '.') . ' ₫';
-        
-        
+
+
         $auction->starting_price_display = number_format($auction->starting_price, 0, ',', '.') . ' ₫';
-        
+
         $auction->highest_bid_display = $highestBid ? number_format($highestBid->bid_price, 0, ',', '.') . ' ₫' : $auction->starting_price_display;
-        
+
         $userBid = $auction->bids()->where('user_id', auth()->id())->orderBy('bid_time', 'desc')->first();
         $auction->user_bid_display = $userBid ? number_format($userBid->bid_price, 0, ',', '.') . ' ₫' : 'Chưa đặt giá';
     }

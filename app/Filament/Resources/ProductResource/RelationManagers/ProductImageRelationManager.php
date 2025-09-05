@@ -13,15 +13,15 @@ class ProductImageRelationManager extends RelationManager
 
     protected static string $relationship = 'images'; // tên relation trong model Product
 
-    protected static ?string $title = 'Hình ảnh sản phẩm';
+    protected static ?string $title = 'Product Images';
 
-    protected static ?string $modelLabel = "Hình ảnh sản phẩm";
+    protected static ?string $modelLabel = "Product Images";
 
     public function form(Forms\Form $form): Forms\Form
     {
         return $form->schema([
             Forms\Components\FileUpload::make('image_url')
-                ->label('Hình ảnh')
+                ->label('Image')
                 ->image()
                 ->directory('product-images')
                 ->required(),
@@ -35,7 +35,7 @@ class ProductImageRelationManager extends RelationManager
                 Grid::make(3)
                     ->schema([
                         Tables\Columns\ImageColumn::make('image_url')
-                            ->label('Hình ảnh')
+                            ->label('Image')
                             ->getStateUsing(function ($record) {
                                 return HelperFunc::generateURLFilePath($record['image_url']);
                             })
@@ -45,7 +45,7 @@ class ProductImageRelationManager extends RelationManager
                     ])
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()->label('Thêm hình ảnh sản phẩm')->modalHeading('Thêm hình ảnh sản phẩm'),
+                Tables\Actions\CreateAction::make()->label('Add product image')->modalHeading('Add product image'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

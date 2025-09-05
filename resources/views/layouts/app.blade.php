@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" theme="light" data-theme="light">
+<html lang="en" theme="light" data-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -16,9 +16,9 @@
     <div class="overflow-hidden bg-yellow-300 py-2">
         <div class="whitespace-nowrap animate-marquee text-sm font-medium text-gray-800">
             {{ $marquee ??
-                '🎉 Khuyến mãi đặc biệt! Miễn phí vận chuyển cho đơn hàng từ 500k 🎉  |
-                                        🚚 Giao hàng toàn quốc nhanh chóng 🚚  |
-                                        💳 Thanh toán linh hoạt, an toàn 💳' }}
+                '🎉 Special promotion! Free shipping for orders from 500k 🎉 |
+            🚚 Fast nationwide delivery 🚚 |
+            💳 Flexible and safe payment 💳' }}
         </div>
 
     </div>

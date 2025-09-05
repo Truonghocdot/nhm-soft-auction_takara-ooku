@@ -152,7 +152,7 @@ class OrderService extends BaseService implements OrderServiceInterface
             'total' => $subtotal + $shippingFee,
         ])->save();
     }
-    
+
     public function processCheckout(int $userId, array $checkoutData): array
     {
         try {
@@ -164,7 +164,7 @@ class OrderService extends BaseService implements OrderServiceInterface
                 ->get();
 
             if ($cartItems->isEmpty()) {
-                throw new ServiceException('Giỏ hàng trống!');
+                throw new ServiceException('Cart is empty!');
             }
 
             $orderDetail = OrderDetail::create([
@@ -210,7 +210,7 @@ class OrderService extends BaseService implements OrderServiceInterface
 
             return [
                 'success' => true,
-                'message' => 'Đặt hàng thành công!',
+                'message' => 'Order successful!',
                 'data' => [
                     'order_id' => $orderDetail->id,
                     'payment_method' => $checkoutData['payment_method']
@@ -227,7 +227,7 @@ class OrderService extends BaseService implements OrderServiceInterface
             DB::rollBack();
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi xử lý đơn hàng!',
+                'message' => 'An error occurred while processing the order!',
                 'data' => null
             ];
         }
@@ -241,7 +241,7 @@ class OrderService extends BaseService implements OrderServiceInterface
 
             return [
                 'success' => true,
-                'message' => 'Lấy thông tin đơn hàng thành công!',
+                'message' => 'Order information fetched successfully!',
                 'data' => [
                     'orderDetail' => $orderDetail,
                     'payment' => $payment
@@ -250,7 +250,7 @@ class OrderService extends BaseService implements OrderServiceInterface
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi lấy thông tin đơn hàng!',
+                'message' => 'An error occurred while fetching order information!',
                 'data' => null
             ];
         }
@@ -265,7 +265,7 @@ class OrderService extends BaseService implements OrderServiceInterface
             $payment = $orderDetail->payments->first();
 
             if (!$payment) {
-                throw new ServiceException('Không tìm thấy thông tin thanh toán!');
+                throw new ServiceException('Payment information not found!');
             }
 
             $payment->update([
@@ -279,7 +279,7 @@ class OrderService extends BaseService implements OrderServiceInterface
 
             return [
                 'success' => true,
-                'message' => 'Xác nhận thanh toán thành công!',
+                'message' => 'Payment confirmation successful!',
                 'data' => [
                     'order_id' => $orderId
                 ]
@@ -295,7 +295,7 @@ class OrderService extends BaseService implements OrderServiceInterface
             DB::rollBack();
             return [
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi xác nhận thanh toán!',
+                'message' => 'An error occurred while confirming payment!',
                 'data' => null
             ];
         }

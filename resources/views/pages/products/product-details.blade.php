@@ -176,8 +176,8 @@
     <div class="max-w-7xl mx-auto lg:px-4 py-6">
         <div class="breadcrumbs text-sm">
             <ul>
-                <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                <li><a href="{{ route('products.list') }}">Sản phẩm</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('products.list') }}">Products</a></li>
                 <li>{{ $product->name }}</li>
             </ul>
         </div>
@@ -205,35 +205,35 @@
                         <div class="w-full">
                             <div class="grid w-full grid-cols-3">
                                 <button onclick="showTab('description')"
-                                    class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Mô
-                                    tả</button>
+                                    class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Model
+                                    description</button>
                                 <button onclick="showTab('shipping')"
-                                    class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Vận
-                                    chuyển</button>
+                                    class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">
+                                    switch</button>
                                 <button onclick="showTab('seller')"
-                                    class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Người
-                                    bán</button>
+                                    class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Person
+                                    sell</button>
                             </div>
 
                             <div id="description" class="tab-content mt-6">
                                 <div class="max-w-none">
-                                    <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'Chưa có mô tả sản phẩm' !!}</pre>
+                                    <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'No product description yet' !!}</pre>
                                 </div>
                             </div>
 
                             <div id="shipping" class="tab-content mt-6" style="display: none;">
                                 <div class="space-y-4">
                                     <div class="flex justify-between">
-                                        <span>Phí vận chuyển:</span>
-                                        <span class="font-semibold">Miễn phí</span>
+                                        <span>Shipping fee:</span>
+                                        <span class="font-semibold">Free</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span>Thời gian giao hàng:</span>
-                                        <span class="font-semibold">2-3 ngày làm việc</span>
+                                        <span>Delivery time:</span>
+                                        <span class="font-semibold">2-3 working days</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span>Đóng gói:</span>
-                                        <span class="font-semibold">Cẩn thận, an toàn</span>
+                                        <span>Packaging:</span>
+                                        <span class="font-semibold">Careful, safe</span>
                                     </div>
                                 </div>
                             </div>
@@ -250,16 +250,16 @@
                                         @endif
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-semibold text-lg">{{ $user->name ?? 'Người bán' }}</h3>
+                                        <h3 class="font-semibold text-lg">{{ $user->name ?? 'Seller' }}</h3>
                                         <div class="flex items-center space-x-2 mt-1">
                                             <div class="flex items-center">
                                                 <span class="text-yellow-500">★</span>
                                                 <span
                                                     class="ml-1 font-semibold">{{ number_format($sellerAverageRating ?? 0, 1) }}</span>
                                             </div>
-                                            <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} đánh giá)</span>
+                                            <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} reviews)</span>
                                         </div>
-                                        <p class="text-gray-600 mt-2">{{ $user->introduce ?? 'Chưa có giới thiệu' }}</p>
+                                        <p class="text-gray-600 mt-2">{{ $user->introduce ?? 'No introduction yet' }}</p>
                                         {{-- <button
                                             class="mt-4 bg-transparent border border-gray-400 text-gray-700 py-2 px-4 rounded">
                                             <a href="https://www.nitori.com.vn/" target="_blank">
@@ -301,10 +301,10 @@
                                     <span class="ml-2 text-slate-600">
                                         <span
                                             class="font-bold text-black">{{ number_format($averageRating ?? 0, 1) }}</span>
-                                        ({{ $totalReviews ?? 0 }} đánh giá)
+                                        ({{ $totalReviews ?? 0 }} reviews)
                                     </span>
                                 @else
-                                    <span class="text-slate-600">(0 đánh giá)</span>
+                                    <span class="text-slate-600">(0 reviews)</span>
                                 @endif
                                 <div class="ml-5 text-slate-700">Đã bán: {{ $product->stock ?? 0 }}</div>
                             </div>
@@ -314,7 +314,7 @@
                         <span
                             class="px-2 py-1 rounded text-xs font-medium
                             {{ $product->type_sale === ($typeSale['AUCTION'] ?? 2) ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-600' }}">
-                            {{ $product->type_sale === ($typeSale['AUCTION'] ?? 2) ? 'Trả giá' : 'Bán hàng' }}
+                            {{ $product->type_sale === ($typeSale['AUCTION'] ?? 2) ? 'Bid' : 'Sell' }}
                         </span>
                         @if ($product->created_at && $product->created_at->diffInDays(now()) <= 7)
                             <div class="badge badge-ghost">new</div>
@@ -324,17 +324,17 @@
                                 class="badge whitespace-normal break-words leading-snug">{{ $product->category->name }}</span>
                         @endif
 
-                        <span class="text-sm text-gray-600">Lượt xem: {{ number_format($product->view ?? 0) }}</span>
+                        <span class="text-sm text-gray-600">Views: {{ number_format($product->view ?? 0) }}</span>
                     </div>
 
                     <div>
-                        <div class="text-sm text-gray-600 mb-1">Giá hiện tại</div>
+                        <div class="text-sm text-gray-600 mb-1">Current price</div>
                         @if (isset($auction) && $product->type_sale === ($typeSale['AUCTION'] ?? 2))
                             <div class="text-3xl font-bold text-green-600">
-                                {{ number_format($currentPrice, 0, ',', '.') }} ₫
+                                {{ number_format($currentPrice, 0, ',', '.') }} $
                             </div>
                             <div class="text-sm text-gray-500 mt-1">
-                                ({{ $totalBids }} lượt trả giá)
+                                ({{ $totalBids }} bids)
                             </div>
                         @else
                             <div>
@@ -414,7 +414,7 @@
                                     <path
                                         d="M16.5 3.75a.75.75 0 01.75.75v1.055a6.75 6.75 0 013 5.695v.75a6.75 6.75 0 01-3 5.695V19.5a.75.75 0 01-.75.75h-9a.75.75 0 01-.75-.75v-1.305a6.75 6.75 0 01-3-5.695v-.75a6.75 6.75 0 013-5.695V4.5a.75.75 0 01.75-.75h9z" />
                                 </svg>
-                                <span><span class="font-semibold">Phiên Trả giá đã kết thúc</span> - Kết thúc lúc
+                                <span><span class="font-semibold">Bidding Session has ended</span> - Ended at
                                     {{ $endedAtStr }}</span>
                             </div>
                             @php
@@ -430,7 +430,7 @@
                                                 <path
                                                     d="M11.7 1.7a.75.75 0 01.6 0l6 2.5a.75.75 0 01.45.97l-2.27 6.15a6.75 6.75 0 01-4.02 3.98l-.46.16-.01 2.04a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75v-2.03l-.46-.17a6.75 6.75 0 01-4.01-3.97L4.5 5.17a.75.75 0 01.45-.97l6-2.5z" />
                                             </svg>
-                                            <span>Người thắng phiên trả giá</span>
+                                            <span>Winner of the bidding session</span>
                                         </div>
 
                                         @if ($isCurrentUserWinner)
@@ -441,18 +441,18 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M9 12.75 11.25 15 15 9.75" />
                                                 </svg>
-                                                <span>Chúc mừng! Bạn đã thắng!</span>
+                                                <span>Congratulations! You won!</span>
                                             </div>
-                                            <div class="text-sm text-gray-800 mb-3">Giá thắng: <span
+                                            <div class="text-sm text-gray-800 mb-3">Winning price: <span
                                                     class="font-semibold">{{ number_format($winnerBid->bid_price, 0, ',', '.') }}
                                                     ₫</span></div>
                                         @else
-                                            <div class="text-sm text-gray-800 mb-1">Người thắng: <span
-                                                    class="font-semibold">{{ \App\Utils\HelperFunc::maskMiddle($winnerBid->user->name ?? 'Người dùng', 4, 3) }}</span>
+                                            <div class="text-sm text-gray-800 mb-1">Winner: <span
+                                                    class="font-semibold">{{ \App\Utils\HelperFunc::maskMiddle($winnerBid->user->name ?? 'User', 4, 3) }}</span>
                                             </div>
-                                            <div class="text-sm text-gray-800 mb-3">Giá thắng: <span
+                                            <div class="text-sm text-gray-800 mb-3">Winning price: <span
                                                     class="font-semibold">{{ number_format($winnerBid->bid_price, 0, ',', '.') }}
-                                                    ₫</span></div>
+                                                    $</span></div>
                                         @endif
                                         @if ($isCurrentUserWinner)
                                             @php
@@ -461,13 +461,13 @@
                                             <div
                                                 class="rounded-lg p-3 border {{ $paid ? 'bg-green-50 border-green-200' : 'bg-yellow-100 border-yellow-200' }}">
                                                 <div class="text-sm text-gray-800 mb-3">
-                                                    Trạng thái thanh toán:
+                                                    Payment status:
                                                     @if ($paid)
-                                                        <span class="badge badge-success ml-2 mb-3">Đã thanh toán</span>
+                                                        <span class="badge badge-success ml-2 mb-3">Paid</span>
                                                         <a href="{{ url('admin/orders') }}"
-                                                            class="btn btn-neutral w-full">Quản lý đơn hàng</a>
+                                                            class="btn btn-neutral w-full">Manage orders</a>
                                                     @else
-                                                        <span class="badge badge-warning ml-2">Chờ thanh toán</span>
+                                                        <span class="badge badge-warning ml-2">Waiting for payment</span>
                                                     @endif
                                                 </div>
 
@@ -477,11 +477,10 @@
                                                         @csrf
                                                         <input type="hidden" name="auction_id"
                                                             value="{{ $auctionData['auction']->id ?? '' }}" />
-                                                        <button type="submit" class="btn btn-neutral flex-1">Thanh toán
-                                                            ngay</button>
+                                                        <button type="submit" class="btn btn-neutral flex-1">Checkout
+                                                            now</button>
                                                         <ul class="space-y-2">
-                                                            <h3 class="text-lg font-semibold mb-2">Thông tin liên hệ</h3>
-
+                                                            <h3 class="text-lg font-semibold mb-2">Contact Information</h3>
                                                             {{-- Phone --}}
                                                             @if ($user->phone)
                                                                 <li class="flex items-center gap-2">
@@ -569,7 +568,7 @@
                             @endif
 
                             <div class="mt-3">
-                                <h3 class="font-semibold text-gray-800 mb-2">Thông tin kết thúc</h3>
+                                <h3 class="font-semibold text-gray-800 mb-2">End Information</h3>
                                 @php
                                     $startedAt = isset($auctionData['auction'])
                                         ? \Carbon\Carbon::parse(
@@ -597,7 +596,7 @@
                                 <div class="rounded-lg border border-slate-200 bg-slate-50 p-3">
                                     <div class="font-semibold">{{ $endedAtStr }}</div>
                                     @if ($durationStr)
-                                        <div class="text-sm text-gray-600">Tổng thời gian: {{ $durationStr }}</div>
+                                        <div class="text-sm text-gray-600">Total time: {{ $durationStr }}</div>
                                     @endif
                                 </div>
                             </div>
@@ -615,8 +614,8 @@
                                             method="POST" class="space-y-3">
                                             @csrf
                                             <div class="items-center !mt-0">
-                                                <label class="text-sm text-[#6c6a69] space-y-1 font-bold">Giá đấu của bạn
-                                                    (tối thiểu:
+                                                <label class="text-sm text-[#6c6a69] space-y-1 font-bold">Your bid
+                                                    (minimum:
                                                     {{ number_format($auctionData['min_next_bid'], 0, ',', '.') }}
                                                     ₫)</label>
                                                 <input type="number" id="bid-price" name="bid_price"
@@ -630,19 +629,19 @@
                                                     <button type="button"
                                                         class="w-full btn btn-neutral text-white font-semibold rounded-lg"
                                                         onclick="showBidConfirmation(event)">
-                                                        Trả giá ngay
+                                                        Bid now
                                                     </button>
                                                 @else
                                                     <a href="{{ url('/admin/buy-memberships') }}"
                                                         class="w-full btn btn-outline font-semibold rounded-lg text-center">
-                                                        Mua gói thành viên
+                                                        Buy membership package
                                                     </a>
                                                 @endif
                                             @else
                                                 <button type="button"
                                                     class="w-full btn btn-outline font-semibold rounded-lg"
                                                     onclick="window.location.href='{{ url('/admin/login') }}'">
-                                                    Đăng nhập để Trả giá
+                                                    Login to Bid
                                                 </button>
                                             @endif
                                         </form>
@@ -673,7 +672,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                                 </svg>
-                                                Chia sẻ
+                                                Share
                                             </button>
                                         </div>
                                     @endif
@@ -682,9 +681,9 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11,944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                                         </svg>
-                                        {{ number_format($followersCount ?? 0) }} người đang theo dõi
+                                        {{ number_format($followersCount ?? 0) }} followers
                                     </div>
                                 </div>
                             @else
@@ -706,16 +705,16 @@
                                     @if (!(isset($auctionData['auction']) && \Carbon\Carbon::parse($auctionData['auction']->end_time)->lte(now())))
                                         <div class="text-gray-500 mb-2">
                                             @if ($auctionData)
-                                                Phiên trả giá chưa bắt đầu hoặc đã kết thúc
+                                                Bidding session has not started or has ended
                                                 <br><small>Status: {{ $auctionData['auction']->status }}</small>
                                             @else
-                                                Chưa có phiên trả giá cho sản phẩm này
+                                                There are no bids for this product yet
                                             @endif
                                         </div>
                                     @endif
                                     @if (!$isAuctionEnded)
                                         <button class="btn btn-disabled w-full" disabled>
-                                            Trả giá ngay
+                                            Bid Now
                                         </button>
                                     @endif
                                 </div>
@@ -750,26 +749,26 @@
                                                 </button>
                                             </div>
                                             <div class="text-slate-600">
-                                                Còn lại: {{ $product->stock ?? 0 }} sản phẩm
+                                                Remaining: {{ $product->stock ?? 0 }} products
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-neutral w-full mt-4">
-                                    Thêm vào giỏ hàng
+                                    Add to cart
                                 </button>
                                 <div class="grid grid-cols-2 gap-2 mt-4">
                                     <button type="button"
                                         class="btn btn-outline wishlist-btn !border-[#6c6a69] rounded-lg"
                                         id="btn-add-wishlist" data-id="{{ $product->id }}"
-                                        aria-label="Đã thêm vào danh sách yêu thích">
+                                        aria-label="Added to wishlist">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2.5" stroke="currentColor" class="size-[1.2em]">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                         </svg>
-                                        Yêu thích
+                                        Favorite
                                     </button>
                                     <button type="button" class="btn btn-outline !border-[#6c6a69] rounded-lg"
                                         onclick="shareProduct()">
@@ -778,7 +777,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                         </svg>
-                                        Chia sẻ
+                                        Share
                                     </button>
                                 </div>
                             </form>
@@ -819,7 +818,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
                                     </svg>
-                                    <h2 class="card-title">Lịch sử trả giá của bạn</h2>
+                                    <h2 class="card-title">Your bidding history</h2>
                                 </div>
 
                                 @if ($userBidInfo && $userBidInfo['success'] && isset($userBidInfo['can_bid_now']) && !$userBidInfo['can_bid_now'])
@@ -831,8 +830,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                <span class="font-medium">Đếm ngược đến khi bạn được tiếp tục đấu
-                                                    giá</span>
+                                                <span class="font-medium">Countdown until you can continue bidding</span>
                                             </div>
                                         </div>
                                         <div class="countdown font-mono text-lg text-orange-800" id="user-bid-countdown">
@@ -843,10 +841,10 @@
                                             <span style="--value:0;" aria-live="polite" aria-label="0">00</span>
                                         </div>
                                         <div class="text-xs text-orange-600 mt-1">
-                                            <span class="font-medium">Giờ : Phút : Giây</span>
+                                            <span class="font-medium">Hours : Minutes : Seconds</span>
                                         </div>
                                         <div class="text-xs text-orange-600 mt-1">
-                                            Thời gian delay: {{ $userBidInfo['time_delay'] }} phút
+                                            Delay time: {{ $userBidInfo['time_delay'] }} minutes
                                         </div>
                                     </div>
                                 @elseif (
@@ -865,7 +863,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0118 0Z" />
                                                 </svg>
-                                                <span class="font-medium">Bạn có thể trả giá ngay bây giờ!</span>
+                                                <span class="font-medium">You can bid now!</span>
                                             </div>
                                         </div>
                                     </div>
@@ -885,10 +883,10 @@
                                             </div>
                                             <div class="text-xs text-gray-500">
                                                 @if ($bid === $userBids->first())
-                                                    <span class="badge badge-soft badge-success text-green-600">Đang dẫn
-                                                        đầu</span>
+                                                    <span
+                                                        class="badge badge-soft badge-success text-green-600">Leading</span>
                                                 @else
-                                                    <span class="badge badge-soft badge-error">Bị vượt giá</span>
+                                                    <span class="badge badge-soft badge-error">Overpriced</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -910,15 +908,15 @@
                     @endphp
                     <div class="card w-full bg-base-100 card-md shadow-sm mt-4">
                         <div class="card-body">
-                            <h2 class="card-title">{{ $isAuctionEnded ? 'Lịch sử trả giá cuối' : 'Lịch sử Trả giá' }}</h2>
+                            <h2 class="card-title">{{ $isAuctionEnded ? 'Last bid history' : 'Bid history' }}</h2>
                             @if (!empty($auctionData['recent_bids']) && count($auctionData['recent_bids']) > 0)
                                 <div class="space-y-3">
                                     @foreach ($auctionData['recent_bids']->take(5) as $bid)
                                         <div
-                                            class="flex items-center justify-between py-2 border-b last:border-b-0 border-slate-300 text-base @if ($isAuctionEnded && $lastBid && $bid->id === $lastBid->id) bg-[#fefce8] rounded-lg py-3 px-5 @endif">
+                                            class="flex items-center justify-between py-2 border-b last:border-b-0 border-slate-300 text-base @if ($isAuctionEnded && $lastBid && $bid->id === $lastBid->id) bg-[#fefce8] rounded-lg px-5 @endif">
                                             <div>
                                                 <div class="font-medium">
-                                                    {{ \App\Utils\HelperFunc::maskMiddle($bid->user->name ?? 'Người dùng', 4, 3) }}
+                                                    {{ \App\Utils\HelperFunc::maskMiddle($bid->user->name ?? 'Person use', 4, 3) }}
                                                     @if ($isAuctionEnded && $lastBid && $bid->id === $lastBid->id)
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -938,7 +936,7 @@
                                     @endforeach
                                 </div>
                             @else
-                                <div class="text-sm text-gray-500">Chưa có lịch sử trả giá</div>
+                                <div class="text-sm text-gray-500">No bid history</div>
                             @endif
                         </div>
                     </div>
@@ -948,9 +946,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <span>Chỉ Trả giá khi bạn thực sự muốn mua sản phẩm. Việc trả giá thành công có tính ràng buộc
-                            pháp
-                            lý.</span>
+                        <span>Only bid if you are serious about buying the item. Successful bids are legally
+                            binding.</span>
                     </div>
                 @endif
 
@@ -970,7 +967,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <div class="flex items-center gap-4">
-                                            <h3 class="font-semibold text-lg">{{ $user->name ?? 'Người bán' }}</h3>
+                                            <h3 class="font-semibold text-lg">{{ $user->name ?? 'Seller' }}</h3>
                                             @if (
                                                 ($user->email_verified_at && $user->phone_verified_at) ||
                                                     ($user->email_verified_at && !$user->phone) ||
@@ -984,13 +981,10 @@
                                                 <span
                                                     class="ml-1 font-semibold">{{ number_format($sellerAverageRating ?? 0, 1) }}</span>
                                             </div>
-                                            <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} đánh giá)</span>
-                                            @foreach ($user->contact_info as $item)
-                                            @endforeach
+                                            <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} review)</span>
                                         </div>
-                                        <p class="text-gray-600 mt-2">Cửa hàng uy tín chuyên bán các sản phẩm công nghệ
-                                            chính
-                                            hãng</p>
+                                        <p class="text-gray-600 mt-2">A reputable store specializing in selling genuine
+                                            technology products</p>
                                         {{-- <button
                                             class="mt-4 bg-transparent border border-gray-400 text-gray-700 py-2 px-4 rounded">
                                             <a href="https://www.nitori.com.vn/" target="_blank">
@@ -1010,35 +1004,35 @@
                 <div class="w-full">
                     <div class="grid w-full grid-cols-3">
                         <button onclick="showTabMobile('description-mobile')"
-                            class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Mô
-                            tả</button>
+                            class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Model
+                            description</button>
                         <button onclick="showTabMobile('shipping-mobile')"
-                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Vận
-                            chuyển</button>
+                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">
+                            switch</button>
                         <button onclick="showTabMobile('seller-mobile')"
-                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Người
-                            bán</button>
+                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Person
+                            sell</button>
                     </div>
 
                     <div id="description-mobile" class="tab-content-mobile mt-6">
                         <div class="max-w-none">
-                            <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'Chưa có mô tả sản phẩm' !!}</pre>
+                            <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'No product description yet' !!}</pre>
                         </div>
                     </div>
 
                     <div id="shipping-mobile" class="tab-content-mobile mt-6" style="display: none;">
                         <div class="space-y-4">
                             <div class="flex justify-between">
-                                <span>Phí vận chuyển:</span>
-                                <span class="font-semibold">Miễn phí</span>
+                                <span>Shipping fee:</span>
+                                <span class="font-semibold">Free</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Thời gian giao hàng:</span>
-                                <span class="font-semibold">2-3 ngày làm việc</span>
+                                <span>Delivery time:</span>
+                                <span class="font-semibold">2-3 working days</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Đóng gói:</span>
-                                <span class="font-semibold">Cẩn thận, an toàn</span>
+                                <span>Packaging:</span>
+                                <span class="font-semibold">Careful, safe</span>
                             </div>
                         </div>
                     </div>
@@ -1055,16 +1049,16 @@
                                 @endif
                             </div>
                             <div class="flex-1">
-                                <h3 class="font-semibold text-lg">{{ $user->name ?? 'Người bán' }}</h3>
+                                <h3 class="font-semibold text-lg">{{ $user->name ?? 'Seller' }}</h3>
                                 <div class="flex items-center space-x-2 mt-1">
                                     <div class="flex items-center">
                                         <span class="text-yellow-500">★</span>
                                         <span
                                             class="ml-1 font-semibold">{{ number_format($sellerAverageRating ?? 0, 1) }}</span>
                                     </div>
-                                    <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} đánh giá)</span>
+                                    <span class="text-gray-500">({{ $sellerTotalReviews ?? 0 }} reviews)</span>
                                 </div>
-                                <p class="text-gray-600 mt-2">{{ $user->introduce ?? 'Chưa có giới thiệu' }}</p>
+                                <p class="text-gray-600 mt-2">{{ $user->introduce ?? 'No introduction yet' }}</p>
                             </div>
                         </div>
                     </div>
@@ -1076,59 +1070,58 @@
                 <div class="w-full">
                     <div class="grid w-full grid-cols-3">
                         <button onclick="showTab('description')"
-                            class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Mô tả</button>
+                            class="p-2 text-center border-b-2 border-blue-500 hover:text-slate-500">Description</button>
                         <button onclick="showTab('shipping')"
-                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Thông
-                            tin</button>
+                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Information
+                            news</button>
                         <button onclick="showTab('reviews')"
-                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Bình
-                            luận</button>
+                            class="p-2 text-center border-b-2 border-transparent hover:text-slate-500">Comment</button>
                     </div>
 
                     <div id="description" class="tab-content mt-6">
                         <div class="max-w-none">
-                            <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'Chưa có mô tả sản phẩm' !!}</pre>
+                            <pre class="whitespace-pre-wrap font-sans text-base">{!! $product->description ?? 'No product description yet' !!}</pre>
                         </div>
                     </div>
 
                     <div id="shipping" class="tab-content mt-6" style="display: none;">
                         <div class="space-y-4">
-                            <h3 class="font-semibold mb-4 text-lg">Thông tin chi tiết sản phẩm</h3>
+                            <h3 class="font-semibold mb-4 text-lg">Product details</h3>
 
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div class="space-y-3">
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Loại:</span>
+                                        <span class="font-medium text-slate-700">Type:</span>
                                         <span
-                                            class="text-slate-900">{{ $product->category->name ?? 'Chưa có thông tin' }}</span>
+                                            class="text-slate-900">{{ $product->category->name ?? 'No information yet' }}</span>
                                     </div>
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Thương hiệu:</span>
-                                        <span class="text-slate-900">{{ $product->brand ?? 'Chưa có thông tin' }}</span>
+                                        <span class="font-medium text-slate-700">Brand:</span>
+                                        <span class="text-slate-900">{{ $product->brand ?? 'No information yet' }}</span>
                                     </div>
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Tình trạng sản phẩm:</span>
+                                        <span class="font-medium text-slate-700">Product status:</span>
                                         <span class="text-slate-900">{{ $productStateLabel }}</span>
                                     </div>
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Số lượng:</span>
-                                        <span class="text-slate-900">{{ $product->stock ?? 'Chưa có thông tin' }}</span>
+                                        <span class="font-medium text-slate-700">Quantity:</span>
+                                        <span class="text-slate-900">{{ $product->stock ?? 'No information yet' }}</span>
                                     </div>
                                 </div>
                                 <div class="space-y-3">
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Người bán:</span>
-                                        <span class="text-slate-900">{{ $user->name ?? 'Chưa có thông tin' }}</span>
+                                        <span class="font-medium text-slate-700">Seller:</span>
+                                        <span class="text-slate-900">{{ $user->name ?? 'No information yet' }}</span>
                                     </div>
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Ngày vận chuyển:</span>
+                                        <span class="font-medium text-slate-700">Shipping date:</span>
                                         <span
-                                            class="text-slate-900">{{ $product->dateShipping ?? 'Giao hàng trong vòng 1-2 ngày sau khi thanh toán' }}</span>
+                                            class="text-slate-900">{{ $product->dateShipping ?? 'Delivery within 1-2 days after payment' }}</span>
                                     </div>
                                     <div class="flex justify-between py-6 border-b border-slate-300">
-                                        <span class="font-medium text-slate-700">Phương thức thanh toán:</span>
+                                        <span class="font-medium text-slate-700">Payment Methods:</span>
                                         <span
-                                            class="text-slate-900">{{ $productPaymentMethodLabel ?? 'Chưa có thông tin' }}</span>
+                                            class="text-slate-900">{{ $productPaymentMethodLabel ?? 'No information yet' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1151,7 +1144,7 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <div class="text-slate-600 mb-6">{{ $totalReviews }} đánh giá</div>
+                                    <div class="text-slate-600 mb-6">{{ $totalReviews }} review</div>
 
                                     <div class="space-y-2">
                                         @for ($star = 5; $star >= 1; $star--)
@@ -1193,7 +1186,7 @@
                                                     <div class="flex-1">
                                                         <div class="flex items-center gap-2 mb-2">
                                                             <span
-                                                                class="font-semibold">{{ $evaluate->user->name ?? 'Khách hàng' }}</span>
+                                                                class="font-semibold">{{ $evaluate->user->name ?? 'Customer' }}</span>
                                                             <div class="rating rating-sm">
                                                                 @for ($i = 1; $i <= 5; $i++)
                                                                     <div class="mask mask-star {{ $i <= $evaluate->star_rating ? 'bg-orange-400' : 'bg-slate-300' }}"
@@ -1207,8 +1200,7 @@
                                                         </div>
                                                         <p class="text-gray-700 mb-3">{{ $evaluate->comment }}</p>
                                                         @if ($evaluate->seller_rating)
-                                                            <div class="text-sm text-slate-500 mb-2">
-                                                                Đánh giá người bán:
+                                                            <div class="text-sm text-slate-500 mb-2">Seller Rating:
                                                                 <div class="rating rating-xs inline-block ml-1">
                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                         <div class="mask mask-star {{ $i <= $evaluate->seller_rating ? 'bg-orange-400' : 'bg-slate-300' }}"
@@ -1232,9 +1224,9 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                             </svg>
-                                            <h3 class="mt-2 text-sm font-medium text-gray-900">Chưa có đánh giá</h3>
-                                            <p class="mt-1 text-sm text-gray-500">Hãy là người đầu tiên đánh giá sản
-                                                phẩm này!</p>
+                                            <h3 class="mt-2 text-sm font-medium text-gray-900">No reviews yet</h3>
+                                            <p class="mt-1 text-sm text-gray-500">Be the first to review
+                                                this product!</p>
                                         </div>
                                     </div>
                                 @endif
@@ -1245,7 +1237,9 @@
             </div>
         @endif
 
-        <div class="text-lg font-bold text-gray-600 pt-4 mb-4">Sản phẩm cùng loại</div>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No reviews yet</h3>
+        <p class="mt-1 text-sm text-gray-500">Be the first to review
+            this product!</p>
         <div class="swiper popularProductsSwiper !p-3">
             <div class="swiper-wrapper">
                 @foreach ($product_category as $item)
@@ -1272,7 +1266,7 @@
         @endphp
         <dialog id="bid_confirmation_modal" class="modal">
             <div class="modal-box">
-                <h3 class="font-bold text-lg mb-4">Xác nhận trả giá</h3>
+                <h3 class="font-bold text-lg mb-4">Confirm bid</h3>
                 <div class="space-y-4">
 
                     {{-- @unless ($userHasBidded)
@@ -1306,15 +1300,15 @@
                     @endunless --}}
 
                     <div class="text-sm text-gray-600">
-                        <p>Bạn có chắc chắn muốn tham gia trả giá sản phẩm này?</p>
+                        <p>Are you sure you want to bid on this product?</p>
                     </div>
                 </div>
 
                 <div class="modal-action">
                     <form method="dialog">
-                        <button class="btn btn-outline" onclick="closeBidConfirmation()">Hủy</button>
+                        <button class="btn btn-outline" onclick="closeBidConfirmation()">Cancel</button>
                     </form>
-                    <button class="btn btn-neutral" onclick="confirmBid()">Xác nhận trả giá</button>
+                    <button class="btn btn-neutral" onclick="confirmBid()">Confirm Bid</button>
                 </div>
             </div>
         </dialog>

@@ -14,12 +14,12 @@ enum ProductState: int
     public static function getOptions(): array
     {
         return [
-            self::UNUSED->value => 'Chưa sử dụng',
-            self::RARELY_USED->value => 'Hầu như không sử dụng',
-            self::EXCELLENT->value => 'Không có vết xước hoặc bụi bẩn đáng chú ý',
-            self::SOME_SCRATCHES->value => 'Có một số vết xước và bụi bẩn',
-            self::SCRATCHES_AND_DIRTY->value => 'Có vết xước và vết bẩn',
-            self::POOR_CONDITION->value => 'Tình trạng chung là kém'
+            self::UNUSED->value => 'Unused',
+            self::RARELY_USED->value => 'Barely used',
+            self::EXCELLENT->value => 'No noticeable scratches or dirt',
+            self::SOME_SCRATCHES->value => 'Some scratches and dirt',
+            self::SCRATCHES_AND_DIRTY->value => 'Scratch and dirt',
+            self::POOR_CONDITION->value => 'Poor overall condition'
         ];
     }
 

@@ -1,12 +1,10 @@
-<x-filament::section heading="Đơn hàng">
+<x-filament::section heading="Orders">
     <div class="flex flex-col gap-2">
         <x-filament::link :href="route('filament.admin.resources.orders.mine')">
-            Đơn hàng của tôi
+            My Orders
         </x-filament::link>
         <x-filament::link :href="route('filament.admin.resources.orders.customers')">
-            Đơn của khách hàng
+            Customer Orders
         </x-filament::link>
     </div>
 </x-filament::section>
-
-

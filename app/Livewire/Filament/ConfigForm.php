@@ -33,12 +33,12 @@ class ConfigForm extends Component
         $result = $this->service->updateConfigs($this->config_value);
         if ($result) {
             Notification::make()
-                ->title('Cập nhật config thành công')
+                ->title('Config update successful')
                 ->success()
                 ->send();
-        }else{
+        } else {
             Notification::make()
-                ->title('Cập nhật config thất bại')
+                ->title('Config update failed')
                 ->danger()
                 ->send();
         }

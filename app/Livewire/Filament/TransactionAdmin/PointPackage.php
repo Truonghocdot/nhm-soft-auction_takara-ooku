@@ -34,22 +34,22 @@ class PointPackage extends Component implements HasForms, HasTable
             ->query($this->service->getTransactionPaymentByType(TransactionPaymentType::RECHANGE_POINT))
             ->columns([
                 TextColumn::make('description')
-                    ->label('Mã giao dịch')
+                    ->label('Transaction code')
                     ->copyable()
-                    ->tooltip("Nhấn để sao chép mã giao dịch")
-                    ->copyMessage('Copy mã giao dich thành công')
+                    ->tooltip("Click to copy transaction code")
+                    ->copyMessage('Copy transaction code successfully')
                     ->searchable(),
                 TextColumn::make('transactionPoint.point')
-                    ->label('Số điểm'),
+                    ->label('Points'),
                 TextColumn::make('user.email')
                     ->description(fn($record) => $record->user->name)
-                    ->label('Người dùng')
+                    ->label('User')
                     ->searchable(),
                 TextColumn::make('money')
-                    ->label('Số tiền')
+                    ->label('Amount')
                     ->money('vnd'),
                 TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->badge()
                     ->formatStateUsing(fn(string $state) => TransactionPaymentStatus::getLabel((int)$state))
                     ->color(fn(string $state): string => match (TransactionPaymentStatus::from((int)$state)) {
@@ -59,11 +59,11 @@ class PointPackage extends Component implements HasForms, HasTable
                         default => 'default',
                     }),
                 TextColumn::make('created_at')
-                    ->label('Thời gian giao dịch')
+                    ->label('Transaction time')
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
                         TransactionPaymentStatus::WAITING->value => TransactionPaymentStatus::getLabel(TransactionPaymentStatus::WAITING->value),
                         TransactionPaymentStatus::ACTIVE->value => TransactionPaymentStatus::getLabel(TransactionPaymentStatus::ACTIVE->value),
@@ -78,53 +78,53 @@ class PointPackage extends Component implements HasForms, HasTable
                         $result = $this->service->confirmPointTransaction($record, TransactionPaymentStatus::ACTIVE);
                         if ($result) {
                             Notification::make()
-                                ->title('Thành công')
-                                ->body('Xác nhận giao dịch thành công')
+                                ->title('Success')
+                                ->body('Transaction Confirmation Successful')
                                 ->success()
                                 ->send();
                         } else {
                             Notification::make()
-                                ->title('Thất bại')
-                                ->body('Xác nhận giao dịch thất bại')
+                                ->title('Failure')
+                                ->body('Transaction Confirmation Failed')
                                 ->danger()
                                 ->send();
                         }
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Xác nhận giao dịch')
-                    ->modalDescription('Bạn có chắc chắn muốn thực hiện hành động này?')
-                    ->modalSubmitActionLabel('Xác nhận')
+                    ->modalHeading('Confirm Transaction')
+                    ->modalDescription('Are you sure you want to perform this action?')
+                    ->modalSubmitActionLabel('Confirm')
                     ->icon('heroicon-o-check')
                     ->color('success'),
                 Action::make('change_status_failed')
-                    ->label('Hủy bỏ')
+                    ->label('Cancel')
                     ->visible(fn($record) => $record->status == TransactionPaymentStatus::WAITING->value)
                     ->action(function ($record) {
                         $result = $this->service->confirmPointTransaction($record, TransactionPaymentStatus::FAILED);
                         if ($result) {
                             Notification::make()
-                                ->title('Thành công')
-                                ->body('Hủy bỏ giao dịch thành công')
+                                ->title('Success')
+                                ->body('Cancel transaction successfully')
                                 ->success()
                                 ->send();
                         } else {
                             Notification::make()
-                                ->title('Thất bại')
-                                ->body('Hủy bỏ giao dịch thất bại')
+                                ->title('Failed')
+                                ->body('Cancel transaction failed')
                                 ->danger()
                                 ->send();
                         }
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Hủy bỏ giao dịch')
-                    ->modalDescription('Bạn có chắc chắn muốn thực hiện hành động này?')
-                    ->modalSubmitActionLabel('Xác nhận')
+                    ->modalHeading('Cancel transaction')
+                    ->modalDescription('Are you sure you want to perform this action?')
+                    ->modalSubmitActionLabel('Confirm')
                     ->icon('heroicon-o-exclamation-circle')
                     ->color('danger'),
             ])
-            ->emptyStateHeading("Chưa có giao dịch nào")
+            ->emptyStateHeading("No transactions have been made yet")
             ->emptyStateIcon("heroicon-o-rectangle-stack")
-            ->emptyStateDescription("Hiện tại chưa có giao dịch nào được thực hiện. Vui lòng quay lại sau.")
+            ->emptyStateDescription("No transactions have been made yet. Please come back later.")
             ->defaultPaginationPageOption(25)
             ->defaultSort('created_at', 'desc');
     }

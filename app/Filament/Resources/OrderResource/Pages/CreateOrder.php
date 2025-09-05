@@ -53,12 +53,12 @@ class CreateOrder extends CreateRecord
 
         if ($paymentMethod === '1') {
             Notification::make()
-                ->title('Đã chuyển đến trang QR code thanh toán!')
+                ->title('Redirected to QR code payment page!')
                 ->info()
                 ->send();
         } else {
             Notification::make()
-                ->title('Đơn hàng đã được tạo thành công!')
+                ->title('Order created successfully!')
                 ->success()
                 ->send();
         }
@@ -80,17 +80,17 @@ class CreateOrder extends CreateRecord
     protected function getSteps(): array
     {
         return [
-            Step::make('Chi tiết đơn hàng')
+            Step::make('Order details')
                 ->schema([
                     Section::make()->schema(OrderResource::getDetailsFormSchema())->columns(),
                 ]),
 
-            Step::make('Sản phẩm trong đơn hàng')
+            Step::make('Products in order')
                 ->schema([
                     Section::make()->schema([
                         OrderResource::getItemsRepeater(),
                         Placeholder::make('total_display')
-                            ->label('Tổng tiền đơn hàng')
+                            ->label('Total order amount')
                             ->content(function (Get $get): string {
                                 $items = $get('items') ?? [];
                                 return $this->Service()->formatCurrency($this->Service()->calculateSubtotal($items));
@@ -99,7 +99,7 @@ class CreateOrder extends CreateRecord
                             ->extraAttributes(['class' => 'text-lg font-bold text-green-600']),
                     ]),
                 ]),
-            Step::make('Thanh toán')
+            Step::make('Payment')
                 ->icon('heroicon-o-credit-card')
                 ->schema([
                     Section::make()->schema(OrderResource::getPaymentFormSchema()),

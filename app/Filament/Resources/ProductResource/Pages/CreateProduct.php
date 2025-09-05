@@ -17,7 +17,7 @@ class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected static ?string $title = "Đăng bán sản phẩm";
+    protected static ?string $title = "Post Product";
 
     public function mount(): void
     {
@@ -30,9 +30,9 @@ class CreateProduct extends CreateRecord
 
         if (empty($user)) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.')
+                ->body('No user information found. Please log in again.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -58,9 +58,9 @@ class CreateProduct extends CreateRecord
 
         if (empty($userId)) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Không xác định được ID người dùng.')
+                ->body('Unable to determine user ID.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -69,9 +69,9 @@ class CreateProduct extends CreateRecord
         $productsCount = app(ProductServiceInterface::class)->getCountProductByCreatedByAndNearMonthly($userId);
         if ($membershipPlans->isEmpty()) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Bạn cần mua gói thành viên để tạo sản phẩm. Vui lòng chọn gói để tiếp tục.')
+                ->body('You need to purchase a membership package to create a product. Please select a package to continue.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -84,9 +84,9 @@ class CreateProduct extends CreateRecord
 
         if (empty($planActive)) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Bạn cần nâng cấp hoặc kích hoạt gói thành viên khác. Vui lòng chọn gói để tiếp tục.')
+                ->body('You need to upgrade or activate another membership plan. Please select a plan to continue.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -101,9 +101,9 @@ class CreateProduct extends CreateRecord
 
         if (empty($config) || !is_array($config) && !is_object($config)) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Cấu hình gói không hợp lệ. Vui lòng liên hệ quản trị.')
+                ->body('Invalid package configuration. Please contact administrator.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -124,9 +124,9 @@ class CreateProduct extends CreateRecord
 
         if (($maxPerMonth > 0 && $productsCount >= $maxPerMonth)) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Bạn đã đạt giới hạn tháng cần mua gói thành viên để tạo sản phẩm. Vui lòng chọn gói để tiếp tục.')
+                ->body('You have reached the monthly limit of purchasing a membership package to create a product. Please select a package to continue.')
                 ->send();
 
             redirect()->to(BuyMembershipResource::getUrl());
@@ -170,9 +170,9 @@ class CreateProduct extends CreateRecord
 
         if (!$freeListing && $maxPerMonth > 0 && $productsCount >= $maxPerMonth) {
             Notification::make()
-                ->title('Không đủ quyền')
+                ->title('Insufficient permissions')
                 ->warning()
-                ->body('Bạn đã đạt giới hạn tháng, cần mua gói thành viên để tạo thêm sản phẩm.')
+                ->body('You have reached your monthly limit, need to purchase a membership package to create more products.')
                 ->send();
 
             $this->halt(); // chặn quá trình tạo

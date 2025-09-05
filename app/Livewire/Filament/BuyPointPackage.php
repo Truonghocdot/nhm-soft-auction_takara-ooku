@@ -65,8 +65,8 @@ class BuyPointPackage extends Component
         }
 
         Notification::make()
-            ->title('Lỗi')
-            ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+            ->title('Error')
+            ->body('An error occurred, please try again later.')
             ->danger()
             ->send();
         $this->nextStepBuy = false;
@@ -86,14 +86,14 @@ class BuyPointPackage extends Component
         );
         if ($result) {
             Notification::make()
-                ->title('Thành công')
-                ->body('Thanh toán thành công, vui lòng chờ duyệt.')
+                ->title('Success')
+                ->body('Payment successful, please wait for approval.')
                 ->success()
                 ->send();
         } else {
             Notification::make()
-                ->title('Lỗi')
-                ->body('Có lỗi xảy ra, vui lòng thử lại sau.')
+                ->title('Error')
+                ->body('An error occurred, please try again later.')
                 ->danger()
                 ->send();
         }

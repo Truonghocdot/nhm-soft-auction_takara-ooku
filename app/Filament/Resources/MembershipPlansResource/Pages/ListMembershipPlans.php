@@ -13,15 +13,15 @@ class ListMembershipPlans extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Gói thành viên',
-            '' => 'Danh sách',
+            url()->previous() => 'Membership Package',
+            '' => 'List',
         ];
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Tạo gói thành viên'),
+            Actions\CreateAction::make()->label('Create Membership Package'),
         ];
     }
 }

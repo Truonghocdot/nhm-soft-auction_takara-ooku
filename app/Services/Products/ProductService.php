@@ -169,7 +169,7 @@ class ProductService extends BaseService implements ProductServiceInterface
             ];
         }
 
-        $productStateLabel = 'Chưa có thông tin';
+        $productStateLabel = 'No information available';
         if (isset($product->state)) {
             $productState = ProductState::tryFrom($product->state);
             if ($productState) {
@@ -335,7 +335,7 @@ class ProductService extends BaseService implements ProductServiceInterface
 
         $user = $this->repositories['user']->find($userId);
         if (!$user) {
-            throw new ServiceException('Không tìm thấy người dùng.');
+            throw new ServiceException('User not found.');
         }
 
         // $coinCost = 0;

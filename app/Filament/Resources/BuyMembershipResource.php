@@ -12,9 +12,6 @@ class BuyMembershipResource extends Resource
     protected static ?string $model = MembershipPlan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    public static ?string $navigationLabel = 'Gói thành viên';
-
-    protected static ?string $modelLabel = "Gói thành viên";
 
     public static function canAccess(): bool
     {

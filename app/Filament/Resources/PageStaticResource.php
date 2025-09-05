@@ -18,127 +18,142 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use App\Enums\CommonConstant;
+use App\Enums\Permission\RoleConstant;
+use Filament\Forms\Components\RichEditor;
 
 class PageStaticResource extends Resource
 {
     protected static ?string $model = PageStatic::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
+    protected static ?string $navigationGroup = 'Website';
+    protected static ?string $modelLabel = 'Static page';
+    protected static ?string $pluralModelLabel = 'Static page';
     protected static ?int $navigationSort = 10;
-
-    protected static ?string $navigationLabel = 'Trang tĩnh';
-
-    protected static ?string $modelLabel = 'trang tĩnh';
-
-    protected static ?string $pluralModelLabel = 'Trang tĩnh';
+    protected static ?string $navigationLabel = 'Static page';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Grid::make(3)
-                    ->schema([
-                        // Main Content Section
-                        Section::make('Thông tin cơ bản')
-                            ->schema([
-                                TextInput::make('title')
-                                    ->required()
-                                    ->label('Tiêu đề')
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function ($state, callable $set) {
-                                        if (! $state) {
-                                            return;
-                                        }
-                                        $baseSlug = \Illuminate\Support\Str::slug($state);
-                                        $slug = $baseSlug;
-                                        $counter = 1;
-                                        while (\App\Models\PageStatic::where('slug', $slug)->exists()) {
-                                            $slug = $baseSlug . '-' . $counter++;
-                                        }
-                                        $set('slug', $slug);
-                                    })
+                Grid::make(3)->schema([
+                    Section::make('Main information')
+                        ->description('Basic information of the page')
+                        ->schema([
+                            TextInput::make('title')
+                                ->label('Title')
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, $record) {
+                                    if ($operation !== 'create' || !$state) {
+                                        return;
+                                    }
 
-                                    ->maxLength(255),
+                                    $baseSlug = Str::slug($state);
+                                    $uniqueSlug = static::generateUniqueSlug($baseSlug, $record?->id);
+                                    $set('slug', $uniqueSlug);
+                                })
+                                ->maxLength(255),
 
-                                TextInput::make('slug')
-                                    ->required()
-                                    ->readOnly()
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true),
+                            TextInput::make('slug')
+                                ->label('URL Path')
+                                ->required()
+                                ->maxLength(255)
+                                ->unique(PageStatic::class, 'slug', ignoreRecord: true)
+                                ->helperText('Friendly URL, eg: gioi-thieu')
+                                ->rules(['alpha_dash'])
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get, $record) {
+                                    if (!$state) return;
 
-                                Select::make('status')
-                                    ->label('Trạng thái')
-                                    ->options([
-                                        1 => 'Đăng',
-                                        0 => 'Nháp',
-                                    ])
-                                    ->required()
-                                    ->native(false),
+                                    $baseSlug = Str::slug($state);
+                                    $uniqueSlug = static::generateUniqueSlug($baseSlug, $record?->id);
 
-                                DateTimePicker::make('published_at')
-                                    ->label('Thời gian đăng')
-                                    ->helperText('Để trống để đăng sau khi tạo và trạng thái = "Đăng"'),
-                            ])
-                            ->columnSpan(2),
+                                    if ($uniqueSlug !== $state) {
+                                        $set('slug', $uniqueSlug);
+                                    }
+                                }),
 
-                        // Sidebar Section
-                        Section::make('Media & SEO')
-                            ->schema([
-                                FileUpload::make('image')
-                                    ->label('Ảnh đại diện trang')
-                                    ->image()
-                                    ->directory('pages')
-                                    ->maxSize(2048)
-                                    ->imagePreviewHeight('150')
-                                    ->helperText('Ảnh sẽ dùng làm banner/og:image nếu không có ảnh khác.')
-                                    ->columnSpanFull(),
+                            Select::make('status')
+                                ->label('Status')
+                                ->options([
+                                    CommonConstant::INACTIVE => 'Hidden',
+                                    CommonConstant::ACTIVE => 'Activate'
+                                ])
+                                ->default(CommonConstant::INACTIVE)
+                                ->required()
+                                ->native(false)
+                                ->live()
+                                ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                                    if ($state == CommonConstant::ACTIVE && !$get('published_at')) {
+                                        $set('published_at', now());
+                                    } elseif ($state == CommonConstant::INACTIVE) {
+                                        $set('published_at', null);
+                                    }
+                                }),
 
-                                // TextInput::make('template')
-                                //     ->label('Template')
-                                //     ->helperText('Tên template nếu muốn render layout khác (ví dụ: landing)'),
+                            DateTimePicker::make('published_at')
+                                ->label('Posting time')
+                                ->helperText('Automatically update when status changes')
+                                ->native(false)
+                                ->visible(fn(Forms\Get $get) => $get('status') == CommonConstant::ACTIVE),
+                        ])
+                        ->columnSpan(2),
 
-                                Textarea::make('meta_keywords')
-                                    ->label('Meta Keywords')
-                                    ->maxLength(255)
-                                    ->rows(2),
+                    Section::make('SEO & Media')
+                        ->schema([
+                            FileUpload::make('image')
+                                ->label('Representative image')
+                                ->image()
+                                ->directory('pages')
+                                ->maxSize(2048)
+                                ->imagePreviewHeight('120'),
 
-                                Textarea::make('meta_description')
-                                    ->label('Meta Description')
-                                    ->rows(3)
-                                    ->maxLength(500),
-                            ])
-                            ->columnSpan(1),
-                    ]),
+                            TextInput::make('meta_title')
+                                ->label('Meta Title')
+                                ->maxLength(255),
 
-                // Content Section
-                Section::make('Nội dung')
+                            Textarea::make('meta_keywords')
+                                ->label('Meta Keywords')
+                                ->maxLength(255)
+                                ->rows(2),
+
+                            Textarea::make('meta_description')
+                                ->label('Meta Description')
+                                ->rows(3)
+                                ->maxLength(500),
+                        ])
+                        ->columnSpan(1),
+                ]),
+
+                // Content Section 
+                Section::make('Content')
                     ->schema([
                         Textarea::make('excerpt')
-                            ->label('Miêu tả ngắn')
+                            ->label('Short description')
                             ->rows(3)
                             ->columnSpanFull(),
 
-                        TiptapEditor::make('content')
-                            ->label('Nội dung bài viết')
-                            ->profile('default')
+                        RichEditor::make('content')
+                            ->label('Main content')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strike',
+                                'link',
+                                'blockquote',
+                                'bulletList',
+                                'orderedList',
+                                'redo',
+                                'undo',
+                                'code',
+                                'codeBlock',
+                                'h2',
+                                'h3'
+                            ])
                             ->required()
-                            ->columnSpanFull()
-                            ->disk('public')
-                            ->directory('uploads/editor')
-                            ->acceptedFileTypes([
-                                'image/jpeg',
-                                'image/png',
-                                'image/webp',
-                                'image/gif',
-                                'application/pdf'
-                            ])
-                            ->imageResizeMode('force')
-                            ->imageResizeTargetWidth('800')
-                            ->imageResizeTargetHeight('600')
-                            ->extraInputAttributes([
-                                'style' => 'min-height: 400px;'
-                            ])
+                            ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
             ]);
@@ -149,128 +164,129 @@ class PageStaticResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Ảnh')
+                    ->label('Photo')
                     ->circular()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Tiêu đề')
+                    ->label('Title')
                     ->searchable()
                     ->sortable()
-                    ->limit(50)
-                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                        $state = $column->getState();
-                        if (strlen($state) <= 50) {
-                            return null;
-                        }
-                        return $state;
-                    }),
+                    ->limit(50),
 
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Đường dẫn (URL)')
+                    ->label('URL')
                     ->toggleable()
                     ->copyable()
-                    ->copyMessage('Đã sao chép URL!')
+                    ->copyMessage('URL copied!')
                     ->copyMessageDuration(1500),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
-                    ->formatStateUsing(fn($state): string => $state == 0 ? 'Bản nháp' : 'Đã xuất bản')
-                    ->colors([
-                        'secondary' => 0,
-                        'success'   => 1,
-                    ])
+                    ->label('Status')
+                    ->formatStateUsing(fn($state): string => $state == CommonConstant::ACTIVE ? 'Activate' : 'Hidden')
+                    ->badge()
+                    ->color(fn($state): string => $state == CommonConstant::ACTIVE ? 'success' : 'gray')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('published_at')
-                    ->label('Ngày xuất bản')
-                    ->dateTime()
+                    ->label('Posting time')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ngày tạo')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Ngày cập nhật')
-                    ->dateTime()
+                    ->label('Created at')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->options([
-                        'draft'     => 'Bản nháp',
-                        'published' => 'Đã xuất bản',
-                    ])
-                    ->multiple(),
-
-                Tables\Filters\TrashedFilter::make()
-                    ->label('Đã xóa'),
-
+                        CommonConstant::INACTIVE => 'Hidden',
+                        CommonConstant::ACTIVE => 'Activate',
+                    ]),
+                Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\Filter::make('published_range')
-                    ->label('Khoảng ngày xuất bản')
+                    ->label('Posting interval')
                     ->form([
                         DateTimePicker::make('published_from')
-                            ->label('Từ ngày')
+                            ->label('From date')
                             ->native(false),
                         DateTimePicker::make('published_until')
-                            ->label('Đến ngày')
+                            ->label('To date')
                             ->native(false),
                     ])
                     ->query(function ($query, $data) {
                         return $query
                             ->when($data['published_from'], fn($query, $date) => $query->where('published_at', '>=', $date))
                             ->when($data['published_until'], fn($query, $date) => $query->where('published_at', '<=', $date));
-                    })
-                    ->indicateUsing(function (array $data): array {
-                        $indicators = [];
-                        if ($data['published_from'] ?? null) {
-                            $indicators[] = Tables\Filters\Indicator::make('Từ ngày ' . \Carbon\Carbon::parse($data['published_from'])->toFormattedDateString())
-                                ->removeField('published_from');
-                        }
-                        if ($data['published_until'] ?? null) {
-                            $indicators[] = Tables\Filters\Indicator::make('Đến ngày ' . \Carbon\Carbon::parse($data['published_until'])->toFormattedDateString())
-                                ->removeField('published_until');
-                        }
-                        return $indicators;
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Chỉnh sửa'),
-                Tables\Actions\Action::make('visit')
-                    ->label('Xem trang')
-                    ->url(fn(PageStatic $record): string => route('pages.show', $record->slug))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('view')
+                    ->label('View page')
+                    ->url(fn(PageStatic $record): string => route('page.static', $record->slug))
                     ->openUrlInNewTab()
                     ->icon('heroicon-m-arrow-top-right-on-square')
-                    ->visible(fn(PageStatic $record): bool => $record->status == CommonConstant::INACTIVE),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Xóa'),
+                    ->visible(fn(PageStatic $record): bool => $record->status == CommonConstant::ACTIVE),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Xóa đã chọn'),
-                    Tables\Actions\BulkAction::make('publish')
-                        ->label('Xuất bản đã chọn')
+                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('activate')
+                        ->label('Activate')
                         ->icon('heroicon-m-eye')
                         ->requiresConfirmation()
-                        ->action(fn($records) => $records->each->update(['status' => CommonConstant::ACTIVE])),
-                    Tables\Actions\BulkAction::make('draft')
-                        ->label('Chuyển về nháp')
+                        ->action(function ($records) {
+                            $records->each(function ($record) {
+                                $record->update([
+                                    'status' => CommonConstant::ACTIVE,
+                                    'published_at' => $record->published_at ?? now()
+                                ]);
+                            });
+                        }),
+                    Tables\Actions\BulkAction::make('deactivate')
+                        ->label('Hide')
                         ->icon('heroicon-m-eye-slash')
                         ->requiresConfirmation()
-                        ->action(fn($records) => $records->each->update(['status' => CommonConstant::INACTIVE])),
+                        ->action(function ($records) {
+                            $records->each->update([
+                                'status' => CommonConstant::INACTIVE,
+                                'published_at' => null
+                            ]);
+                        }),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
     }
 
+    protected static function generateUniqueSlug(string $baseSlug, ?int $ignoreId = null): string
+    {
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (static::slugExists($slug, $ignoreId)) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    protected static function slugExists(string $slug, ?int $ignoreId = null): bool
+    {
+        $query = PageStatic::where('slug', $slug);
+
+        if ($ignoreId) {
+            $query->where('id', '!=', $ignoreId);
+        }
+
+        return $query->exists();
+    }
 
     public static function getRelations(): array
     {
@@ -282,9 +298,9 @@ class PageStaticResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPageStatics::route('/'),
-            'create' => Pages\CreatePageStatic::route('/create'),
-            'edit' => Pages\EditPageStatic::route('/{record}/edit'),
+            'index' => PageStaticResource\Pages\ListPageStatics::route('/'),
+            'create' => PageStaticResource\Pages\CreatePageStatic::route('/create'),
+            'edit' => PageStaticResource\Pages\EditPageStatic::route('/{record}/edit'),
         ];
     }
 }
