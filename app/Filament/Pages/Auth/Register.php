@@ -123,12 +123,12 @@ class Register extends BaseRegister
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
             ->rule(Password::default())
-            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn($state) => Hash::make($state))
             ->same('passwordConfirmation')
             ->validationMessages([
-                'required' => __('Mật khẩu là bắt buộc.'),
-                'min' => __('Mật khẩu phải có ít nhất :min ký tự.'),
-                'same' => __('Mật khẩu xác nhận không khớp.'),
+                'required' => __('Password is required.'),
+                'min' => __('Password must be at least :min characters.'),
+                'same' => __('Confirmed password does not match.'),
             ]);
     }
 
@@ -141,6 +141,4 @@ class Register extends BaseRegister
             ->required()
             ->dehydrated(false);
     }
-
-
 }

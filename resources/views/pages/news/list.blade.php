@@ -145,9 +145,9 @@ $robots = $searchTerm ? 'noindex,follow' : 'index,follow';
                     <div class="md:w-48">
                         <select name="sort_by" aria-label="Sort"
                             class="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Mọi bài viết</option>
-                            <option value="view" {{ $sortBy === 'view' ? 'selected' : '' }}>Lượt xem</option>
-                            <option value="sort" {{ $sortBy === 'sort' ? 'selected' : '' }}>Độ ưu tiên</option>
+                            <option value="">All posts</option>
+                            <option value="view" {{ $sortBy === 'view' ? 'selected' : '' }}>Views</option>
+                            <option value="sort" {{ $sortBy === 'sort' ? 'selected' : '' }}>Priority</option>
                         </select>
                     </div>
 

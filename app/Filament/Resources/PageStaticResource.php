@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageStaticResource\Pages;
 use App\Models\PageStatic;
+use Illuminate\Support\Str;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -31,6 +32,11 @@ class PageStaticResource extends Resource
     protected static ?string $pluralModelLabel = 'Static page';
     protected static ?int $navigationSort = 10;
     protected static ?string $navigationLabel = 'Static page';
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasRole(RoleConstant::ADMIN);
+    }
 
     public static function form(Form $form): Form
     {

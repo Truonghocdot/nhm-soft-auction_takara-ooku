@@ -14,12 +14,11 @@ class OverrideRegistrationResponse  extends RegistrationResponse
     {
         // Thêm thông báo vào session
         Notification::make()
-            ->title('Tạo tài khoản thành công')
-            ->body('Vui lòng kiểm tra email của bạn để xác minh. Nếu bạn không nhận được email, vui lòng kiểm tra thư mục spam của mình.')
+            ->title('Account created successfully')
+            ->body('Please check your email for verification. If you do not receive the email, please check your spam folder.')
             ->success()
             ->send();
         // Redirect tới trang login
         return redirect()->intended(Filament::getUrl());
-
     }
 }

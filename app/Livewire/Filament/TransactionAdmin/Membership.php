@@ -72,7 +72,7 @@ class Membership extends Component implements HasForms, HasTable
             ])
             ->actions([
                 Action::make('change_status_success')
-                    ->label('Xác nhận')
+                    ->label('Confirm')
                     ->visible(fn($record) => in_array($record->status, [MembershipTransactionStatus::WAITING->value, MembershipTransactionStatus::FAILED->value]))
                     ->action(function ($record) {
                         $result = $this->service->confirmMembershipTransaction($record, MembershipTransactionStatus::ACTIVE);

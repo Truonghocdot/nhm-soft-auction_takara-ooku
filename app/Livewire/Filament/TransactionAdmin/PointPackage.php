@@ -72,7 +72,7 @@ class PointPackage extends Component implements HasForms, HasTable
             ])
             ->actions([
                 Action::make('change_status_success')
-                    ->label('Xác nhận')
+                    ->label('Confirm')
                     ->visible(fn($record) => in_array($record->status, [TransactionPaymentStatus::WAITING->value, TransactionPaymentStatus::FAILED->value]))
                     ->action(function ($record) {
                         $result = $this->service->confirmPointTransaction($record, TransactionPaymentStatus::ACTIVE);

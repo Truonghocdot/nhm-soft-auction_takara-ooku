@@ -306,7 +306,7 @@
                                 @else
                                     <span class="text-slate-600">(0 reviews)</span>
                                 @endif
-                                <div class="ml-5 text-slate-700">Đã bán: {{ $product->stock ?? 0 }}</div>
+                                <div class="ml-5 text-slate-700">Sold: {{ $product->stock ?? 0 }}</div>
                             </div>
                         </div>
                     @endif

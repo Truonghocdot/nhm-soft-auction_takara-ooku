@@ -40,7 +40,7 @@ class CustomerOrdersPage extends Page implements HasTable
                     })
             )
             ->columns([
-                Tabilities\Columns\TextColumn::make('code_orders')->label('Code order')->searchable(),
+                Tables\Columns\TextColumn::make('code_orders')->label('Code order')->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->label('Customer'),
                 Tables\Columns\TextColumn::make('total')->label('Total')->formatStateUsing(fn($state) => number_format((float) $state, 0, ',', '.') . ' $'),
                 Tables\Columns\TextColumn::make('status')->label('Single status')->badge(),

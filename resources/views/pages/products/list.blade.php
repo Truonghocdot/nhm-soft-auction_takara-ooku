@@ -316,7 +316,7 @@
                             <div class="flex-shrink-0">
                                 <img src="{{ asset('storage/' . $category['image']) }}"
                                     alt="{{ $category['name'] ?? 'Category' }}"
-                                    class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg shadow-sm">
+                                    class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg shadow-sm" onerror="this.src='{{ asset('images/product_default.jpg') }}'">
                             </div>
                         @endif
                     </div>
@@ -357,7 +357,7 @@
                                     @if (request('product_name'))
                                         <span
                                             class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
-                                            Tên: "{{ request('product_name') }}"
+                                            Name: "{{ request('product_name') }}"
                                         </span>
                                     @endif
 

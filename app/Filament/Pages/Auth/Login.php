@@ -34,13 +34,11 @@ class Login extends BaseLogin
         ) {
             Filament::auth()->logout();
             throw ValidationException::withMessages([
-                'data.email' => __('Bạn cần phải xác thực email tài khoản trước'),
+                'data.email' => __('You need to verify your account email first'),
             ]);
         }
 
         session()->regenerate();
         return app(LoginResponse::class);
     }
-
-
 }

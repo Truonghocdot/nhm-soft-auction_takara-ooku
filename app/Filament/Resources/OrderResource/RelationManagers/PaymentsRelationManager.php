@@ -19,21 +19,21 @@ class PaymentsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_detail_id')
-                    ->label('Mã đơn hàng')
+                    ->label('Order code')
                     ->disabled()
                     ->columnSpan('full')
                     ->required(),
 
                 Forms\Components\TextInput::make('amount')
-                    ->label('Số tiền thanh toán')
+                    ->label('Payment amount')
                     ->numeric()
                     ->required(),
 
                 Forms\Components\Select::make('payment_method')
-                    ->label('Phương thức thanh toán')
+                    ->label('Payment method')
                     ->options([
-                        '0' => 'Giao dịch trực tiếp',
-                        '1' => 'Chuyển khoản ngân hàng',
+                        '0' => 'Direct transaction',
+                        '1' => 'Bank transfer',
                     ])
                     ->required()
                     ->default('0'),
@@ -43,38 +43,38 @@ class PaymentsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Thanh toán')
+            ->heading('Payment')
             ->columns([
                 Tables\Columns\TextColumn::make('orderDetail.code_orders')
-                    ->label('Mã đơn hàng')
+                    ->label('Order code')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('amount')
-                    ->label('Số tiền thanh toán')
+                    ->label('Payment amount')
                     ->sortable()
                     ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
 
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->label('Phương thức thanh toán')
+                    ->label('Payment method')
                     ->formatStateUsing(function ($state) {
                         if ($state == '1') {
-                            return 'Chuyển khoản ngân hàng';
+                            return 'Bank transfer';
                         } else {
-                            return 'Giao dịch trực tiếp';
+                            return 'Direct transaction';
                         }
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label('Status')
                     ->badge()
                     ->formatStateUsing(function ($state, $record) {
                         if ($record->payment_method == '0') {
-                            return $state == 'success' ? 'Giao dịch trực tiếp' : 'Chưa nhận tiền';
+                            return $state == 'success' ? 'Direct transaction' : 'Not received money yet';
                         }
                         if ($record->payment_method == '1') {
-                            return $state == 'success' ? 'Đã thanh toán' : 'Chưa thanh toán';
+                            return $state == 'success' ? 'Paid' : 'Not paid yet';
                         }
-                        return 'Không xác định';
+                        return 'Unknown';
                     })
                     ->sortable(),
             ])

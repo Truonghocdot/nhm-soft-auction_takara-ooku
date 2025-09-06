@@ -62,7 +62,7 @@
 
             <a href="{{ route('news.detail', $article->slug) }}"
                 class="text-blue-600 hover:text-blue-800 font-medium text-sm transform transition-colors duration-300 ">
-                Đọc thêm <i class="fas fa-chevron-right ml-1"></i>
+                Read more <i class="fas fa-chevron-right ml-1"></i>
             </a>
         </div>
     </div>
