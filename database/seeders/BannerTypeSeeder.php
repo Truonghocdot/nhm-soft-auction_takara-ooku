@@ -15,28 +15,28 @@ class BannerTypeSeeder extends Seeder
     public function run(): void
     {
         $bannerTypes = [
-             [
-                 'name' => BannerType::PRIMARY_HOME,
-                 'description' => 'Banner đầu trang chủ, banner chính của trang web khi người dùng truy cập ( chỉ có thể đặt duy nhất 1 )'
-             ],
-             [
-                 'name' => BannerType::SIDEBAR_HOME,
-                 'description' => 'Banner phía trái trang chủ (đặt tối thiểu 6 banner và tối đa 12 banner)'
-             ],
+            [
+                'name' => BannerType::PRIMARY_HOME,
+                'description' => 'Homepage banner, main banner of the website when users access (can only set 1)'
+            ],
+            [
+                'name' => BannerType::SIDEBAR_HOME,
+                'description' => 'Banner on the left side of the homepage (set at least 6 banners and maximum 12 banners)'
+            ],
 
-             [
-                 'name' => BannerType::CONTENT_HOME,
-                 'description' => 'Banner trong phần thân trang chủ ( đặt tối thiểu 6 banner và tối đa 12 banner )'
-             ],
+            [
+                'name' => BannerType::CONTENT_HOME,
+                'description' => 'Banner in the body of the homepage (set at least 6 banners and maximum 12 banners)'
+            ],
 
-             [
-                 'name' => BannerType::PRIMARY_NEWS,
-                 'description' => 'Banner chính trang tin tức ( banner chính khi người dùng trup cập trang tin tức, chỉ có thể đặt duy nhất 1 )'
-             ],
-             [
-                 'name' => BannerType::SIDEBAR_ARTICLE,
-                 'description' => 'Banner nhỏ phần sidebar bên phải bài viết (chỉ có thể đặt duy nhất 1)'
-             ],
+            [
+                'name' => BannerType::PRIMARY_NEWS,
+                'description' => 'News page main banner (main banner when users access the news page, can only set 1)'
+            ],
+            [
+                'name' => BannerType::SIDEBAR_ARTICLE,
+                'description' => 'Banner small right sidebar of the article (can only set 1)'
+            ],
         ];
 
         foreach ($bannerTypes as $bannerType) {
