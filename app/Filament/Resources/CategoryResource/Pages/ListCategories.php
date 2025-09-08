@@ -13,8 +13,8 @@ class ListCategories extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Danh mục',
-            '' => 'Danh sách',
+            url()->previous() => 'Category',
+            '' => 'List',
         ];
     }
 
@@ -22,7 +22,7 @@ class ListCategories extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Tạo danh mục mới'),
+                ->label('Create new category'),
         ];
     }
 }

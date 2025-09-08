@@ -18,8 +18,8 @@ class ListOrders extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            url()->previous() => 'Đơn hàng',
-            '' => 'Danh sách',
+            url()->previous() => 'Order',
+            '' => 'List',
         ];
     }
 
@@ -27,7 +27,7 @@ class ListOrders extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Tạo đơn hàng mới'),
+                ->label('Create new order'),
         ];
     }
 
@@ -40,7 +40,7 @@ class ListOrders extends ListRecords
     {
         $user = auth()->user();
         return [
-            null => Tab::make('Tất cả'),
+            null => Tab::make('All'),
             'Pending' => Tab::make()->query(fn($query) => $query->where('status', '1')),
             'Confirmed' => Tab::make()->query(fn($query) => $query->where('status', '2')),
             'Delivering' => Tab::make()->query(fn($query) => $query->where('status', '3')),
