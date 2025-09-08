@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->decimal('start_price', 20, 2);
             $table->decimal('step_price', 20, 2);
-            $table->timestamp('start_time');
-            $table->timestamp('end_time');
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->enum('status', ['pending', 'active', 'completed', 'canceled'])->default('pending');
             $table->timestamps();
         });
